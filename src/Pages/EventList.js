@@ -17,7 +17,7 @@ function EventList() {
 
   return (
     <div>
-      <Accordion expanded={expanded == 0} onChange={handleChange(0)}>
+      <Accordion expanded={expanded === 0} onChange={handleChange(0)}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
@@ -29,7 +29,7 @@ function EventList() {
           <EventBox />
         </AccordionDetails>
       </Accordion>
-      <Accordion expanded={expanded == 1} onChange={handleChange(1)}>
+      <Accordion expanded={expanded === 1} onChange={handleChange(1)}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
@@ -41,7 +41,7 @@ function EventList() {
           <EventBox />
         </AccordionDetails>
       </Accordion>
-      <Accordion expanded={expanded == 2} onChange={handleChange(2)}>
+      <Accordion expanded={expanded === 2} onChange={handleChange(2)}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"

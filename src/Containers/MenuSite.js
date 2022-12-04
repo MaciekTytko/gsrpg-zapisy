@@ -14,6 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { useState } from 'react';
 import ligaZMGimg from '../Assets/Logo/LigaZMG_Logo_03_kwadrat2.png'
+import { useNavigate } from 'react-router';
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -37,6 +38,10 @@ function MenuSite() {
     setAnchorElUser(null);
   };
 
+  const navigator = useNavigate();
+  const linkTo = path => navigator(path);
+
+
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
@@ -48,7 +53,7 @@ function MenuSite() {
             variant="h6"
             noWrap
             component="a"
-            href="/"
+            onClick={()=>linkTo('/')}
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -64,9 +69,23 @@ function MenuSite() {
             <Button
               key="Zaloguj"
               sx={{ my: 2, color: 'white', display: 'block' }}
-              href="/login"
+              onClick={()=>linkTo('login')}
             >
               Zaloguj
+            </Button>
+            <Button
+              key="wyda"
+              sx={{ my: 2, color: 'white', display: 'block' }}
+              onClick={()=>linkTo('events')}
+            >
+              Wydarzenia
+            </Button>
+            <Button
+              key="profil"
+              sx={{ my: 2, color: 'white', display: 'block' }}
+              onClick={()=>linkTo('user')}
+            >
+              Profil
             </Button>
           </Box>
 
