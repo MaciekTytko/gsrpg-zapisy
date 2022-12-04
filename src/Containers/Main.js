@@ -5,6 +5,7 @@ import { Route, Routes, } from "react-router-dom";
 import UserProfile from "../Pages/UserProfile";
 import { useAuthUser } from "../Hooks/useAuth";
 import UserNotLogin from "../Pages/UserNotLogin";
+import Events from "../Pages/Events";
 
 function Main() {
   const userData = useAuthUser();
@@ -19,6 +20,7 @@ function Main() {
           <Route path="/" element={<EventList />} />
           <Route path="/login" element={<UserLogin />} />
           <Route path="/user" element={userData() ? <UserProfile /> : <UserNotLogin/>} />
+          <Route path="/events" element={<Events />} />
 
         </Routes>
       </Container>

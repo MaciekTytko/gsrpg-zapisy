@@ -1,11 +1,10 @@
 import { Box, Paper, Typography, Button, Container, Grid } from "@mui/material";
-import { useNavigate } from "react-router";
 import { useAuthUserData } from "../Hooks/useAuth";
-
-
 
 function UserProfile() {
   const user = useAuthUserData();
+
+  
 
   return (
     <Container sx={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>

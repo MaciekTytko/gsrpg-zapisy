@@ -1,12 +1,7 @@
-
-import { Typography } from "@mui/material";
-import { Box } from "@mui/system";
-import EventCard from "../Components/EventCard";
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
+import { Typography, Box, Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useState } from "react";
+import EventCard from "../Components/EventCard";
 
 function EventList() {
   const [expanded, setExpanded] = useState(0);
