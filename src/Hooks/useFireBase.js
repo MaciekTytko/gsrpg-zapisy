@@ -3,6 +3,8 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
+import { getDatabase } from "firebase/database";
+
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -25,54 +27,12 @@ const firebaseConfig = {
 const fbaseApp = initializeApp(firebaseConfig);
 const fbaseAuth = getAuth(fbaseApp);
 const fbaseAnalytics = getAnalytics(fbaseApp);
-
-export {fbaseApp, fbaseAuth, fbaseAnalytics};
-
-
-
-// create new user
-// const auth = getAuth();
-// createUserWithEmailAndPassword(auth, email, password)
-//   .then((userCredential) => {
-//     // Signed in
-//     const user = userCredential.user;
-//     // ...
-//   })
-//   .catch((error) => {
-//     const errorCode = error.code;
-//     const errorMessage = error.message;
-//     // ..
-//   });
+const fbaseDatabase = getDatabase(fbaseApp);
 
 
 
-//Sign in user
-// import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-
-// const auth = getAuth();
-// signInWithEmailAndPassword(auth, email, password)
-//   .then((userCredential) => {
-//     // Signed in
-//     const user = userCredential.user;
-//     // ...
-//   })
-//   .catch((error) => {
-//     const errorCode = error.code;
-//     const errorMessage = error.message;
-//   });
 
 
-//On user change
-//import { getAuth, onAuthStateChanged } from "firebase/auth";
-// const auth = getAuth();
-// onAuthStateChanged(auth, (user) => {
-//   if (user) {
-//     // User is signed in, see docs for a list of available properties
-//     // https://firebase.google.com/docs/reference/js/firebase.User
-//     const uid = user.uid;
-//     // ...
-//   } else {
-//     // User is signed out
-//     // ...
-//   }
-// });
+
+export {fbaseApp, fbaseAuth, fbaseAnalytics, fbaseDatabase};
+

@@ -43,7 +43,7 @@ function useAuthUserData() {
 
 function useAuthUser() {
   return () => onAuthStateChanged(fbaseAuth, (user) => {
-    console.log(user);
+    //console.log(user);
     return user;
   });
 }

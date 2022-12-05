@@ -1,7 +1,7 @@
 import { Accordion, AccordionDetails, AccordionSummary, Box, Grid, Typography, Paper, Button } from "@mui/material";
-import { styled } from '@mui/material/styles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useState } from "react";
+import { useNavigate } from "react-router";
 
 function Events() {
   const [expanded, setExpanded] = useState(0);
@@ -83,13 +83,21 @@ const sesje = [
 ]
 
 function EventsList() {
+  const navigator = useNavigate();
+
   return (
     <>
       <Box sx={{ textAlign: 'right', mr: 1, mb: 2 }}>
-        <Button variant='contained' color="secondary">Dodaj własną sesję</Button>
+        <Button 
+        variant='contained' 
+        color="secondary"
+      onClick={()=>navigator('addSession')}
+        >
+          Dodaj własną sesję
+          </Button>
       </Box>
       {sesje.map((x, index) => (
-        <Grid container spacing={2} sx={{ mb: 0.5 }}>
+        <Grid key={index} container spacing={2} sx={{ mb: 0.5 }}>
           <Grid item xs={8}>
             <Accordion>
               <AccordionSummary

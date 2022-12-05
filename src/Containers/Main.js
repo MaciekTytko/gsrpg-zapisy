@@ -6,6 +6,7 @@ import UserProfile from "../Pages/UserProfile";
 import { useAuthUser } from "../Hooks/useAuth";
 import UserNotLogin from "../Pages/UserNotLogin";
 import Events from "../Pages/Events";
+import EventsSessionAdd from "../Pages/EventsSessionAdd";
 
 function Main() {
   const userData = useAuthUser();
@@ -17,11 +18,15 @@ function Main() {
         <Typography variant="body1" gutterBottom>Comiesięczne święto erpegowców już dostępne w aplikacji!</Typography>
 
         <Routes>
-          <Route path="/" element={<EventList />} />
-          <Route path="/login" element={<UserLogin />} />
-          <Route path="/user" element={userData() ? <UserProfile /> : <UserNotLogin/>} />
-          <Route path="/events" element={<Events />} />
-
+          <Route path="/">
+            <Route index element={<EventList />} />
+            <Route path="login" element={<UserLogin />} />
+            <Route path="events" >
+              <Route index element={<Events />} />
+              <Route path="addSession" element={<EventsSessionAdd />} />
+            </Route>
+            <Route path="user" element={userData() ? <UserProfile /> : <UserNotLogin />} />
+          </Route>
         </Routes>
       </Container>
     </>
