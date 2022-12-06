@@ -27,9 +27,8 @@ const validationSchema = yup.object({
     .string('Podaj System w jakim gracie')
     .max(50, 'Nie przekraczaj 50 znaków')
     .required('System jest wymagany, a i graczom będzie miło :)'),
-  type: yup
-    .string('Wpisz typ sesji')
-    .max(100, 'Nie przekraczaj 100 znaków'),
+  type: yup.array().of(yup.string()),
+    
   vibe: yup
     .string('Wpisz klimat sesji')
     .max(100, 'Nie przekraczaj 100 znaków'),
@@ -53,7 +52,7 @@ function EventsSessionAdd() {
       title: '',
       desc: '',
       system: '',
-      type: '',
+      type: ['typ sesji','akcja'],
       vibe: '',
       triggers: '',
       usersCountMax: 4,
@@ -98,12 +97,12 @@ function EventsSessionAdd() {
           freeSolo
           sx={{ m: 2 }}
           options={['Warhammer', 'D&D']}
+          value={formik.values.system}
+          onChange={formik.handleChange}
           renderInput={(params) => <TextField {...params}
             id="system"
             name="system"
             label="System"
-            value={formik.values.system}
-            onChange={formik.handleChange}
             error={formik.touched.system && Boolean(formik.errors.system)}
             helperText={formik.touched.system && formik.errors.system}
           />}
@@ -115,16 +114,17 @@ function EventsSessionAdd() {
           sx={{ m: 2 }}
           options={['akcja', 'śledztwo', 'DungeonCrawl']}
           getOptionLabel={(x) => x}
+          value={formik.values.type}
+          onChange={formik.handleChange}
           renderInput={(params) => <TextField {...params}
             id="type"
             name="type"
             label="Typ sesji"
-            value={formik.values.type}
-            onChange={formik.handleChange}
             error={formik.touched.type && Boolean(formik.errors.type)}
             helperText={formik.touched.type && formik.errors.type}
           />}
         />
+        <div>{JSON.stringify(formik.values.type)}</div> 
         <Button
           sx={{ m: 2 }}
           color="primary"
