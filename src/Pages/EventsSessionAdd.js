@@ -27,8 +27,13 @@ const validationSchema = yup.object({
     .string('Podaj System w jakim gracie')
     .max(50, 'Nie przekraczaj 50 znaków')
     .required('System jest wymagany, a i graczom będzie miło :)'),
-  type: yup.array().of(yup.string()),
-    
+  type: yup
+    .array()
+    .of(
+      yup
+        .string('Musisz podać typ sesji')
+        .max(5, 'za dużo znaków')
+    ),
   vibe: yup
     .string('Wpisz klimat sesji')
     .max(100, 'Nie przekraczaj 100 znaków'),
@@ -52,7 +57,7 @@ function EventsSessionAdd() {
       title: '',
       desc: '',
       system: '',
-      type: ['typ sesji','akcja'],
+      type: ['typ sesji', 'akcja'],
       vibe: '',
       triggers: '',
       usersCountMax: 4,
@@ -109,22 +114,27 @@ function EventsSessionAdd() {
         />
         <Autocomplete
           fullWidth
-          multiple
           freeSolo
+          multiple
           sx={{ m: 2 }}
+          id="type"
+          name="type"
           options={['akcja', 'śledztwo', 'DungeonCrawl']}
           getOptionLabel={(x) => x}
           value={formik.values.type}
-          onChange={formik.handleChange}
+          onChange={(event, newValue) => {
+            formik.setFieldValue('type', newValue, true);
+          }}
           renderInput={(params) => <TextField {...params}
-            id="type"
-            name="type"
             label="Typ sesji"
+            placeholder="Możesz wpisać własny typ sesji"
             error={formik.touched.type && Boolean(formik.errors.type)}
             helperText={formik.touched.type && formik.errors.type}
           />}
         />
-        <div>{JSON.stringify(formik.values.type)}</div> 
+        <div>{JSON.stringify(formik.values.type)}</div>
+        <div>{JSON.stringify(formik.touched.type)}</div>
+        <div>{JSON.stringify(formik.errors.type)}</div>
         <Button
           sx={{ m: 2 }}
           color="primary"
@@ -138,3 +148,31 @@ function EventsSessionAdd() {
 }
 
 export default EventsSessionAdd;
+
+
+// import * as React from "react";
+// import TextField from "@mui/material/TextField";
+// import Autocomplete from "@mui/material/Autocomplete";
+// import Stack from "@mui/material/Stack";
+
+// export default function Playground() {
+//   const [value, setValue] = React.useState(['rtu']);
+
+//   return (
+//     <Stack spacing={1} sx={{ width: 300 }}>
+//       <Autocomplete
+//         freeSolo
+//         multiple
+//         options={["raz", "dwa", "trzy", "cztery"]}
+//         id="controlled-demo"
+//         value={value}
+//         onChange={(event, newValue) => {
+//           setValue(newValue);
+//         }}
+//         renderInput={(params) => (
+//           <TextField {...params} label="controlled" variant="outlined" />
+//         )}
+//       />
+//       <p>{value ? JSON.stringify(value) : "*"}</p>
+//     </Stack>
+//   );
