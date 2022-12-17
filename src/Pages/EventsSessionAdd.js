@@ -20,7 +20,7 @@ const validationSchema = yup.object({
     .required('Tytuł jest wymagany, a i graczom będzie miło :)'),
   desc: yup
     .string('Wpisz Tytuł sesji')
-    .min(50, 'Postaraj się wpisać dłuższy opis')
+    .min(50, 'Postaraj się wpisać dłuższy opis, tak na 50 znaków minimum')
     .max(500, 'Nie przekraczaj 500 znaków')
     .required('Opis jest wymagany, a i graczom będzie miło :)'),
   system: yup
@@ -32,8 +32,8 @@ const validationSchema = yup.object({
     .of(
       yup
         .string('Musisz podać typ sesji')
-        .max(5, 'za dużo znaków')
-    ),
+        .max(20, 'Każdy typ może mieć max 20 znaków')
+    ).min(1,'Musisz wybrać lub wpisać przynajmniej jeden'),
   vibe: yup
     .string('Wpisz klimat sesji')
     .max(100, 'Nie przekraczaj 100 znaków'),
@@ -103,7 +103,9 @@ function EventsSessionAdd() {
           sx={{ m: 2 }}
           options={['Warhammer', 'D&D']}
           value={formik.values.system}
-          onChange={formik.handleChange}
+          onChange={(event, newValue) => {
+            formik.setFieldValue('system', newValue || '', true);
+          }}
           renderInput={(params) => <TextField {...params}
             id="system"
             name="system"
@@ -132,9 +134,20 @@ function EventsSessionAdd() {
             helperText={formik.touched.type && formik.errors.type}
           />}
         />
-        <div>{JSON.stringify(formik.values.type)}</div>
-        <div>{JSON.stringify(formik.touched.type)}</div>
-        <div>{JSON.stringify(formik.errors.type)}</div>
+        <TextField
+          fullWidth
+          sx={{ m: 2 }}
+          id="vibe"
+          name="vibe"
+          label="Klimat sesji"
+          value={formik.values.vibe}
+          onChange={formik.handleChange}
+          error={formik.touched.vibe && Boolean(formik.errors.vibe)}
+          helperText={formik.touched.vibe && formik.errors.vibe}
+        />
+        <div>{JSON.stringify(formik.values.system)}</div>
+        <div>{JSON.stringify(formik.touched.system)}</div>
+        <div>{JSON.stringify(formik.errors.system)}</div>
         <Button
           sx={{ m: 2 }}
           color="primary"
