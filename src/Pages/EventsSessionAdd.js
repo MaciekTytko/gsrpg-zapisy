@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import * as yup from 'yup';
-import { useDataBaseAddSession } from '../Hooks/useDataBase';
+import { useDataBase_AddSession } from '../Hooks/useDataBase';
 
 // Title
 // Desc
@@ -66,7 +66,7 @@ const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 function EventsSessionAdd() {
-  const addSession = useDataBaseAddSession();
+  const addSession = useDataBase_AddSession('202301/1');
 
   const formik = useFormik({
     initialValues: {

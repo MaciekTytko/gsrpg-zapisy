@@ -2,9 +2,11 @@ import { Accordion, AccordionDetails, AccordionSummary, Box, Grid, Typography, P
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { useDataBase_ReadSessions } from "../Hooks/useDataBase";
 
 function Events() {
   const [expanded, setExpanded] = useState(0);
+  const sessionList = useDataBase_ReadSessions('202301/1');
 
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : -1);
@@ -12,6 +14,9 @@ function Events() {
 
   return (
     <>
+    <div>
+      {sessionList}
+    </div>
       <Accordion expanded={expanded === 0} onChange={handleChange(0)}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
