@@ -12,6 +12,7 @@ function useDataBase_AddSession() {
 }
 
 function useDataBase_ReadSessions(eventId) {
+  //TODO use reducer to return state if exist
   const [sessionList, setSessionList] = useState('');
 
   useEffect(() => {
