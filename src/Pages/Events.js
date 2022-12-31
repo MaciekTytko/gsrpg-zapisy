@@ -3,10 +3,14 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { useDataBase_ReadSessions } from "../Hooks/useDataBase";
+import { useList } from 'react-firebase-hooks/database';
+import { fbaseDatabase } from '../Hooks/useFireBase';
+import { onValue, ref, set } from "firebase/database";
 
 function Events() {
   const [expanded, setExpanded] = useState(0);
-  const sessionList = useDataBase_ReadSessions('202301/1');
+  const sessionList = useDataBase_ReadSessions('202301');
+  const [snapshots, loading, error] = useList(ref(fbaseDatabase, 'events/202301'));
 
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : -1);
@@ -15,7 +19,12 @@ function Events() {
   return (
     <>
     <div>
-      {sessionList}
+      <div>
+      {JSON.stringify(sessionList)}
+      </div>
+      <div>
+      {JSON.stringify(snapshots)}
+      </div>
     </div>
       <Accordion expanded={expanded === 0} onChange={handleChange(0)}>
         <AccordionSummary

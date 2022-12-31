@@ -20,7 +20,7 @@ function useDataBase_ReadSessions(eventId) {
     onValue(starCountRef, (snapshot) => {
       const data = snapshot.val();
       console.log('###' + JSON.stringify(data));
-      setSessionList('lol');
+      setSessionList(data);
     })
   }, []);
 
