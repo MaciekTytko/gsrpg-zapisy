@@ -1,6 +1,15 @@
-import { onValue, ref, set } from "firebase/database";
+import { onValue, push, ref, set } from "firebase/database";
 import { useEffect, useState } from "react";
-import { fbaseDatabase } from './useFireBase';
+import { fbaseDatabase } from '../Firebase/Firebase';
+
+function useDataBase_AddEvent() {
+  return (event) => {
+    let path = 'events/'+event.date.substring(1,8).replace('-','');
+    push(ref(fbaseDatabase, path), {
+      ...event
+    });
+  }
+}
 
 function useDataBase_AddSession() {
   return (session) => {
@@ -28,4 +37,7 @@ function useDataBase_ReadSessions(eventId) {
 }
 
 
-export { useDataBase_AddSession, useDataBase_ReadSessions }
+export { 
+  useDataBase_AddEvent, 
+  useDataBase_AddSession, 
+  useDataBase_ReadSessions }

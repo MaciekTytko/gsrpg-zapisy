@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import { useDataBase_ReadSessions } from "../Hooks/useDataBase";
 import { useList } from 'react-firebase-hooks/database';
-import { fbaseDatabase } from '../Hooks/useFireBase';
+import { fbaseDatabase } from '../Firebase/Firebase';
 import { onValue, ref, set } from "firebase/database";
 
 function Events() {
@@ -102,6 +102,13 @@ function EventsList() {
   return (
     <>
       <Box sx={{ textAlign: 'right', mr: 1, mb: 2 }}>
+      <Button 
+        variant='contained' 
+        color="secondary"
+      onClick={()=>navigator('addEvent')}
+        >
+          Dodaj wydarzenie
+          </Button>
         <Button 
         variant='contained' 
         color="secondary"

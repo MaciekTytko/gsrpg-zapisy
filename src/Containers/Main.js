@@ -7,6 +7,7 @@ import { useAuthUser } from "../Hooks/useAuth";
 import UserNotLogin from "../Pages/UserNotLogin";
 import Events from "../Pages/Events";
 import EventsSessionAdd from "../Pages/EventsSessionAdd";
+import EventsAdd from "../Pages/EventAdd";
 
 function Main() {
   const userData = useAuthUser();
@@ -23,6 +24,7 @@ function Main() {
             <Route path="login" element={<UserLogin />} />
             <Route path="events" >
               <Route index element={<Events />} />
+              <Route path="addEvent" element={<EventsAdd />} />
               <Route path="addSession" element={<EventsSessionAdd />} />
             </Route>
             <Route path="user" element={userData() ? <UserProfile /> : <UserNotLogin />} />
