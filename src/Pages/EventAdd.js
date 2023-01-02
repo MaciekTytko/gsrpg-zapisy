@@ -1,11 +1,9 @@
-import { Autocomplete, Button, Checkbox, TextField } from '@mui/material';
+import { Button, Checkbox, FormControlLabel, TextField } from '@mui/material';
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { useFormik } from 'formik';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import * as yup from 'yup';
-import { useDataBase_AddEvent, useDataBase_AddSession } from '../Hooks/useDataBase';
+import { useDataBase_AddEvent } from '../Hooks/useDataBase';
 import { useNavigate } from 'react-router';
 
 const validationSchema = yup.object({
@@ -29,13 +27,12 @@ const validationSchema = yup.object({
     .min(10, 'Postaraj się wpisać dłuższy opis')
     .max(500, 'Nie przekraczaj 500 znaków')
     .required('Opis wydarzenia jest wymagany'),
+  allowRegister: yup
+    .boolean('Podaj opis wydarzenia'),
 });
 
-const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
-const checkedIcon = <CheckBoxIcon fontSize="small" />;
-
 function EventsSessionAdd() {
-  const addEvent = useDataBase_AddEvent('202301/1');
+  const addEvent = useDataBase_AddEvent();
   const navigator = useNavigate();
 
   const formik = useFormik({
@@ -44,11 +41,12 @@ function EventsSessionAdd() {
       date: null,
       descShort: '',
       desc: '',
+      allowRegister: true,
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
       addEvent(values);
-      navigator(-1);
+      navigator('..');
     },
   });
 
@@ -111,12 +109,21 @@ function EventsSessionAdd() {
             helperText={formik.touched.desc && formik.errors.desc}
           />
 
+          <FormControlLabel sx={{ m: 0.5, display: 'flex', justifyContent: 'left' }} control={
+            <Checkbox
+              size="large"
+              defaultChecked
+              value={formik.values.allowRegister}
+              onChange={event => formik.setFieldValue('allowRegister', event.target.checked, true)}
+            />
+          } label="Czy umożliwić dodawanie sesji do wydarzenia" />
+
           <Button
             sx={{ m: 2 }}
             color="primary"
             variant="contained"
             fullWidth type="submit">
-            Wyślij sesję
+            Zapisz wydarzenie
           </Button>
         </form>
       </div>

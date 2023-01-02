@@ -2,66 +2,51 @@ import { Accordion, AccordionDetails, AccordionSummary, Box, Grid, Typography, P
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { useDataBase_ReadSessions } from "../Hooks/useDataBase";
-import { useList } from 'react-firebase-hooks/database';
-import { fbaseDatabase } from '../Firebase/Firebase';
-import { onValue, ref, set } from "firebase/database";
+import { useDataBase_ReadEvents } from "../Hooks/useDataBase";
+
+const monthsList = ['', 'Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień']
 
 function Events() {
   const [expanded, setExpanded] = useState(0);
-  const sessionList = useDataBase_ReadSessions('202301');
-  const [snapshots, loading, error] = useList(ref(fbaseDatabase, 'events/202301'));
+  const eventList = useDataBase_ReadEvents();
+  const navigator = useNavigate();
 
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : -1);
   };
 
+
   return (
     <>
-    <div>
-      <div>
-      {JSON.stringify(sessionList)}
-      </div>
-      <div>
-      {JSON.stringify(snapshots)}
-      </div>
-    </div>
-      <Accordion expanded={expanded === 0} onChange={handleChange(0)}>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
+      <Box sx={{ mb: 2, textAlign: 'right' }}>
+        <Button
+          variant='contained'
+          color="secondary"
+          onClick={() => navigator('addEvent')}
         >
-          <Typography variant="h6">Spotkania RPG - Grudzień 2022</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <EventsList />
-        </AccordionDetails>
-      </Accordion>
-      <Accordion expanded={expanded === 1} onChange={handleChange(1)}>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-        >
-          <Typography variant="h6">Warsztaty RPG</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <div>Treść wydarzenia</div>
-        </AccordionDetails>
-      </Accordion>
-      <Accordion expanded={expanded === 2} onChange={handleChange(2)}>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-        >
-          <Typography variant="h6">Planszówki mikołajkowe - Grudzień 2022</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <div>Treść wydarzenia</div>
-        </AccordionDetails>
-      </Accordion>
+          Dodaj wydarzenie
+        </Button>
+      </Box>
+      {Object.keys(eventList).reverse().map((eTime, iTime) => (
+        Object.keys(eventList[eTime]).map((eKey, iKey) => (
+          //<p key={i}>{JSON.stringify(eTime) + '  - ' + JSON.stringify(eventList[eTime][eKey])}</p>
+          <Accordion key={eKey} expanded={expanded === iTime * 10 + iKey} onChange={handleChange(iTime * 10 + iKey)}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+            >
+              <Typography variant="h6">{`${eventList[eTime][eKey]['title']} - ${monthsList[+eTime.substring(4, 6)]} ${eTime.substring(0, 4)}`}</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              {eventList[eTime][eKey]['allowRegister'] 
+              ? <p> <EventsList/> </p>
+              : <p> {eventList[eTime][eKey]['desc']} </p>}
+            </AccordionDetails>
+          </Accordion>
+        ))
+
+      ))}
     </>
   )
 }
@@ -102,20 +87,14 @@ function EventsList() {
   return (
     <>
       <Box sx={{ textAlign: 'right', mr: 1, mb: 2 }}>
-      <Button 
-        variant='contained' 
-        color="secondary"
-      onClick={()=>navigator('addEvent')}
-        >
-          Dodaj wydarzenie
-          </Button>
-        <Button 
-        variant='contained' 
-        color="secondary"
-      onClick={()=>navigator('addSession')}
+
+        <Button
+          variant='contained'
+          color="secondary"
+          onClick={() => navigator('addSession')}
         >
           Dodaj własną sesję
-          </Button>
+        </Button>
       </Box>
       {sesje.map((x, index) => (
         <Grid key={index} container spacing={2} sx={{ mb: 0.5 }}>

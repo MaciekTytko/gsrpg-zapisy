@@ -1,4 +1,4 @@
-import { onValue, push, ref, set } from "firebase/database";
+import { limitToLast, onValue, orderByKey, push, query, ref, set } from "firebase/database";
 import { useEffect, useState } from "react";
 import { fbaseDatabase } from '../Firebase/Firebase';
 
@@ -20,24 +20,46 @@ function useDataBase_AddSession() {
   }
 }
 
+function useDataBase_ReadEvents() {
+  const [eventList, setEventList] = useState('');
+
+  useEffect(() => {
+    const q = query(ref(fbaseDatabase, 'events'), orderByKey(), limitToLast(6));
+    onValue(q, 
+      (snapshot) => {
+      const data = snapshot.val();
+      console.log('###',data);
+      setEventList(data);
+    }, 
+    (error) => {
+      console.log('###' + JSON.stringify(error));
+      setEventList('');
+    })
+  }, []);
+  
+  return eventList;
+}
+
+
 function useDataBase_ReadSessions(eventId) {
-  //TODO use reducer to return state if exist
   const [sessionList, setSessionList] = useState('');
 
   useEffect(() => {
     const starCountRef = ref(fbaseDatabase, 'events/' + eventId);
-    onValue(starCountRef, (snapshot) => {
+    onValue(starCountRef, 
+      (snapshot) => {
       const data = snapshot.val();
       console.log('###' + JSON.stringify(data));
       setSessionList(data);
+    }, 
+    (error) => {
+      console.log('###' + JSON.stringify(error));
+      setSessionList('');
     })
   }, []);
-
+  
   return sessionList;
 }
 
 
-export { 
-  useDataBase_AddEvent, 
-  useDataBase_AddSession, 
-  useDataBase_ReadSessions }
+export { useDataBase_AddEvent, useDataBase_AddSession, useDataBase_ReadSessions, useDataBase_ReadEvents }
