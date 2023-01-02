@@ -1,5 +1,5 @@
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
-import { fbaseAuth } from './useFireBase'
+import { fbaseAuth } from '../Firebase/Firebase'
 
 function useAuthSignIn() {
   return (email, password) => signInWithEmailAndPassword(fbaseAuth, email, password)
