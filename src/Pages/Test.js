@@ -7,7 +7,7 @@ function Test() {
   const navigator = useNavigate();
 
   const sorter = (a,b) =>{
-    return a.date < b.date
+    return a[1].date < b[1].date
   }
 
   return (
@@ -21,8 +21,8 @@ function Test() {
           Dodaj wydarzenie
         </Button>
       </Box>
-      {Object.values(eventList).sort(sorter).map((eKey, iKey) => (
-        <p key={iKey}>{JSON.stringify(eKey)}</p>
+      {Object.entries(eventList).sort(sorter).map((eKey, iKey) => (
+        <p key={iKey}>{JSON.stringify(eKey[1])}</p>
       ))}
     </>
   )

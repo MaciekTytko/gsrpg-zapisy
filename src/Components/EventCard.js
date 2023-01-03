@@ -6,9 +6,9 @@ import eventCover from '../Assets/EventImages/GSRPG_cover.png'
 function EventCard(props){
   const navigator = useNavigate();
   const eventDesc = props.desc.split('\n');
-
+  
   const gotoEvent = ()=>{
-    navigator('events');
+    navigator('events/'+props.id);
   }
 
   return (

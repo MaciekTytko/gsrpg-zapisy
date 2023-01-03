@@ -6,7 +6,7 @@ import UserProfile from "../Pages/UserProfile";
 import UserNotLogin from "../Pages/UserNotLogin";
 import EventList from "../Pages/EventList";
 import Events from "../Pages/Events";
-import EventsSessionAdd from "../Pages/EventsSessionAdd";
+import EventsProgramAdd from "../Pages/EventsProgramAdd";
 import EventsAdd from "../Pages/EventAdd";
 import Test from "../Pages/Test";
 
@@ -21,14 +21,16 @@ function Main() {
 
         <Routes>
           <Route path="/">
-            <Route index element={<EventList />} />
+            <Route index element={<Events />} />
             <Route path="login" element={<UserLogin />} />
             <Route path="test" element={<Test />} />
             <Route path="events" >
-              <Route index element={<Events />} />
+              <Route index element={<EventList />} />
+              <Route path=":id" element={<EventList />} />
               <Route path="addEvent" element={<EventsAdd />} />
-              <Route path="addSession" element={<EventsSessionAdd />} />
+              <Route path="addProgram/:id" element={<EventsProgramAdd />} />
             </Route>
+            
             <Route path="user" element={userData() ? <UserProfile /> : <UserNotLogin />} />
           </Route>
         </Routes>

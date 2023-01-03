@@ -1,4 +1,4 @@
-import { limitToLast, onValue, orderByChild, push, query, ref, set } from "firebase/database";
+import { limitToLast, onValue, orderByChild, push, query, ref} from "firebase/database";
 import { useEffect, useState } from "react";
 import { fbaseDatabase } from '../Firebase/Firebase';
 
@@ -11,12 +11,24 @@ function useDataBase_AddEvent() {
   }
 }
 
-function useDataBase_AddSession() {
-  return (session) => {
-    session.enable = false;
-    //TODO
-    set(ref(fbaseDatabase, 'events/202301/1'), {
-      ...session
+function useDataBase_AddProgram() {
+  return (eventID, program) => {
+    let path = 'eventsProgram/'+eventID;
+    console.log(path);
+    push(ref(fbaseDatabase, path), {
+      ...program,
+      approved: true,
+    });
+  }
+}
+
+function useDataBase_AddProgramRegister() {
+  return (eventID, program) => {
+    let path = 'eventsProgram/'+eventID;
+    console.log(path);
+    push(ref(fbaseDatabase, path), {
+      ...program,
+      approved: true,
     });
   }
 }
@@ -26,10 +38,10 @@ function useDataBase_ReadEvents() {
 
   useEffect(() => {
     const q = query(ref(fbaseDatabase, 'events'), orderByChild("date"), limitToLast(10));
-    onValue(q, 
+    return onValue(q, 
       (snapshot) => {
       const data = snapshot.val();
-      console.log('###',data);
+      console.log('###events###',data);
       setEventList(data);
     }, 
     (error) => {
@@ -42,25 +54,25 @@ function useDataBase_ReadEvents() {
 }
 
 
-function useDataBase_ReadSessions(eventId) {
-  const [sessionList, setSessionList] = useState('');
+function useDataBase_ReadProgram(eventId) {
+  const [programList, setProgramList] = useState('');
 
   useEffect(() => {
-    const starCountRef = ref(fbaseDatabase, 'events/' + eventId);
-    onValue(starCountRef, 
+    const q = ref(fbaseDatabase, 'eventsProgram/'+eventId);
+    return onValue(q, 
       (snapshot) => {
       const data = snapshot.val();
-      console.log('###' + JSON.stringify(data));
-      setSessionList(data);
+      console.log('###eventsProgram###',data);
+      setProgramList(data);
     }, 
     (error) => {
       console.log('###' + JSON.stringify(error));
-      setSessionList('');
+      setProgramList('');
     })
   }, [eventId]);
   
-  return sessionList;
+  return programList;
 }
 
 
-export { useDataBase_AddEvent, useDataBase_AddSession, useDataBase_ReadSessions, useDataBase_ReadEvents }
+export { useDataBase_AddEvent, useDataBase_AddProgram, useDataBase_ReadProgram, useDataBase_ReadEvents }
