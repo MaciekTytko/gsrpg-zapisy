@@ -1,32 +1,39 @@
 import * as React from 'react';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import { CardActionArea } from '@mui/material';
+import { CardActionArea, Card, CardContent, CardMedia, Typography } from '@mui/material';
+import { useNavigate } from 'react-router';
+import eventCover from '../Assets/EventImages/GSRPG_cover.png'
 
 function EventCard(props){
+  const navigator = useNavigate();
+  const eventDesc = props.desc.split('\n');
+
+  const gotoEvent = ()=>{
+    navigator('events');
+  }
+
   return (
-    <Card sx={{ maxWidth: 345, margin: '20px' }}>
-      <CardActionArea>
+    <Card sx={{ width: 300, margin: '20px' }}>
+      <CardActionArea onClick={gotoEvent}>
         <CardMedia
           component="img"
-          height="140"
-          image="/static/images/cards/contemplative-reptile.jpg"
-          alt="green iguana"
+          height="150"
+          image={props.picsURL || eventCover}
+          alt="Obrazek wydarzenia"
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            Lizard
+          {props.title}
+          </Typography>
+          <Typography type="date" variant="subtitle1">
+            {`${props.date.substring(8,10)}-${props.date.substring(5,7)}-${props.date.substring(0,4)} ${props.date.substring(11,16)}`}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            Lizards are a widespread group of squamate reptiles, with over 6,000
-            species, ranging across all continents except Antarctica
+            {eventDesc[0]}
           </Typography>
         </CardContent>
       </CardActionArea>
     </Card>
-  );
+  )
 }
 
 export default EventCard;

@@ -1,13 +1,14 @@
-import { Accordion, AccordionDetails, AccordionSummary, Box, Grid, Typography, Paper, Button } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Box, Grid, Typography, Paper, Button, Card, CardMedia, } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { useDataBase_ReadEvents } from "../Hooks/useDataBase";
+import dayjs from "dayjs";
 
-const monthsList = ['', 'Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień']
+//const monthsList = ['', 'Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień']
 
 function Events() {
-  const [expanded, setExpanded] = useState(0);
+  const [expanded, setExpanded] = useState(-1);
   const eventList = useDataBase_ReadEvents();
   const navigator = useNavigate();
 
@@ -15,6 +16,9 @@ function Events() {
     setExpanded(newExpanded ? panel : -1);
   };
 
+  const sorter = (a, b) => {
+    return a.date < b.date
+  }
 
   return (
     <>
@@ -27,31 +31,36 @@ function Events() {
           Dodaj wydarzenie
         </Button>
       </Box>
-      {Object.keys(eventList).reverse().map((eTime, iTime) => (
-        Object.keys(eventList[eTime]).map((eKey, iKey) => (
-          //<p key={i}>{JSON.stringify(eTime) + '  - ' + JSON.stringify(eventList[eTime][eKey])}</p>
-          <Accordion key={eKey} expanded={expanded === iTime * 10 + iKey} onChange={handleChange(iTime * 10 + iKey)}>
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1a-content"
-              id="panel1a-header"
-            >
-              <Typography variant="h6">{`${eventList[eTime][eKey]['title']} - ${monthsList[+eTime.substring(4, 6)]} ${eTime.substring(0, 4)}`}</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              {eventList[eTime][eKey]['allowRegister'] 
-              ? <p> <EventsList/> </p>
-              : <p> {eventList[eTime][eKey]['desc']} </p>}
-            </AccordionDetails>
-          </Accordion>
-        ))
-
+      {Object.values(eventList).sort(sorter).map((event, index) => (
+        //<p key={i}>{JSON.stringify(eTime) + '  - ' + JSON.stringify(eventList[eKey])}</p>
+        <Accordion key={index} expanded={expanded === index} onChange={handleChange(index)}>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <Typography variant="h6">{`${event.title} [${dayjs(event.date).format('DD-MM-YYYY')}]`}</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <EventsDetails
+              title={event.title}
+              desc={event.desc}
+              picsURL={event.picsURL}
+              date={event.date}
+              allowRegister={event.allowRegister}
+            />
+          </AccordionDetails>
+        </Accordion>
       ))}
     </>
   )
 }
 
 export default Events;
+
+
+
+
 
 
 const sesje = [
@@ -81,11 +90,37 @@ const sesje = [
   },
 ]
 
-function EventsList() {
+function EventsDetails(props) {
   const navigator = useNavigate();
+  const [expandedDesc, setExpandedDesc] = useState(false);
+  const maxDescLine = 6;
+  const eventDesc = props.desc.split('\n');
 
   return (
     <>
+      <Box sx={{ mb: 2, display: 'flex', flexDirection: 'row' }}>
+        {props.picsURL && <Box sx={{ mr: 3, maxWidth: 300 }}>
+          <Card >
+            <CardMedia
+              component="img"
+              image={props.picsURL}
+              alt="Podgląd obrazka"
+            />
+          </Card>
+        </Box>
+        }
+        <Box sx={{ m: 0, textAlign: 'start' }}>
+          {eventDesc.map((text, i) => {
+            if (expandedDesc) return <p key={i} style={{ margin: 0 }}>{text}</p>;
+            else if (i < maxDescLine) return <p key={i} style={{ margin: 0 }}>{text}</p>;
+            else if (i === maxDescLine) return <Button key={i} onClick={() => setExpandedDesc(true)}>Rozwiń opis</Button>;
+            else return null;
+          })}
+          {expandedDesc && <Button onClick={() => setExpandedDesc(false)}>Zwiń opis</Button>}
+        </Box>
+      </Box>
+
+
       <Box sx={{ textAlign: 'right', mr: 1, mb: 2 }}>
 
         <Button

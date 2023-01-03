@@ -1,13 +1,14 @@
 import { Container, Typography } from "@mui/material";
-import EventList from "../Pages/EventList";
-import UserLogin from "../Pages/UserLogin";
 import { Route, Routes, } from "react-router-dom";
-import UserProfile from "../Pages/UserProfile";
 import { useAuthUser } from "../Hooks/useAuth";
+import UserLogin from "../Pages/UserLogin";
+import UserProfile from "../Pages/UserProfile";
 import UserNotLogin from "../Pages/UserNotLogin";
+import EventList from "../Pages/EventList";
 import Events from "../Pages/Events";
 import EventsSessionAdd from "../Pages/EventsSessionAdd";
 import EventsAdd from "../Pages/EventAdd";
+import Test from "../Pages/Test";
 
 function Main() {
   const userData = useAuthUser();
@@ -22,6 +23,7 @@ function Main() {
           <Route path="/">
             <Route index element={<EventList />} />
             <Route path="login" element={<UserLogin />} />
+            <Route path="test" element={<Test />} />
             <Route path="events" >
               <Route index element={<Events />} />
               <Route path="addEvent" element={<EventsAdd />} />

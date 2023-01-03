@@ -1,10 +1,10 @@
-import { limitToLast, onValue, orderByKey, push, query, ref, set } from "firebase/database";
+import { limitToLast, onValue, orderByChild, push, query, ref, set } from "firebase/database";
 import { useEffect, useState } from "react";
 import { fbaseDatabase } from '../Firebase/Firebase';
 
 function useDataBase_AddEvent() {
   return (event) => {
-    let path = 'events/'+event.date.substring(1,8).replace('-','');
+    let path = 'events';
     push(ref(fbaseDatabase, path), {
       ...event
     });
@@ -14,6 +14,7 @@ function useDataBase_AddEvent() {
 function useDataBase_AddSession() {
   return (session) => {
     session.enable = false;
+    //TODO
     set(ref(fbaseDatabase, 'events/202301/1'), {
       ...session
     });
@@ -24,7 +25,7 @@ function useDataBase_ReadEvents() {
   const [eventList, setEventList] = useState('');
 
   useEffect(() => {
-    const q = query(ref(fbaseDatabase, 'events'), orderByKey(), limitToLast(6));
+    const q = query(ref(fbaseDatabase, 'events'), orderByChild("date"), limitToLast(10));
     onValue(q, 
       (snapshot) => {
       const data = snapshot.val();
@@ -56,7 +57,7 @@ function useDataBase_ReadSessions(eventId) {
       console.log('###' + JSON.stringify(error));
       setSessionList('');
     })
-  }, []);
+  }, [eventId]);
   
   return sessionList;
 }

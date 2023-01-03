@@ -4,9 +4,9 @@
     * KEY - unique key
       * Name - name of event
       * Date - date of event
-      * ShortDesc - short Description visible in events cards on main page
+      * picsURL - image URL
       * Description - long description visible in events details
-      * Details - other event Details
+      * allowRegister - allow register in event
 * eventsProgram
   * YYYYMM - Year and month
     * KEY - key of event from events list
