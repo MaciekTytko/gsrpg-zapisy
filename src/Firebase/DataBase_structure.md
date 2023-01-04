@@ -14,8 +14,7 @@
 * eventsRegister
   * eKEY - key of event from events list
     * pKEY - unique program key
-      * rKEY - unique key of any registration
-        * clientId - client id from firebase auth
+      * clientId - client id from firebase auth
         * timestamp - server timestamp of registration
 
 

@@ -1,4 +1,4 @@
-import { limitToLast, onValue, orderByChild, push, query, ref } from "firebase/database";
+import { limitToLast, onValue, orderByChild, push, query, ref, remove, set } from "firebase/database";
 import { useEffect, useState } from "react";
 import { fbaseDatabase } from '../Firebase/Firebase';
 
@@ -22,13 +22,17 @@ function useDataBase_AddProgram() {
 }
 
 function useDataBase_AddProgramRegister() {
-  return (eventId, programId, clientId) => {
-    let path = 'eventsRegister/' + eventId + '/' + programId;
-    push(ref(fbaseDatabase, path), {
-      clientId,
+  const register = (eventId, programId, clientId) => {
+    let path = 'eventsRegister/' + eventId + '/' + programId + '/' + clientId;
+    set(ref(fbaseDatabase, path), {
       "timestamp": { ".sv": "timestamp" },
     });
   }
+  const registerDelete = (eventId, programId, clientId) => {
+    let path = 'eventsRegister/' + eventId + '/' + programId + '/' + clientId;
+    remove(ref(fbaseDatabase, path));
+  }
+  return {register, registerDelete}
 }
 
 function useDataBase_ReadEvents() {

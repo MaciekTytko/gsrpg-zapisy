@@ -1,20 +1,29 @@
 import { Accordion, AccordionDetails, AccordionSummary, Box, Typography, Paper, Button, } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { useNavigate } from "react-router";
 import { useDataBase_AddProgramRegister } from "../Hooks/useDataBase";
-import { useAuthUser, useAuthUserData } from "../Hooks/useAuth"
+import { useAuthUserData } from "../Hooks/useAuth"
 
 function ProgramDetails(props) {
-  const register = useDataBase_AddProgramRegister();
+  const { register, registerDelete} = useDataBase_AddProgramRegister();
   const userData = useAuthUserData();
   const programId = props.program[0];
   const program = props.program[1];
-  const usersCurrent = props.registerList ? Math.min(Object.keys(props.registerList[programId]||{}).length,program.usersCountMax) : 0;
+  const usersCurrent = props.registerList ? Math.min(Object.keys(props.registerList?.[programId] || {}).length, program.usersCountMax) : 0;
 
-  console.log('###PD###', programId, props.registerList)
 
-  const programRegistration = ()=>{
+  const fullUsers = usersCurrent >= program.usersCountMax;
+  const userRegisterOnEvent = JSON.stringify(props.registerList).indexOf(userData.uid) > 0;
+  const userRegisterOnProgram = (
+    Object.keys(props.registerList?.[programId] || {})
+      .reduce((userExist, reg) => { return userExist || reg === userData.uid }, false)
+  )
+
+  // Registration user to program.
+  const programRegistration = () => {
     register(props.eventId, programId, userData.uid)
+  }
+  const programRegistrationDelete = () => {
+    registerDelete(props.eventId, programId, userData.uid)
   }
 
   return (
@@ -41,8 +50,14 @@ function ProgramDetails(props) {
 
       <Box sx={{ height: 50, display: 'flex', flexDirection: 'row' }}>
         <Paper sx={{ width: 50, p: 1, textAlign: 'center' }}>{usersCurrent + '/' + program.usersCountMax}</Paper>
-        <Button sx={{ width: 150 }} variant='contained' onClick={programRegistration}>
-          zapisz się
+        <Button
+          sx={{ width: 150 }}
+          color={userRegisterOnProgram ? 'error' : 'primary'}
+          variant={userRegisterOnProgram ? 'outlined' : 'contained'}
+          onClick={userRegisterOnProgram ? programRegistrationDelete : programRegistration}
+          disabled={fullUsers || (userRegisterOnEvent && !userRegisterOnProgram)}
+        >
+          {userRegisterOnProgram ? 'zrezygnuj' : 'zapisz się'}
         </Button>
       </Box>
     </Box>
