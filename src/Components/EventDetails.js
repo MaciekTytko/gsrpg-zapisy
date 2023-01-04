@@ -10,7 +10,7 @@ function EventsDetails(props) {
         picsURL={props.picsURL}
       />
       <EventsDetailsProgram
-      id={props.id}
+      eventId={props.eventId}
       />     
     </>
   )

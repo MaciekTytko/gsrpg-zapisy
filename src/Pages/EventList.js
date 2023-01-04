@@ -49,7 +49,7 @@ function EventList() {
           </AccordionSummary>
           <AccordionDetails>
             <EventsDetails
-              id={event[0]}
+              eventId={event[0]}
               title={event[1].title}
               desc={event[1].desc}
               picsURL={event[1].picsURL}

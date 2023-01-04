@@ -1,4 +1,4 @@
-import { limitToLast, onValue, orderByChild, push, query, ref} from "firebase/database";
+import { limitToLast, onValue, orderByChild, push, query, ref } from "firebase/database";
 import { useEffect, useState } from "react";
 import { fbaseDatabase } from '../Firebase/Firebase';
 
@@ -13,8 +13,7 @@ function useDataBase_AddEvent() {
 
 function useDataBase_AddProgram() {
   return (eventID, program) => {
-    let path = 'eventsProgram/'+eventID;
-    console.log(path);
+    let path = 'eventsProgram/' + eventID;
     push(ref(fbaseDatabase, path), {
       ...program,
       approved: true,
@@ -23,12 +22,11 @@ function useDataBase_AddProgram() {
 }
 
 function useDataBase_AddProgramRegister() {
-  return (eventID, program) => {
-    let path = 'eventsProgram/'+eventID;
-    console.log(path);
+  return (eventId, programId, clientId) => {
+    let path = 'eventsRegister/' + eventId + '/' + programId;
     push(ref(fbaseDatabase, path), {
-      ...program,
-      approved: true,
+      clientId,
+      "timestamp": { ".sv": "timestamp" },
     });
   }
 }
@@ -38,18 +36,18 @@ function useDataBase_ReadEvents() {
 
   useEffect(() => {
     const q = query(ref(fbaseDatabase, 'events'), orderByChild("date"), limitToLast(10));
-    return onValue(q, 
+    return onValue(q,
       (snapshot) => {
-      const data = snapshot.val();
-      console.log('###events###',data);
-      setEventList(data);
-    }, 
-    (error) => {
-      console.log('###' + JSON.stringify(error));
-      setEventList('');
-    })
+        const data = snapshot.val();
+        console.log('###events###', data);
+        setEventList(data || {});
+      },
+      (error) => {
+        console.log('###' + JSON.stringify(error));
+        setEventList('');
+      })
   }, []);
-  
+
   return eventList;
 }
 
@@ -58,21 +56,48 @@ function useDataBase_ReadProgram(eventId) {
   const [programList, setProgramList] = useState('');
 
   useEffect(() => {
-    const q = ref(fbaseDatabase, 'eventsProgram/'+eventId);
-    return onValue(q, 
+    const q = ref(fbaseDatabase, 'eventsProgram/' + eventId);
+    return onValue(q,
       (snapshot) => {
-      const data = snapshot.val();
-      console.log('###eventsProgram###',data);
-      setProgramList(data);
-    }, 
-    (error) => {
-      console.log('###' + JSON.stringify(error));
-      setProgramList('');
-    })
+        const data = snapshot.val();
+        console.log('###eventsProgram###', data);
+        setProgramList(data);
+      },
+      (error) => {
+        console.log('###' + JSON.stringify(error));
+        setProgramList('');
+      })
   }, [eventId]);
-  
+
   return programList;
 }
 
+function useDataBase_ReadRegister(eventId) {
+  const [registerList, setRegisterList] = useState('');
 
-export { useDataBase_AddEvent, useDataBase_AddProgram, useDataBase_ReadProgram, useDataBase_ReadEvents }
+  useEffect(() => {
+    const q = ref(fbaseDatabase, 'eventsRegister/' + eventId);
+    return onValue(q,
+      (snapshot) => {
+        const data = snapshot.val();
+        console.log('###eventsRegister###', data);
+        setRegisterList(data);
+      },
+      (error) => {
+        console.log('###' + JSON.stringify(error));
+        setRegisterList('');
+      })
+  }, [eventId]);
+
+  return registerList;
+}
+
+
+export {
+  useDataBase_AddEvent,
+  useDataBase_AddProgram,
+  useDataBase_AddProgramRegister,
+  useDataBase_ReadProgram,
+  useDataBase_ReadRegister,
+  useDataBase_ReadEvents,
+}
