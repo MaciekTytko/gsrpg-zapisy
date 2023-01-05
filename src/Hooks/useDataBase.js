@@ -56,7 +56,7 @@ function useDataBase_ReadEvents() {
 }
 
 
-function useDataBase_ReadProgram(eventId) {
+function useDataBase_ReadPrograms(eventId) {
   const [programList, setProgramList] = useState('');
 
   useEffect(() => {
@@ -76,7 +76,7 @@ function useDataBase_ReadProgram(eventId) {
   return programList;
 }
 
-function useDataBase_ReadRegister(eventId) {
+function useDataBase_ReadRegistrations(eventId) {
   const [registerList, setRegisterList] = useState('');
 
   useEffect(() => {
@@ -101,7 +101,7 @@ export {
   useDataBase_AddEvent,
   useDataBase_AddProgram,
   useDataBase_AddProgramRegister,
-  useDataBase_ReadProgram,
-  useDataBase_ReadRegister,
+  useDataBase_ReadPrograms,
+  useDataBase_ReadRegistrations,
   useDataBase_ReadEvents,
 }

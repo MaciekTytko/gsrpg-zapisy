@@ -1,4 +1,4 @@
-import { Accordion, AccordionDetails, AccordionSummary, Box, Typography, Button} from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Box, Typography, Button } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
@@ -39,7 +39,12 @@ function EventList() {
       </Box>
       {Object.entries(eventList).sort(sorter).map((event, index) => (
         //<p key={i}>{JSON.stringify(eTime) + '  - ' + JSON.stringify(eventList[eKey])}</p>
-        <Accordion key={event[0]} expanded={expanded === event[0]} onChange={handleChange(event[0])}>
+        <Accordion
+          key={event[0]}
+          expanded={expanded === event[0]}
+          onChange={handleChange(event[0])}
+          TransitionProps={{ unmountOnExit: true }}
+        >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"

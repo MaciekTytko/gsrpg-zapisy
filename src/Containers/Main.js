@@ -1,6 +1,6 @@
 import { Container, Typography } from "@mui/material";
 import { Route, Routes, } from "react-router-dom";
-import { useAuthUser } from "../Hooks/useAuth";
+import { useContext } from "react";
 import UserLogin from "../Pages/UserLogin";
 import UserProfile from "../Pages/UserProfile";
 import UserNotLogin from "../Pages/UserNotLogin";
@@ -9,12 +9,18 @@ import Events from "../Pages/Events";
 import EventsProgramAdd from "../Pages/EventsProgramAdd";
 import EventsAdd from "../Pages/EventAdd";
 import Test from "../Pages/Test";
+import Header from "./Header";
+import MenuSite from "./MenuSite";
+import Footer from "./Footer";
+import AuthContext from '../Context/AuthContext';
 
 function Main() {
-  const userData = useAuthUser();
+  const user = useContext(AuthContext);
 
   return (
     <>
+      <MenuSite />
+      <Header />
       <Container>
         <Typography variant="h1" >Gliwickie Spotkania RPG</Typography>
         <Typography variant="body1" gutterBottom>Comiesięczne święto erpegowców już dostępne w aplikacji!</Typography>
@@ -30,11 +36,12 @@ function Main() {
               <Route path="addEvent" element={<EventsAdd />} />
               <Route path="addProgram/:id" element={<EventsProgramAdd />} />
             </Route>
-            
-            <Route path="user" element={userData() ? <UserProfile /> : <UserNotLogin />} />
+
+            <Route path="user" element={user != null ? <UserProfile /> : <UserNotLogin />} />
           </Route>
         </Routes>
       </Container>
+      <Footer />
     </>
   )
 }

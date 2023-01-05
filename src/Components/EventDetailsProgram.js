@@ -1,12 +1,12 @@
 import { Box, Button, Stack, } from "@mui/material";
 import { useNavigate } from "react-router";
-import { useDataBase_ReadProgram, useDataBase_ReadRegister } from "../Hooks/useDataBase";
+import { useDataBase_ReadPrograms, useDataBase_ReadRegistrations } from "../Hooks/useDataBase";
 import ProgramDetails from "./ProgramDetails";
 
 function EventsDetailsProgram(props) {
   const navigator = useNavigate();
-  const programList = useDataBase_ReadProgram(props.eventId);
-  const registerList = useDataBase_ReadRegister(props.eventId);
+  const programList = useDataBase_ReadPrograms(props.eventId);
+  const registerList = useDataBase_ReadRegistrations(props.eventId);
   const gotoAddSession = () => {
     navigator('/events/addProgram/' + props.eventId);
   }

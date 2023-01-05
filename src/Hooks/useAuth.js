@@ -1,4 +1,5 @@
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { useDebugValue, useEffect, useState } from "react";
 import { fbaseAuth } from '../Firebase/Firebase'
 
 function useAuthSignIn() {
@@ -37,18 +38,22 @@ function useAuthRegisterUser() {
     });
 }
 
-function useAuthUserData() {
-  return fbaseAuth.currentUser;
-}
-
+/*
+ * Function return State with object with information of loged user
+ * @default null
+ */
 function useAuthUser() {
-  return () => onAuthStateChanged(fbaseAuth, (user) => {
-    //console.log(user);
-    return user;
-  });
+  const [user, setUser] = useState(null);
+  useDebugValue(user ? 'Login' : 'Logout')
+
+  useEffect(() => {
+    return onAuthStateChanged(fbaseAuth, (user) => {
+      setUser(user);
+    });
+  }, []);
+
+  return user;
 }
 
 
-
-
-export { useAuthSignIn, useAuthSignOut, useAuthRegisterUser, useAuthUserData, useAuthUser }
+export { useAuthSignIn, useAuthSignOut, useAuthRegisterUser, useAuthUser }

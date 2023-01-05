@@ -1,9 +1,10 @@
 import { Box } from "@mui/material";
+import { useContext } from "react";
 import EventCard from "../Components/EventCard";
-import { useDataBase_ReadEvents } from "../Hooks/useDataBase";
+import EventContext from "../Context/EventContext";
 
 function Events() {
-  const eventList = useDataBase_ReadEvents();
+  const eventList = useContext(EventContext);
 
   const sorter = (a, b) => {
     return a[1].date < b[1].date

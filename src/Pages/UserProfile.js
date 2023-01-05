@@ -1,8 +1,9 @@
 import { Box, Paper, Typography, Button, Container, Grid } from "@mui/material";
-import { useAuthUserData } from "../Hooks/useAuth";
+import { useContext } from "react";
+import AuthContext from "../Context/AuthContext";
 
 function UserProfile() {
-  const user = useAuthUserData();
+  const user = useContext(AuthContext);
 
   
 

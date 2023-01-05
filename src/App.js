@@ -1,24 +1,25 @@
 import './App.css';
-import Header from "./Containers/Header"
 import Main from "./Containers/Main"
-import Footer from "./Containers/Footer"
-import store from './Redux/Store'
-import { Provider } from 'react-redux'
-import MenuSite from "./Containers/MenuSite"
 import { BrowserRouter } from 'react-router-dom';
+import AuthContext from './Context/AuthContext';
+import { useAuthUser } from './Hooks/useAuth';
+import EventContext from './Context/EventContext';
+import { useDataBase_ReadEvents } from './Hooks/useDataBase';
 
 function App() {
+  const user = useAuthUser();
+  const events = useDataBase_ReadEvents();
+
   return (
-    <Provider store={store}>
-      <BrowserRouter>
-        <div className="App">
-          <MenuSite />
-          <Header />
-          <Main />
-          <Footer />
-        </div>
-      </BrowserRouter>
-    </Provider>
+    <BrowserRouter>
+      <AuthContext.Provider value={user}>
+        <EventContext.Provider value={events}>
+          <div className="App">
+            <Main />
+          </div>
+        </EventContext.Provider>
+      </AuthContext.Provider>
+    </BrowserRouter>
   );
 }
 
