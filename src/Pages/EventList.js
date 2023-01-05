@@ -1,16 +1,16 @@
 import { Accordion, AccordionDetails, AccordionSummary, Box, Typography, Button } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
-import { useDataBase_ReadEvents } from "../Hooks/useDataBase";
 import dayjs from "dayjs";
 import EventsDetails from "../Components/EventDetails";
+import EventContext from "../Context/EventContext"
 
 //const monthsList = ['', 'Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień']
 
 function EventList() {
   const [expanded, setExpanded] = useState(-1);
-  const eventList = useDataBase_ReadEvents();
+  const eventList = useContext(EventContext);
   const navigator = useNavigate();
   const { id } = useParams();
 

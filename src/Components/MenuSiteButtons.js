@@ -1,30 +1,39 @@
+import { Button, Stack } from "@mui/material";
+import { useContext } from "react";
+import { useNavigate } from "react-router";
+import AuthContext from "../Context/AuthContext";
 
 
 function MenuSiteButtons(props) {
+  const navigator = useNavigate();
+  const user = useContext(AuthContext);
+
+  const linkTo = path => navigator(path);
+
   return (
-    <>
+    <Stack direction="row" spacing={1}>
       <Button
-        key="Zaloguj"
+        key="events"
         sx={{ my: 2, color: 'white', display: 'block' }}
-        onClick={() => linkTo('login')}
-      >
-        Zaloguj
-      </Button>
-      <Button
-        key="wyda"
-        sx={{ my: 2, color: 'white', display: 'block' }}
-        onClick={() => linkTo('events')}
+        onClick={() => linkTo('/events')}
       >
         Wydarzenia
       </Button>
       <Button
+        key="Zaloguj"
+        sx={{ my: 2, color: 'white', display: user ? 'none' : 'block' }}
+        onClick={() => linkTo('/login')}
+      >
+        Zaloguj
+      </Button>
+      <Button
         key="profil"
-        sx={{ my: 2, color: 'white', display: 'block' }}
-        onClick={() => linkTo('user')}
+        sx={{ my: 2, color: 'white', display: user ? 'block' : 'none' }}
+        onClick={() => linkTo('/user')}
       >
         Profil
       </Button>
-    </>
+    </Stack>
   )
 }
 
