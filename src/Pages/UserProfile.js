@@ -1,9 +1,11 @@
 import { Box, Paper, Typography, Button, Container, Grid } from "@mui/material";
 import { useContext } from "react";
 import AuthContext from "../Context/AuthContext";
+import { useAuthSignOut } from "../Hooks/useAuth";
 
 function UserProfile() {
   const user = useContext(AuthContext);
+  const logout = useAuthSignOut();
 
   
 
@@ -52,6 +54,7 @@ function UserProfile() {
             onClick={() => navigator('events')}
           >Przejdź do listy wydarzeń</Button>
         </Box>
+      <Button variant="contained" onClick={logout}>Wyloguj</Button>
       </Paper>
     </Container>
   )

@@ -1,12 +1,14 @@
 import { Avatar, Box, IconButton, Menu, MenuItem, Typography } from "@mui/material";
 import { useContext, useState } from "react";
+import { useNavigate } from "react-router";
 import AuthContext from "../Context/AuthContext";
+import { useAuthSignOut } from "../Hooks/useAuth";
 
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
-
-function MenuSiteUserLogo(props) {
+function MenuSiteUserAvatar(props) {
   const [anchorElUser, setAnchorElUser] = useState(null);
   const user = useContext(AuthContext);
+  const logout = useAuthSignOut();
+  const navigator = useNavigate();
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
@@ -15,11 +17,15 @@ function MenuSiteUserLogo(props) {
     setAnchorElUser(null);
   };
 
-//TODO
+  const goToProfile = () => {
+    navigator('/user');
+    handleCloseUserMenu();
+  }
+
   return (
     <Box sx={{ flexGrow: 0 }}>
       <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-        <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+        <Avatar alt={user?.nickname || ""} src={user?.avatarURL || ""} />
       </IconButton>
       <Menu
         sx={{ mt: '45px' }}
@@ -37,14 +43,15 @@ function MenuSiteUserLogo(props) {
         open={Boolean(anchorElUser)}
         onClose={handleCloseUserMenu}
       >
-        {settings.map((setting) => (
-          <MenuItem key={setting} onClick={handleCloseUserMenu}>
-            <Typography textAlign="center">{setting}</Typography>
-          </MenuItem>
-        ))}
+        <MenuItem key="profile" onClick={goToProfile}>
+          <Typography textAlign="center">Profil</Typography>
+        </MenuItem>
+        <MenuItem key="logout" onClick={logout}>
+          <Typography textAlign="center">Wyloguj</Typography>
+        </MenuItem>
       </Menu>
     </Box>
   )
 }
 
-export default MenuSiteUserLogo;
+export default MenuSiteUserAvatar;

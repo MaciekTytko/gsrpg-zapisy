@@ -22,9 +22,6 @@ function Main() {
       <MenuSite />
       <Header />
       <Container>
-        <Typography variant="h1" >Gliwickie Spotkania RPG</Typography>
-        <Typography variant="body1" gutterBottom>Comiesięczne święto erpegowców już dostępne w aplikacji!</Typography>
-
         <Routes>
           <Route path="/">
             <Route index element={<Events />} />

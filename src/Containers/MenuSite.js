@@ -1,4 +1,3 @@
-
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -11,7 +10,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { useContext, useState } from 'react';
 import MenuSiteButtons from '../Components/MenuSiteButtons';
 import MenuSiteLogo from '../Components/MenuSiteLogo';
-import MenuSiteUserLogo from '../Components/MenuSiteUserLogo';
+import MenuSiteUserAvatar from '../Components/MenuSiteUserAvatar';
 import AuthContext from '../Context/AuthContext';
 
 const pages = ['lo',';lol']
@@ -76,7 +75,7 @@ function MenuSite() {
             <MenuSiteButtons />
           </Box>
 
-          {user && <MenuSiteUserLogo/>}
+          {user && <MenuSiteUserAvatar/>}
 
         </Toolbar>
       </Container>

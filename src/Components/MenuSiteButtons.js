@@ -13,6 +13,13 @@ function MenuSiteButtons(props) {
   return (
     <Stack direction="row" spacing={1}>
       <Button
+        key="main"
+        sx={{ my: 2, color: 'white', display: 'block' }}
+        onClick={() => linkTo('/')}
+      >
+        Strona główna
+      </Button>
+      <Button
         key="events"
         sx={{ my: 2, color: 'white', display: 'block' }}
         onClick={() => linkTo('/events')}
