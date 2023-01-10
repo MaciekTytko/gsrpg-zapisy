@@ -1,13 +1,39 @@
-import { Box, Paper, Typography, Button, Container, Grid } from "@mui/material";
+import { Box, Paper, Typography, Button, Container, Grid, TextField } from "@mui/material";
 import { useContext } from "react";
 import AuthContext from "../Context/AuthContext";
 import { useAuthSignOut } from "../Hooks/useAuth";
+import { useFormik } from 'formik';
+import * as yup from 'yup';
+import { useAuthSignIn, useAuthChangeUserData } from '../Hooks/useAuth';
+
+
+const validationSchema = yup.object({
+  nickname: yup
+    .string('Enter your email')
+    .required('Email is required'),
+  role: yup
+    .string('Enter your password')
+    .required('Password is required'),
+});
 
 function UserProfile() {
   const user = useContext(AuthContext);
   const logout = useAuthSignOut();
+  const changeUser = useAuthChangeUserData();
 
-  
+  const formik = useFormik({
+    initialValues: {
+      nickname: 'Turbo',
+      role: 'admin',
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      //
+      console.log(values, user);
+      changeUser(values);
+    },
+  });
+
 
   return (
     <Container sx={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
@@ -16,7 +42,21 @@ function UserProfile() {
         variant="h4">
         Profil użytkownika
       </Typography>
-      <Paper sx={{ width: 600, p: 2, m: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+      <Box sx={{ width: 600, display: 'flex', justifyContent: 'right' }}>
+        <Button
+          sx={{ m: 1 }}
+          variant="outlined"
+          onClick={() => navigator('events')}
+        >Przejdź do listy wydarzeń</Button>
+      </Box>
+      <Paper sx={{ width: 600, p: 2, m: 1, display: 'flex', flexDirection: 'column' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'left' }}>
+          <Typography
+            sx={{ m: 2 }}
+            variant="h5">
+            Twoje konto
+          </Typography>
+        </Box>
         <Grid sx={{ mb: 2, }} container spacing={2}>
           <Grid item xs={8}>
             <Paper sx={{
@@ -47,15 +87,51 @@ function UserProfile() {
             </Button>
           </Grid>
         </Grid>
-        <Box sx={{ display: 'flex', justifyContent: 'right' }}>
-          <Button
-            sx={{ m: 1 }}
-            variant="outlined"
-            onClick={() => navigator('events')}
-          >Przejdź do listy wydarzeń</Button>
-        </Box>
-      <Button variant="contained" onClick={logout}>Wyloguj</Button>
       </Paper>
+      <Paper sx={{ width: 600, p: 2, m: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'left' }}>
+          <Typography
+            sx={{ m: 2 }}
+            variant="h5">
+            Twoje dane
+          </Typography>
+        </Box>
+
+        <form onSubmit={formik.handleSubmit}>
+          <TextField
+            fullWidth
+            sx={{ m: 2 }}
+            id="nickname"
+            name="nickname"
+            label="Ksywa"
+            value={formik.values.nickname}
+            onChange={formik.handleChange}
+            error={formik.touched.nickname && Boolean(formik.errors.nickname)}
+            helperText={formik.touched.nickname && formik.errors.nickname}
+          />
+          <TextField
+            fullWidth
+            sx={{ m: 2 }}
+            id="role"
+            name="role"
+            label="role"
+            value={formik.values.role}
+            onChange={formik.handleChange}
+            error={formik.touched.role && Boolean(formik.errors.role)}
+            helperText={formik.touched.role && formik.errors.role}
+          />
+          <Button
+            sx={{ m: 2 }}
+            color="primary"
+            variant="contained"
+            fullWidth type="submit">
+            Zapisz
+          </Button>
+        </form>
+
+      </Paper>
+
+      <Button variant="contained" onClick={logout}>Wyloguj</Button>
     </Container>
   )
 }

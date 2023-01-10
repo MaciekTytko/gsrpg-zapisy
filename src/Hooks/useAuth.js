@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
 import { useDebugValue, useEffect, useState } from "react";
 import { fbaseAuth } from '../Firebase/Firebase'
 
@@ -38,6 +38,27 @@ function useAuthRegisterUser() {
     });
 }
 
+function useAuthChangeUserData() {
+  return (data) => updateProfile(fbaseAuth.currentUser, {
+    nickname: "Turbo",
+    role: "admin",
+    displayName: 'Tomek'
+  }).then(() => {
+    // Profile updated!
+    // ...
+    console.log('update');
+  }).catch((error) => {
+    // An error occurred
+    // ...
+  });
+
+}
+
+
+
+
+
+
 /*
  * Function return State with object with information of loged user
  * @default null
@@ -56,4 +77,4 @@ function useAuthUser() {
 }
 
 
-export { useAuthSignIn, useAuthSignOut, useAuthRegisterUser, useAuthUser }
+export { useAuthSignIn, useAuthSignOut, useAuthRegisterUser, useAuthUser , useAuthChangeUserData}
