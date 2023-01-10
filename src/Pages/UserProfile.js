@@ -4,16 +4,19 @@ import AuthContext from "../Context/AuthContext";
 import { useAuthSignOut } from "../Hooks/useAuth";
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { useAuthSignIn, useAuthChangeUserData } from '../Hooks/useAuth';
+import { useAuthChangeUserData } from '../Hooks/useAuth';
 
 
 const validationSchema = yup.object({
   nickname: yup
-    .string('Enter your email')
-    .required('Email is required'),
-  role: yup
-    .string('Enter your password')
-    .required('Password is required'),
+    .string('Podaj ksywę')
+    .required('Ksywa jest wymagana byśmy mogli się spotkać'),
+  contact: yup
+    .string('Podaj kontakt do siebie')
+    .required('Podaj kontakt do siebie telefon, mail, facebook, discord'),
+  picsURL: yup
+    .string('Podaj Link do Avatara')
+    .url('To nie jest poprawny Link'),
 });
 
 function UserProfile() {
@@ -23,8 +26,9 @@ function UserProfile() {
 
   const formik = useFormik({
     initialValues: {
-      nickname: 'Turbo',
-      role: 'admin',
+      nickname: '',
+      contact: '',
+      picsURL: '',
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
@@ -42,13 +46,6 @@ function UserProfile() {
         variant="h4">
         Profil użytkownika
       </Typography>
-      <Box sx={{ width: 600, display: 'flex', justifyContent: 'right' }}>
-        <Button
-          sx={{ m: 1 }}
-          variant="outlined"
-          onClick={() => navigator('events')}
-        >Przejdź do listy wydarzeń</Button>
-      </Box>
       <Paper sx={{ width: 600, p: 2, m: 1, display: 'flex', flexDirection: 'column' }}>
         <Box sx={{ display: 'flex', justifyContent: 'left' }}>
           <Typography
@@ -57,36 +54,43 @@ function UserProfile() {
             Twoje konto
           </Typography>
         </Box>
-        <Grid sx={{ mb: 2, }} container spacing={2}>
-          <Grid item xs={8}>
-            <Paper sx={{
-              mr: 2, pl: 2, pr: 2, height: '100%', minWidth: 200,
-              display: 'flex', flexDirection: 'row', justifyContent: 'left', alignItems: 'center',
-            }}>
-              <Typography>{user.email}</Typography>
-            </Paper>
-          </Grid>
-          <Grid item xs={4}>
-            <Button variant="contained">
-              zmień email
-            </Button>
-          </Grid>
-        </Grid>
-        <Grid sx={{ mb: 2, }} container spacing={2}>
-          <Grid item xs={8}>
-            <Paper sx={{
-              mr: 2, pl: 2, pr: 2, height: '100%', minWidth: 200,
-              display: 'flex', flexDirection: 'row', justifyContent: 'left', alignItems: 'center',
-            }}>
-              <Typography># # # # # # # #</Typography>
-            </Paper>
-          </Grid>
-          <Grid item xs={4}>
-            <Button variant="contained">
-              zmień hasło
-            </Button>
-          </Grid>
-        </Grid>
+        <Box sx={{ display: 'flex', justifyContent: 'left' }}>
+          <TextField
+            fullWidth
+            sx={{ m: 1 }}
+            id="nickname"
+            name="nickname"
+            label="Email"
+            value={formik.values.nickname}
+            onChange={formik.handleChange}
+            error={formik.touched.nickname && Boolean(formik.errors.nickname)}
+            helperText={formik.touched.nickname && formik.errors.nickname}
+          />
+          <Button
+            sx={{ m: 1 }}
+            variant="contained"
+            onClick={() => { }}
+          >Zmień</Button>
+        </Box>
+        <Box sx={{ display: 'flex', justifyContent: 'left' }}>
+          <TextField
+            fullWidth
+            sx={{ m: 1 }}
+            id="password"
+            name="password"
+            label="Hasło"
+            type="password"
+            value={formik.values.nickname}
+            onChange={formik.handleChange}
+            error={formik.touched.nickname && Boolean(formik.errors.nickname)}
+            helperText={formik.touched.nickname && formik.errors.nickname}
+          />
+          <Button
+            sx={{ m: 1 }}
+            variant="contained"
+            onClick={() => { }}
+          >Zmień</Button>
+        </Box>
       </Paper>
       <Paper sx={{ width: 600, p: 2, m: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
         <Box sx={{ display: 'flex', justifyContent: 'left' }}>
@@ -97,42 +101,52 @@ function UserProfile() {
           </Typography>
         </Box>
 
-        <form onSubmit={formik.handleSubmit}>
-          <TextField
-            fullWidth
-            sx={{ m: 2 }}
-            id="nickname"
-            name="nickname"
-            label="Ksywa"
-            value={formik.values.nickname}
-            onChange={formik.handleChange}
-            error={formik.touched.nickname && Boolean(formik.errors.nickname)}
-            helperText={formik.touched.nickname && formik.errors.nickname}
-          />
-          <TextField
-            fullWidth
-            sx={{ m: 2 }}
-            id="role"
-            name="role"
-            label="role"
-            value={formik.values.role}
-            onChange={formik.handleChange}
-            error={formik.touched.role && Boolean(formik.errors.role)}
-            helperText={formik.touched.role && formik.errors.role}
-          />
-          <Button
-            sx={{ m: 2 }}
-            color="primary"
-            variant="contained"
-            fullWidth type="submit">
-            Zapisz
-          </Button>
-        </form>
+        <Box>
+          <form onSubmit={formik.handleSubmit}>
+            <TextField
+              fullWidth
+              margin="dense"
+              id="nickname"
+              name="nickname"
+              label="Ksywa"
+              value={formik.values.nickname}
+              onChange={formik.handleChange}
+              error={formik.touched.nickname && Boolean(formik.errors.nickname)}
+              helperText={formik.touched.nickname && formik.errors.nickname}
+            />
+            <TextField
+              fullWidth
+              margin="dense"
+              id="contact"
+              name="contact"
+              label="Kontakt"
+              value={formik.values.contact}
+              onChange={formik.handleChange}
+              error={formik.touched.contact && Boolean(formik.errors.contact)}
+              helperText={formik.touched.contact && formik.errors.contact}
+            />
+            <TextField
+              fullWidth
+              margin="dense"
+              id="picsURL"
+              name="picsURL"
+              label="Link do avatara"
+              value={formik.values.picsURL}
+              onChange={formik.handleChange}
+              error={formik.touched.picsURL && Boolean(formik.errors.picsURL)}
+              helperText={formik.touched.picsURL && formik.errors.picsURL}
+            />
+            <Button
+              color="primary"
+              variant="contained"
+              fullWidth type="submit">
+              Zapisz
+            </Button>
+          </form>
+        </Box>
 
       </Paper>
-
-      <Button variant="contained" onClick={logout}>Wyloguj</Button>
-    </Container>
+    </Container >
   )
 }
 
