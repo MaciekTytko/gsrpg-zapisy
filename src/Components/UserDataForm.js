@@ -1,8 +1,9 @@
-import { Box, Paper, Typography, Button, Container, Grid, TextField } from "@mui/material";
-import { useContext } from "react";
-import { useAuthSignOut, useAuthChangeUserData } from "../Hooks/useAuth";
+import { Box, Paper, Typography, Button, TextField } from "@mui/material";
+import { useContext, useState } from "react";
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import AuthContext from "../Context/AuthContext";
+import { DBAddUserInfo } from "../Hooks/useDataBase";
 
 const validationSchema = yup.object({
   nickname: yup
@@ -17,43 +18,25 @@ const validationSchema = yup.object({
 });
 
 function UserDataForm(){
-
+  const user = useContext(AuthContext);
+  const [loadingReadingUserData, setLoadingReadingUserData] = useState(true);
+  const [loadingWritingUserData, setLoadingWritingUserData] = useState(false);
+  const [initialValues, setInit] = useState({
+    nickname: '',
+    contact: '',
+    picsURL: '',
+  })
   const formik = useFormik({
-    initialValues: {
-      nickname: '',
-      contact: '',
-      picsURL: '',
-    },
+    enableReinitialize: true,
+    initialValues,
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      //
-      console.log(values, user);
-      changeUser(values);
+      DBAddUserInfo(user.uid, values, user.email);
     },
   });
 
-  function UserProfile() {
-    const user = useContext(AuthContext);
-    const logout = useAuthSignOut();
-    const changeUser = useAuthChangeUserData();
-  
-    const formik = useFormik({
-      initialValues: {
-        nickname: '',
-        contact: '',
-        picsURL: '',
-      },
-      validationSchema: validationSchema,
-      onSubmit: (values) => {
-        //
-        console.log(values, user);
-        changeUser(values);
-      },
-    });
-
-
   return(
-    <Paper sx={{ width: 600, p: 2, m: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+    <>
         <Box sx={{ display: 'flex', justifyContent: 'left' }}>
           <Typography
             sx={{ m: 2 }}
@@ -98,6 +81,7 @@ function UserDataForm(){
               helperText={formik.touched.picsURL && formik.errors.picsURL}
             />
             <Button
+            sx={{mt: 2}}
               color="primary"
               variant="contained"
               fullWidth type="submit">
@@ -106,7 +90,7 @@ function UserDataForm(){
           </form>
         </Box>
 
-      </Paper>
+      </>
   )
 }
 

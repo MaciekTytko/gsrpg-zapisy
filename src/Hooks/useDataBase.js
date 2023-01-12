@@ -35,6 +35,14 @@ function useDataBase_AddProgramRegister() {
   return {register, registerDelete}
 }
 
+function DBAddUserInfo(userID, userData, userEmail) {
+    let path = 'users/'+userID;
+    set(ref(fbaseDatabase, path), {
+      ...userData,
+      userEmail
+    });
+}
+
 function useDataBase_ReadEvents() {
   const [eventList, setEventList] = useState('');
 
@@ -96,11 +104,36 @@ function useDataBase_ReadRegistrations(eventId) {
   return registerList;
 }
 
+function useReadUserData(userID) {
+  const [userData, setUserData] = useState({
+    nickname: '',
+    contact: '',
+    picsURL: '',
+  });
+
+  useEffect(() => {
+    const DBquery = ref(fbaseDatabase, 'users/' + userID);
+    return onValue(DBquery,
+      (snapshot) => {
+        const data = snapshot.val();
+        console.log('###userData###', data);
+        setUserData(data);
+      },
+      (error) => {
+        console.log('###' + JSON.stringify(error));
+        setUserData('');
+      })
+  }, [userID]);
+
+  return userData;
+}
+
 
 export {
   useDataBase_AddEvent,
   useDataBase_AddProgram,
   useDataBase_AddProgramRegister,
+  DBAddUserInfo,
   useDataBase_ReadPrograms,
   useDataBase_ReadRegistrations,
   useDataBase_ReadEvents,
