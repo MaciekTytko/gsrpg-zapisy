@@ -32,15 +32,22 @@ function useDataBase_AddProgramRegister() {
     let path = 'eventsRegister/' + eventId + '/' + programId + '/' + clientId;
     remove(ref(fbaseDatabase, path));
   }
-  return {register, registerDelete}
+  return { register, registerDelete }
 }
 
-function DBAddUserInfo(userID, userData, userEmail) {
-    let path = 'users/'+userID;
+function useDataBase_AddUserInfo() {
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const writeData = async (userID, userData, userEmail) => {
+    let path = 'users/' + userID;
     set(ref(fbaseDatabase, path), {
       ...userData,
       userEmail
+    }).then(()=>{
+      console.log('zapisano!');
     });
+  }
+  return [writeData, loading, error];
 }
 
 function useDataBase_ReadEvents() {
@@ -104,28 +111,34 @@ function useDataBase_ReadRegistrations(eventId) {
   return registerList;
 }
 
-function useReadUserData(userID) {
-  const [userData, setUserData] = useState({
-    nickname: '',
-    contact: '',
-    picsURL: '',
-  });
+const templateData = {
+  nickname: '-',
+  contact: '-',
+  picsURL: '',
+};
+function useDataBase_ReadUserData(userID) {
+  const [userData, setUserData] = useState({ ...templateData });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const DBquery = ref(fbaseDatabase, 'users/' + userID);
     return onValue(DBquery,
       (snapshot) => {
-        const data = snapshot.val();
+        let data = snapshot.val();
         console.log('###userData###', data);
+        if (snapshot.exists() === false) data = { ...templateData };
         setUserData(data);
+        setLoading(false);
       },
       (error) => {
-        console.log('###' + JSON.stringify(error));
-        setUserData('');
+        console.error('Reading user data:', error);
+        setLoading(false);
+        setError(error);
       })
   }, [userID]);
 
-  return userData;
+  return [userData, loading, error];
 }
 
 
@@ -133,8 +146,9 @@ export {
   useDataBase_AddEvent,
   useDataBase_AddProgram,
   useDataBase_AddProgramRegister,
-  DBAddUserInfo,
+  useDataBase_AddUserInfo,
   useDataBase_ReadPrograms,
   useDataBase_ReadRegistrations,
   useDataBase_ReadEvents,
+  useDataBase_ReadUserData,
 }

@@ -1,9 +1,9 @@
-import { Box, Paper, Typography, Button, TextField } from "@mui/material";
+import { Box, Typography, Button, TextField, Skeleton, Alert, Snackbar } from "@mui/material";
 import { useContext, useState } from "react";
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import AuthContext from "../Context/AuthContext";
-import { DBAddUserInfo } from "../Hooks/useDataBase";
+import { useDataBase_AddUserInfo, useDataBase_ReadUserData } from "../Hooks/useDataBase";
 
 const validationSchema = yup.object({
   nickname: yup
@@ -17,36 +17,38 @@ const validationSchema = yup.object({
     .url('To nie jest poprawny Link'),
 });
 
-function UserDataForm(){
+function UserDataForm() {
   const user = useContext(AuthContext);
-  const [loadingReadingUserData, setLoadingReadingUserData] = useState(true);
-  const [loadingWritingUserData, setLoadingWritingUserData] = useState(false);
-  const [initialValues, setInit] = useState({
-    nickname: '',
-    contact: '',
-    picsURL: '',
-  })
+  const [loadingWritingDB, setLoadingWritingDB] = useState(false);
+  const [openSuccessBar, setOpenSuccessBar] = useState(false);
+  const [initialValues, loadingReadDB, errorReadDB] = useDataBase_ReadUserData(user.uid);
+  const [writeUserDataToDB, loadingWriteDB, errorWriteDB] = useDataBase_AddUserInfo();
+
   const formik = useFormik({
     enableReinitialize: true,
     initialValues,
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      DBAddUserInfo(user.uid, values, user.email);
+      //DBAddUserInfo(user.uid, values, user.email);
+      setOpenSuccessBar(true);
     },
   });
 
-  return(
+  return (
     <>
-        <Box sx={{ display: 'flex', justifyContent: 'left' }}>
-          <Typography
-            sx={{ m: 2 }}
-            variant="h5">
-            Twoje dane
-          </Typography>
-        </Box>
+      <Box sx={{ display: 'flex', justifyContent: 'left' }}>
+        <Typography
+          sx={{ m: 2 }}
+          variant="h5">
+          Twoje dane
+        </Typography>
+      </Box>
 
-        <Box>
-          <form onSubmit={formik.handleSubmit}>
+      <Box>
+        {errorReadDB && <Alert severity="error">Nie można połączyć z bazą danych - sprawdź swoje połączenie</Alert>}
+        {loadingReadDB
+          ? <><Skeleton /><Skeleton /><Skeleton /></>
+          : <form onSubmit={formik.handleSubmit}>
             <TextField
               fullWidth
               margin="dense"
@@ -81,16 +83,22 @@ function UserDataForm(){
               helperText={formik.touched.picsURL && formik.errors.picsURL}
             />
             <Button
-            sx={{mt: 2}}
+              sx={{ mt: 2 }}
               color="primary"
               variant="contained"
               fullWidth type="submit">
               Zapisz
             </Button>
+            <Snackbar open={openSuccessBar} autoHideDuration={2500} onClose={() => setOpenSuccessBar(false)}>
+              <Alert onClose={() => setOpenSuccessBar(false)} severity="success" sx={{ width: '100%' }}>
+                Twoje dane zostały zapisane
+              </Alert>
+            </Snackbar>
           </form>
-        </Box>
+        }
+      </Box>
 
-      </>
+    </>
   )
 }
 
