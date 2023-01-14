@@ -36,15 +36,22 @@ function useDataBase_AddProgramRegister() {
 }
 
 function useDataBase_AddUserInfo() {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const writeData = async (userID, userData, userEmail) => {
     let path = 'users/' + userID;
+    setLoading(true);
     set(ref(fbaseDatabase, path), {
       ...userData,
       userEmail
-    }).then(()=>{
-      console.log('zapisano!');
+    }).then(() => {
+      console.log('Write user data to DB');
+      setLoading(false);
+      setError(false);
+    }).catch(error => {
+      console.error('Error write user data', error)
+      setLoading(false);
+      setError(true);
     });
   }
   return [writeData, loading, error];

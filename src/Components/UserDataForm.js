@@ -1,4 +1,4 @@
-import { Box, Typography, Button, TextField, Skeleton, Alert, Snackbar } from "@mui/material";
+import { Box, Typography, Button, TextField, Skeleton, Alert, Snackbar, CircularProgress } from "@mui/material";
 import { useContext, useState } from "react";
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -19,7 +19,6 @@ const validationSchema = yup.object({
 
 function UserDataForm() {
   const user = useContext(AuthContext);
-  const [loadingWritingDB, setLoadingWritingDB] = useState(false);
   const [openSuccessBar, setOpenSuccessBar] = useState(false);
   const [initialValues, loadingReadDB, errorReadDB] = useDataBase_ReadUserData(user.uid);
   const [writeUserDataToDB, loadingWriteDB, errorWriteDB] = useDataBase_AddUserInfo();
@@ -29,7 +28,7 @@ function UserDataForm() {
     initialValues,
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      //DBAddUserInfo(user.uid, values, user.email);
+      writeUserDataToDB(user.uid, values, user.email);
       setOpenSuccessBar(true);
     },
   });
@@ -45,7 +44,7 @@ function UserDataForm() {
       </Box>
 
       <Box>
-        {errorReadDB && <Alert severity="error">Nie można połączyć z bazą danych - sprawdź swoje połączenie</Alert>}
+        {errorReadDB || errorWriteDB && <Alert severity="error">Nie można połączyć z bazą danych - sprawdź swoje połączenie</Alert>}
         {loadingReadDB
           ? <><Skeleton /><Skeleton /><Skeleton /></>
           : <form onSubmit={formik.handleSubmit}>
@@ -85,9 +84,10 @@ function UserDataForm() {
             <Button
               sx={{ mt: 2 }}
               color="primary"
-              variant="contained"
+              variant={loadingWriteDB ? "outlined" : "contained"}
+              disabled={loadingWriteDB ? true : false}
               fullWidth type="submit">
-              Zapisz
+              {loadingWriteDB ? <CircularProgress/> : 'Zapisz'}
             </Button>
             <Snackbar open={openSuccessBar} autoHideDuration={2500} onClose={() => setOpenSuccessBar(false)}>
               <Alert onClose={() => setOpenSuccessBar(false)} severity="success" sx={{ width: '100%' }}>
