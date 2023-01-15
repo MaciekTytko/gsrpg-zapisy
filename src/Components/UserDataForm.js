@@ -1,9 +1,11 @@
-import { Box, Typography, Button, TextField, Skeleton, Alert, Snackbar, CircularProgress } from "@mui/material";
-import { useContext, useState } from "react";
+import { Box, Typography, Button, TextField, Skeleton, Alert } from "@mui/material";
+import { useContext } from "react";
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import AuthContext from "../Context/AuthContext";
 import { useDataBase_AddUserInfo, useDataBase_ReadUserData } from "../Hooks/useDataBase";
+import InfoBarContext from "../Context/InfoBarContext";
+import { infoBarAction } from "../Reduce/InfoBarReducer";
 
 const validationSchema = yup.object({
   nickname: yup
@@ -19,17 +21,23 @@ const validationSchema = yup.object({
 
 function UserDataForm() {
   const user = useContext(AuthContext);
-  const [openSuccessBar, setOpenSuccessBar] = useState(false);
+  const infoBar = useContext(InfoBarContext);
   const [initialValues, loadingReadDB, errorReadDB] = useDataBase_ReadUserData(user.uid);
   const [writeUserDataToDB, loadingWriteDB, errorWriteDB] = useDataBase_AddUserInfo();
+
+  const sendData = async (values) => {
+    await writeUserDataToDB(user.uid, values, user.email);
+    errorWriteDB
+      ? infoBar.dispatch({ type: infoBarAction.ERROR, message: 'Błąd zapisu do bazy danych' })
+      : infoBar.dispatch({ type: infoBarAction.SUCCESS, message: 'Twoje dane zostały zapisane w bazie' })
+  }
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues,
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      writeUserDataToDB(user.uid, values, user.email);
-      setOpenSuccessBar(true);
+      sendData(values);
     },
   });
 
@@ -44,7 +52,7 @@ function UserDataForm() {
       </Box>
 
       <Box>
-        {errorReadDB || errorWriteDB && <Alert severity="error">Nie można połączyć z bazą danych - sprawdź swoje połączenie</Alert>}
+        {(errorReadDB || errorWriteDB) && <Alert severity="error">Nie można połączyć z bazą danych - sprawdź swoje połączenie</Alert>}
         {loadingReadDB
           ? <><Skeleton /><Skeleton /><Skeleton /></>
           : <form onSubmit={formik.handleSubmit}>
@@ -87,13 +95,8 @@ function UserDataForm() {
               variant={loadingWriteDB ? "outlined" : "contained"}
               disabled={loadingWriteDB ? true : false}
               fullWidth type="submit">
-              {loadingWriteDB ? <CircularProgress/> : 'Zapisz'}
+              {loadingWriteDB ? 'Zapisywanie...' : 'Zapisz'}
             </Button>
-            <Snackbar open={openSuccessBar} autoHideDuration={2500} onClose={() => setOpenSuccessBar(false)}>
-              <Alert onClose={() => setOpenSuccessBar(false)} severity="success" sx={{ width: '100%' }}>
-                Twoje dane zostały zapisane
-              </Alert>
-            </Snackbar>
           </form>
         }
       </Box>

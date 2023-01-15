@@ -41,7 +41,7 @@ function useDataBase_AddUserInfo() {
   const writeData = async (userID, userData, userEmail) => {
     let path = 'users/' + userID;
     setLoading(true);
-    set(ref(fbaseDatabase, path), {
+    await set(ref(fbaseDatabase, path), {
       ...userData,
       userEmail
     }).then(() => {

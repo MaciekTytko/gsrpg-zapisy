@@ -5,18 +5,26 @@ import AuthContext from './Context/AuthContext';
 import { useAuthUser } from './Hooks/useAuth';
 import EventContext from './Context/EventContext';
 import { useDataBase_ReadEvents } from './Hooks/useDataBase';
+import InfoBar from './Components/InfoBar'
+import { useReducer } from 'react';
+import { infoBarInitialState, infoBarReducer } from './Reduce/InfoBarReducer';
+import InfoBarContext from './Context/InfoBarContext'
 
 function App() {
   const user = useAuthUser();
   const events = useDataBase_ReadEvents();
+  const [state, dispatch] = useReducer(infoBarReducer, infoBarInitialState);
 
   return (
     <BrowserRouter>
       <AuthContext.Provider value={user}>
         <EventContext.Provider value={events}>
-          <div className="App">
-            <Main />
-          </div>
+          <InfoBarContext.Provider value={{ state: state, dispatch: dispatch, }}>
+            <div className="App">
+              <Main />
+            </div>
+            <InfoBar />
+          </InfoBarContext.Provider>
         </EventContext.Provider>
       </AuthContext.Provider>
     </BrowserRouter>
