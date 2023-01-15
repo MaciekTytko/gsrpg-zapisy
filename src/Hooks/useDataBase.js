@@ -35,7 +35,7 @@ function useDataBase_AddProgramRegister() {
   return { register, registerDelete }
 }
 
-function useDataBase_AddUserInfo() {
+function useDataBase_WriteUserData() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const writeData = async (userID, userData, userEmail) => {
@@ -153,7 +153,7 @@ export {
   useDataBase_AddEvent,
   useDataBase_AddProgram,
   useDataBase_AddProgramRegister,
-  useDataBase_AddUserInfo,
+  useDataBase_WriteUserData,
   useDataBase_ReadPrograms,
   useDataBase_ReadRegistrations,
   useDataBase_ReadEvents,

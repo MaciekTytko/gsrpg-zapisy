@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import AuthContext from "../Context/AuthContext";
-import { useDataBase_AddUserInfo, useDataBase_ReadUserData } from "../Hooks/useDataBase";
+import { useDataBase_WriteUserData, useDataBase_ReadUserData } from "../Hooks/useDataBase";
 import InfoBarContext from "../Context/InfoBarContext";
 import { infoBarAction } from "../Reduce/InfoBarReducer";
 
@@ -23,7 +23,7 @@ function UserDataForm() {
   const user = useContext(AuthContext);
   const infoBar = useContext(InfoBarContext);
   const [initialValues, loadingReadDB, errorReadDB] = useDataBase_ReadUserData(user.uid);
-  const [writeUserDataToDB, loadingWriteDB, errorWriteDB] = useDataBase_AddUserInfo();
+  const [writeUserDataToDB, loadingWriteDB, errorWriteDB] = useDataBase_WriteUserData();
 
   const sendData = async (values) => {
     await writeUserDataToDB(user.uid, values, user.email);

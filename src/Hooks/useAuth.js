@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
+import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateEmail, updateProfile } from "firebase/auth";
 import { useDebugValue, useEffect, useState } from "react";
 import { fbaseAuth } from '../Firebase/Firebase'
 
@@ -56,7 +56,25 @@ function useAuthChangeUserData() {
 
 
 
+function useAuth_writeEmail(){
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const writeEmail = async (newEmail) => {
+    setLoading(true);
+    await updateEmail(fbaseAuth.currentUser, newEmail)
+    .then(() => {
+      console.log('User email has changed');
+      setLoading(false);
+      setError(false);
+    }).catch((error) => {
+      console.error('Error changing users email', error)
+      setLoading(false);
+      setError(true);
+    });
+  };
 
+  return [writeEmail, loading, error];
+}
 
 
 /*
@@ -77,4 +95,11 @@ function useAuthUser() {
 }
 
 
-export { useAuthSignIn, useAuthSignOut, useAuthRegisterUser, useAuthUser , useAuthChangeUserData}
+export { 
+  useAuthSignIn, 
+  useAuthSignOut, 
+  useAuthRegisterUser, 
+  useAuthUser, 
+  useAuthChangeUserData,
+  useAuth_writeEmail,
+}
