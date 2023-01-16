@@ -42,7 +42,7 @@ function UserVerifyEmail() {
         <Button
           sx={{ mt: 2 }}
           variant={loadingLogout ? "outlined" : "contained"}
-          disabled={loadingLogout ? true : false}
+          disabled={loadingLogout}
           fullWidth
           onClick={logoutAndRedirectToLoginPage}
         >
@@ -58,7 +58,7 @@ function UserVerifyEmail() {
           <Link
             component="button"
             variant="body2"
-            disable={loading}
+            disabled={loading}
             onClick={sendEmail}
             underline="none"
           >

@@ -1,6 +1,7 @@
 import {  Button, CircularProgress, TextField } from "@mui/material";
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import PropTypes from 'prop-types'
 
 const validationSchema = yup.object({
   email: yup
@@ -53,11 +54,26 @@ function EmailPasswordForm(props) {
       <Button
         variant={props.loading ? "outlined" : "contained"}
         disabled={props.loading ? true : false}
-        fullWidth type="submit">
+        color={props.buttonColor}
+        fullWidth 
+        type="submit"
+        >
         {props.loading ? <CircularProgress/> : `${props.buttonText}`}
       </Button>
     </form>
   )
 }
+
+
+const propTypes = {
+  submit: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+  buttonText: PropTypes.string.isRequired,
+}
+const defaultProps = {
+  buttonColor: "primary"
+}
+EmailPasswordForm.propTypes = propTypes;
+EmailPasswordForm.defaultProps = defaultProps;
 
 export default EmailPasswordForm;

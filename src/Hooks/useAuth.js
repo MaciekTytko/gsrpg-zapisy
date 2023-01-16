@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, signInWithEmailAndPassword, signOut, updateEmail, updateProfile } from "firebase/auth";
+import { createUserWithEmailAndPassword, deleteUser, onAuthStateChanged, reauthenticateWithCredential, sendEmailVerification, signInWithEmailAndPassword, signOut, updateEmail, updateProfile } from "firebase/auth";
 import { useDebugValue, useEffect, useState } from "react";
 import { fbaseAuth } from '../Firebase/Firebase'
 import { useDatabaseConectTemplate } from "./useDataBase";
@@ -61,7 +61,28 @@ function useAuth_SendEmailVerification() {
   return [sendEmail, loading, error];
 };
 
+//TODO reAuthenticate with another provider than firebase
+function useAuth_reAuthenticate() {
+  const [fun, loading, error] = useDatabaseConectTemplate(
+    (path, data) => reauthenticateWithCredential(fbaseAuth.currentUser, data),
+    'reAuthenticate',
+    'Error in reAuthenticated: ');
+  const sendEmail = async () => {
+    return await fun(null, null);
+  }
+  return [sendEmail, loading, error];
+};
 
+function useAuth_deleteAccount() {
+  const [fun, loading, error] = useDatabaseConectTemplate(
+    (path, data) => deleteUser(fbaseAuth.currentUser),
+    'delete user account',
+    'Error in deleting user account: ');
+  const deleteAccount = async () => {
+    return await fun(null, null);
+  }
+  return [deleteAccount, loading, error];
+};
 
 
 
@@ -128,7 +149,7 @@ function useAuthUser() {
   useEffect(() => {
     return onAuthStateChanged(fbaseAuth, (user) => {
       setUser(user);
-      console.log(user);
+      console.log('### user changed ###',user);
     });
   }, []);
 
@@ -147,4 +168,6 @@ export {
   useAuth_signOut,
   useAuth_RegisterWithEmailAndPassword,
   useAuth_SendEmailVerification,
+  useAuth_reAuthenticate,
+  useAuth_deleteAccount,
 }
