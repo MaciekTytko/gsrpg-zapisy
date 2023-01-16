@@ -2,6 +2,50 @@ import { limitToLast, onValue, orderByChild, push, query, ref, remove, set } fro
 import { useEffect, useState } from "react";
 import { fbaseDatabase } from '../Firebase/Firebase';
 
+function useDatabaseConectTemplate(callback, messageSuccess, messageFail) {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const writeData = async (path, data) => {
+    setLoading(true);
+    const result = await callback(path, data)
+      .then(() => {
+        console.log(messageSuccess);
+        setLoading(false);
+        setError('');
+        return '';
+      }).catch(error => {
+        console.error(messageFail, error.code)
+        setLoading(false);
+        setError(error.code);
+        return error.code;
+      });
+    return result;
+  }
+  return [writeData, loading, error];
+}
+const firebaseSet = (path, data) => set(ref(fbaseDatabase, path), { ...data })
+const firebasePush = (path, data) => push(ref(fbaseDatabase, path), { ...data })
+
+function useDataBase_WriteUserData() {
+  const [fun, loading, error] = useDatabaseConectTemplate(firebaseSet,'Write user data to DB','Error write user data: ');
+  const writeData = async (userID, userData, userEmail) => {
+    const path = 'users/' + userID;
+    const data = {
+      ...userData,
+      userEmail
+    }
+    return await fun(path, data)
+  }
+  return [writeData, loading, error];
+}
+
+
+
+
+
+
+
+
 function useDataBase_AddEvent() {
   return (event) => {
     let path = 'events';
@@ -35,27 +79,7 @@ function useDataBase_AddProgramRegister() {
   return { register, registerDelete }
 }
 
-function useDataBase_WriteUserData() {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
-  const writeData = async (userID, userData, userEmail) => {
-    let path = 'users/' + userID;
-    setLoading(true);
-    await set(ref(fbaseDatabase, path), {
-      ...userData,
-      userEmail
-    }).then(() => {
-      console.log('Write user data to DB');
-      setLoading(false);
-      setError(false);
-    }).catch(error => {
-      console.error('Error write user data', error)
-      setLoading(false);
-      setError(true);
-    });
-  }
-  return [writeData, loading, error];
-}
+
 
 function useDataBase_ReadEvents() {
   const [eventList, setEventList] = useState('');

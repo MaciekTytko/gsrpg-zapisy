@@ -26,8 +26,8 @@ function UserDataForm() {
   const [writeUserDataToDB, loadingWriteDB, errorWriteDB] = useDataBase_WriteUserData();
 
   const sendData = async (values) => {
-    await writeUserDataToDB(user.uid, values, user.email);
-    errorWriteDB
+    const result = await writeUserDataToDB(user.uid, values, user.email);
+    result
       ? infoBar.dispatch({ type: infoBarAction.ERROR, message: 'Błąd zapisu do bazy danych' })
       : infoBar.dispatch({ type: infoBarAction.SUCCESS, message: 'Twoje dane zostały zapisane w bazie' })
   }
