@@ -9,7 +9,7 @@ function InfoBar(){
 
   return (
     <Snackbar open={infobar.state.open} autoHideDuration={2500} onClose={() => infobar.dispatch({type: infoBarAction.CLOSE})}>
-      <Alert onClose={() => infobar.dispatch({type: infoBarAction.CLOSE})} severity={infobar.state.severity} sx={{ width: '100%' }}>
+      <Alert onClose={() => infobar.dispatch({type: infoBarAction.CLOSE})} severity={infobar.state.severity} variant="filled" sx={{ width: '100%' }}>
         {infobar.state.message}
       </Alert>
     </Snackbar>
