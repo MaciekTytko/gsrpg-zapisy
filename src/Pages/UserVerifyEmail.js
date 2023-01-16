@@ -10,7 +10,7 @@ function UserVerifyEmail() {
   const infoBar = useContext(InfoBarContext);
   const navigator = useNavigate();
   const [sendVerificationEmail, loading, error] = useAuth_SendEmailVerification();
-  const [logout, loadingLogout, errorLogout] = useAuth_signOut();
+  const [logout, loadingLogout] = useAuth_signOut();
 
   const logoutAndRedirectToLoginPage = async () => {
     await logout();

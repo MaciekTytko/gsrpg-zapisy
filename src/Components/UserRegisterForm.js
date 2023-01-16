@@ -13,9 +13,7 @@ function UserRegisterForm(props) {
   const login = async (values) => {
     console.log(values);
     const resultError = await register(values.email, values.password);
-    resultError
-      ? infoBar.dispatch({ type: infoBarAction.ERROR, message: 'Nie można zarejestrować użytkownika' })
-      : infoBar.dispatch({ type: infoBarAction.SUCCESS, message: 'Zarejestrowano nowego użytkownika' });
+    resultError && infoBar.dispatch({ type: infoBarAction.ERROR, message: 'Nie można zarejestrować użytkownika' });
     props.loginResult(resultError);
   }
 
