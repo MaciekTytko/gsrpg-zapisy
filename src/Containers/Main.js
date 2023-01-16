@@ -20,7 +20,6 @@ function Main() {
   return (
     <>
       <MenuSite />
-      <Header />
       <Container>
         <Routes>
           <Route path="/">
@@ -39,6 +38,7 @@ function Main() {
         </Routes>
       </Container>
       <Footer />
+      <Header />
     </>
   )
 }
