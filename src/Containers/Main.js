@@ -1,4 +1,4 @@
-import { Container, Typography } from "@mui/material";
+import { Container } from "@mui/material";
 import { Route, Routes, } from "react-router-dom";
 import { useContext } from "react";
 import UserLogin from "../Pages/UserLogin";
@@ -13,6 +13,8 @@ import Header from "./Header";
 import MenuSite from "./MenuSite";
 import Footer from "./Footer";
 import AuthContext from '../Context/AuthContext';
+import UserRegister from "../Pages/UserRegister";
+import UserVerifyEmail from "../Pages/UserVerifyEmail";
 
 function Main() {
   const user = useContext(AuthContext);
@@ -21,21 +23,26 @@ function Main() {
     <>
       <MenuSite />
       <Container>
-        <Routes>
-          <Route path="/">
-            <Route index element={<Events />} />
-            <Route path="login" element={<UserLogin />} />
-            <Route path="test" element={<Test />} />
-            <Route path="events" >
-              <Route index element={<EventList />} />
-              <Route path=":id" element={<EventList />} />
-              <Route path="addEvent" element={<EventsAdd />} />
-              <Route path="addProgram/:id" element={<EventsProgramAdd />} />
-            </Route>
+        {(!user?.emailVerified && user?.providerId === "firebase")
+          ? <UserVerifyEmail />
+          : <Routes>
+            <Route path="/">
+              <Route index element={<Events />} />
+              <Route path="login" element={<UserLogin />} />
+              <Route path="register" element={<UserRegister />} />
+              <Route path="test" element={<Test />} />
+              <Route path="events" >
+                <Route index element={<EventList />} />
+                <Route path=":id" element={<EventList />} />
+                <Route path="addEvent" element={<EventsAdd />} />
+                <Route path="addProgram/:id" element={<EventsProgramAdd />} />
+              </Route>
 
-            <Route path="user" element={user != null ? <UserProfile /> : <UserNotLogin />} />
-          </Route>
-        </Routes>
+              <Route path="user" element={user != null ? <UserProfile /> : <UserNotLogin />} />
+            </Route>
+          </Routes>
+        }
+
       </Container>
       <Footer />
       <Header />

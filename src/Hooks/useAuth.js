@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateEmail, updateProfile } from "firebase/auth";
+import { createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, signInWithEmailAndPassword, signOut, updateEmail, updateProfile } from "firebase/auth";
 import { useDebugValue, useEffect, useState } from "react";
 import { fbaseAuth } from '../Firebase/Firebase'
 import { useDatabaseConectTemplate } from "./useDataBase";
@@ -15,16 +15,55 @@ function useAuthSignIn() {
       return false;
     })
 }
+//
+
 function useAuth_signInWithEmailAndPassword() {
   const [fun, loading, error] = useDatabaseConectTemplate(
     (path, data) => signInWithEmailAndPassword(fbaseAuth, data.email, data.password),
     'User sign in',
     'Error in sign in: ');
-  const signIn = async (email, password) => {
+  const login = async (email, password) => {
     return await fun(null, {email, password});
   }
-  return [signIn, loading, error];
+  return [login, loading, error];
 };
+
+function useAuth_signOut() {
+  const [fun, loading, error] = useDatabaseConectTemplate(
+    (path, data) => signOut(fbaseAuth),
+    'User sign out',
+    'Error in sign out: ');
+  const logout = async () => {
+    return await fun(null, null);
+  }
+  return [logout, loading, error];
+};
+
+function useAuth_RegisterWithEmailAndPassword() {
+  const [fun, loading, error] = useDatabaseConectTemplate(
+    (path, data) => createUserWithEmailAndPassword(fbaseAuth, data.email, data.password),
+    'User registered',
+    'Error in register user: ');
+  const register = async (email, password) => {
+    return await fun(null, {email, password});
+  }
+  return [register, loading, error];
+};
+
+function useAuth_SendEmailVerification() {
+  const [fun, loading, error] = useDatabaseConectTemplate(
+    (path, data) => sendEmailVerification(fbaseAuth.currentUser),
+    'Verified email send',
+    'Error in sending verification email: ');
+  const sendEmail = async () => {
+    return await fun(null, null);
+  }
+  return [sendEmail, loading, error];
+};
+
+
+
+
 
 function useAuth_writeEmail() {
   const [fun, loading, error] = useDatabaseConectTemplate(
@@ -89,6 +128,7 @@ function useAuthUser() {
   useEffect(() => {
     return onAuthStateChanged(fbaseAuth, (user) => {
       setUser(user);
+      console.log(user);
     });
   }, []);
 
@@ -104,4 +144,7 @@ export {
   useAuthChangeUserData,
   useAuth_writeEmail,
   useAuth_signInWithEmailAndPassword,
+  useAuth_signOut,
+  useAuth_RegisterWithEmailAndPassword,
+  useAuth_SendEmailVerification,
 }

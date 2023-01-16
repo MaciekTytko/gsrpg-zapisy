@@ -1,8 +1,8 @@
 import { Container, Paper, Typography } from "@mui/material";
 import { useNavigate } from "react-router";
-import UserLoginForm from "../Components/UserLoginForm";
+import UserRegisterForm from "../Components/UserRegisterForm";
 
-function UserLogin() {
+function UserRegister(){
   const navigator = useNavigate();
 
   const loginResult = (resultError) => {
@@ -14,14 +14,14 @@ function UserLogin() {
       <Typography
         sx={{ m: 2 }}
         variant="h4">
-        Logowanie
+        Zarejestruj się
       </Typography>
       <Paper sx={{ width: { xs: 1, md: 600 }, p: 2, mb: 2 }}>
-        <UserLoginForm loginResult={loginResult} />
+        <UserRegisterForm loginResult={loginResult} />
       </Paper>
 
     </Container >
   );
 }
 
-export default UserLogin;
+export default UserRegister;
