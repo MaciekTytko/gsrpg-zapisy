@@ -14,7 +14,7 @@ function useDatabaseConectTemplate(callback, messageSuccess, messageFail) {
         setError('');
         return '';
       }).catch(error => {
-        console.error(messageFail, error.code)
+        console.error(messageFail, error.code);
         setLoading(false);
         setError(error.code);
         return error.code;
@@ -23,8 +23,8 @@ function useDatabaseConectTemplate(callback, messageSuccess, messageFail) {
   }
   return [writeData, loading, error];
 }
-const firebaseSet = (path, data) => set(ref(fbaseDatabase, path), { ...data })
-const firebasePush = (path, data) => push(ref(fbaseDatabase, path), { ...data })
+const firebaseSet = (path, data) => set(ref(fbaseDatabase, path), { ...data });
+const firebasePush = (path, data) => push(ref(fbaseDatabase, path), { ...data });
 
 function useDataBase_WriteUserData() {
   const [fun, loading, error] = useDatabaseConectTemplate(firebaseSet,'Write user data to DB','Error write user data: ');
@@ -33,8 +33,8 @@ function useDataBase_WriteUserData() {
     const data = {
       ...userData,
       userEmail
-    }
-    return await fun(path, data)
+    };
+    return await fun(path, data);
   }
   return [writeData, loading, error];
 }
@@ -182,4 +182,5 @@ export {
   useDataBase_ReadRegistrations,
   useDataBase_ReadEvents,
   useDataBase_ReadUserData,
+  useDatabaseConectTemplate,
 }

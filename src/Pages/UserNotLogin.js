@@ -1,10 +1,16 @@
+import { Typography } from "@mui/material";
 
 
 function UserNotLogin(){
   return(
-    <div>
-      użytkownik nie zalogowany
-    </div>
+    <>
+        <Typography
+          sx={{ m: 2 }}
+          variant="h2">
+          Nie jesteś zalogowany
+        </Typography>
+
+    </>
 
   )
 }

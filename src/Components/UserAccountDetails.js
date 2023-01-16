@@ -83,6 +83,7 @@ function Firebase() {
         <Button
           sx={{ m: 1 }}
           variant={loadingWritingEmail ? "outlined" : "contained"}
+          disabled={loadingWritingEmail ? true : false}
           onClick={openEmailDialog}
         >
           {loadingWritingEmail ? <CircularProgress /> : 'Zmień'}

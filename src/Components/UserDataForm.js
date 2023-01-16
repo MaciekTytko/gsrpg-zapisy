@@ -91,7 +91,6 @@ function UserDataForm() {
             />
             <Button
               sx={{ mt: 2 }}
-              color="primary"
               variant={loadingWriteDB ? "outlined" : "contained"}
               disabled={loadingWriteDB ? true : false}
               fullWidth type="submit">

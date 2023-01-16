@@ -1,6 +1,7 @@
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateEmail, updateProfile } from "firebase/auth";
 import { useDebugValue, useEffect, useState } from "react";
 import { fbaseAuth } from '../Firebase/Firebase'
+import { useDatabaseConectTemplate } from "./useDataBase";
 
 function useAuthSignIn() {
   return (email, password) => signInWithEmailAndPassword(fbaseAuth, email, password)
@@ -13,6 +14,27 @@ function useAuthSignIn() {
       console.log(error);
       return false;
     })
+}
+function useAuth_signInWithEmailAndPassword() {
+  const [fun, loading, error] = useDatabaseConectTemplate(
+    (path, data) => signInWithEmailAndPassword(fbaseAuth, data.email, data.password),
+    'User sign in',
+    'Error in sign in: ');
+  const signIn = async (email, password) => {
+    return await fun(null, {email, password});
+  }
+  return [signIn, loading, error];
+};
+
+function useAuth_writeEmail() {
+  const [fun, loading, error] = useDatabaseConectTemplate(
+    (path, data) => updateEmail(fbaseAuth.currentUser, data),
+    'User changed email address',
+    'Error in change email address: ');
+  const writeEmail = async (email) => {
+    return await fun(null, email);
+  }
+  return [writeEmail, loading, error];
 }
 
 function useAuthSignOut() {
@@ -56,27 +78,6 @@ function useAuthChangeUserData() {
 
 
 
-function useAuth_writeEmail(){
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
-  const writeEmail = async (newEmail) => {
-    setLoading(true);
-    await updateEmail(fbaseAuth.currentUser, newEmail)
-    .then(() => {
-      console.log('User email has changed');
-      setLoading(false);
-      setError(false);
-    }).catch((error) => {
-      console.error('Error changing users email', error)
-      setLoading(false);
-      setError(true);
-    });
-  };
-
-  return [writeEmail, loading, error];
-}
-
-
 /*
  * Function return State with object with information of loged user
  * @default null
@@ -95,11 +96,12 @@ function useAuthUser() {
 }
 
 
-export { 
-  useAuthSignIn, 
-  useAuthSignOut, 
-  useAuthRegisterUser, 
-  useAuthUser, 
+export {
+  useAuthSignIn,
+  useAuthSignOut,
+  useAuthRegisterUser,
+  useAuthUser,
   useAuthChangeUserData,
   useAuth_writeEmail,
+  useAuth_signInWithEmailAndPassword,
 }
