@@ -76,13 +76,28 @@ function useAuth_reAuthenticate() {
 function useAuth_deleteAccount() {
   const [fun, loading, error] = useDatabaseConectTemplate(
     (path, data) => deleteUser(fbaseAuth.currentUser),
-    'delete user account',
+    'Delete user account',
     'Error in deleting user account: ');
   const deleteAccount = async () => {
     return await fun(null, null);
   }
   return [deleteAccount, loading, error];
 };
+
+function useAuth_updateProfile() {
+  const [fun, loading, error] = useDatabaseConectTemplate(
+    (path, data) => updateProfile(fbaseAuth.currentUser, data),
+    'Updated user account',
+    'Error in Updating user account: ');
+  const updateProfile = async (displayName,photoURL) => {
+    return await fun(null, {displayName, photoURL});
+  }
+  return [updateProfile, loading, error];
+};
+
+
+
+
 
 
 
@@ -147,13 +162,19 @@ function useAuthUser() {
   useDebugValue(user ? 'Login' : 'Logout')
 
   useEffect(() => {
-    return onAuthStateChanged(fbaseAuth, (user) => {
-      setUser(user);
-      console.log('### user changed ###',user);
+    return onAuthStateChanged(fbaseAuth, (fbUser) => {
+      setUser(fbUser);
+      console.log('### user changed ###',fbUser);
     });
   }, []);
 
-  return user;
+  const reloadUser = async ()=>{
+    await fbaseAuth.currentUser.reload();
+    setUser(fbaseAuth.currentUser);
+    console.log('### user reload ###',user);
+  }
+
+  return [user, reloadUser];
 }
 
 
@@ -170,4 +191,5 @@ export {
   useAuth_SendEmailVerification,
   useAuth_reAuthenticate,
   useAuth_deleteAccount,
+  useAuth_updateProfile,
 }

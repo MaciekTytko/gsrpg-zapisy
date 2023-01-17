@@ -2,32 +2,35 @@ import { Box, Typography, Button, TextField, Skeleton, Alert } from "@mui/materi
 import { useContext } from "react";
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import AuthContext from "../Context/AuthContext";
+import {AuthContext, AuthReloadContext} from "../Context/AuthContext";
 import { useDataBase_WriteUserData, useDataBase_ReadUserData } from "../Hooks/useDataBase";
 import InfoBarContext from "../Context/InfoBarContext";
 import { infoBarAction } from "../Reduce/InfoBarReducer";
+import { fbaseAuth } from "../Firebase/Firebase";
 
 const validationSchema = yup.object({
-  nickname: yup
+  displayName: yup
     .string('Podaj ksywę')
     .required('Ksywa jest wymagana byśmy mogli się spotkać'),
   contact: yup
     .string('Podaj kontakt do siebie')
     .required('Podaj kontakt do siebie telefon, mail, facebook, discord'),
-  picsURL: yup
+  photoURL: yup
     .string('Podaj Link do Avatara')
     .url('To nie jest poprawny Link'),
 });
 
 function UserDataForm() {
   const user = useContext(AuthContext);
+  const reloadUser = useContext(AuthReloadContext);
   const infoBar = useContext(InfoBarContext);
   const [initialValues, loadingReadDB, errorReadDB] = useDataBase_ReadUserData(user.uid);
   const [writeUserDataToDB, loadingWriteDB, errorWriteDB] = useDataBase_WriteUserData();
 
   const sendData = async (values) => {
-    const result = await writeUserDataToDB(user.uid, values, user.email);
-    result
+    const resultError = await writeUserDataToDB(user.uid, values, user.email);
+    reloadUser();
+    resultError
       ? infoBar.dispatch({ type: infoBarAction.ERROR, message: 'Błąd zapisu do bazy danych' })
       : infoBar.dispatch({ type: infoBarAction.SUCCESS, message: 'Twoje dane zostały zapisane w bazie' })
   }
@@ -59,13 +62,13 @@ function UserDataForm() {
             <TextField
               fullWidth
               margin="dense"
-              id="nickname"
-              name="nickname"
+              id="displayName"
+              name="displayName"
               label="Ksywa"
-              value={formik.values.nickname}
+              value={formik.values.displayName}
               onChange={formik.handleChange}
-              error={formik.touched.nickname && Boolean(formik.errors.nickname)}
-              helperText={formik.touched.nickname && formik.errors.nickname}
+              error={formik.touched.displayName && Boolean(formik.errors.displayName)}
+              helperText={formik.touched.displayName && formik.errors.displayName}
             />
             <TextField
               fullWidth
@@ -81,13 +84,13 @@ function UserDataForm() {
             <TextField
               fullWidth
               margin="dense"
-              id="picsURL"
-              name="picsURL"
+              id="photoURL"
+              name="photoURL"
               label="Link do avatara"
-              value={formik.values.picsURL}
+              value={formik.values.photoURL}
               onChange={formik.handleChange}
-              error={formik.touched.picsURL && Boolean(formik.errors.picsURL)}
-              helperText={formik.touched.picsURL && formik.errors.picsURL}
+              error={formik.touched.photoURL && Boolean(formik.errors.photoURL)}
+              helperText={formik.touched.photoURL && formik.errors.photoURL}
             />
             <Button
               sx={{ mt: 2 }}

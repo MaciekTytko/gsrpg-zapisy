@@ -1,6 +1,6 @@
 import { Box,  Typography, Button,TextField, DialogActions, DialogTitle, Dialog, DialogContent, Alert, CircularProgress } from "@mui/material";
 import { useContext, useState } from "react";
-import AuthContext from "../Context/AuthContext";
+import {AuthContext} from "../Context/AuthContext";
 import * as yup from 'yup';
 import { useAuth_writeEmail } from "../Hooks/useAuth";
 import { infoBarAction } from "../Reduce/InfoBarReducer";

@@ -1,6 +1,7 @@
 import { limitToLast, onValue, orderByChild, push, query, ref, remove, set } from "firebase/database";
+import { updateProfile } from "firebase/auth";
 import { useEffect, useState } from "react";
-import { fbaseDatabase } from '../Firebase/Firebase';
+import { fbaseAuth, fbaseDatabase } from '../Firebase/Firebase';
 
 function useDatabaseConectTemplate(callback, messageSuccess, messageFail) {
   const [loading, setLoading] = useState(false);
@@ -27,7 +28,9 @@ const firebaseSet = (path, data) => set(ref(fbaseDatabase, path), { ...data });
 const firebasePush = (path, data) => push(ref(fbaseDatabase, path), { ...data });
 
 function useDataBase_WriteUserData() {
-  const [fun, loading, error] = useDatabaseConectTemplate(firebaseSet,'Write user data to DB','Error write user data: ');
+  const callback = (path, data) => set(ref(fbaseDatabase, path), { ...data })
+    .then(()=>updateProfile(fbaseAuth.currentUser, { displayName: data.displayName, photoURL: data.photoURL}));
+  const [fun, loading, error] = useDatabaseConectTemplate(callback, 'Write user data to DB', 'Error write user data: ');
   const writeData = async (userID, userData, userEmail) => {
     const path = 'users/' + userID;
     const data = {
@@ -143,9 +146,9 @@ function useDataBase_ReadRegistrations(eventId) {
 }
 
 const templateData = {
-  nickname: '-',
+  displayName: '-',
   contact: '-',
-  picsURL: '',
+  photoURL: '',
 };
 function useDataBase_ReadUserData(userID) {
   const [userData, setUserData] = useState({ ...templateData });

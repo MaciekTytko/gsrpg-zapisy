@@ -1,7 +1,7 @@
 import { Button, Stack } from "@mui/material";
 import { useContext } from "react";
 import { useNavigate } from "react-router";
-import AuthContext from "../Context/AuthContext";
+import {AuthContext} from "../Context/AuthContext";
 
 
 function MenuSiteButtons(props) {

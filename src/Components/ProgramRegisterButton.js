@@ -1,7 +1,7 @@
 import { Box, Paper, Button, Typography, } from "@mui/material";
 import { useDataBase_AddProgramRegister } from "../Hooks/useDataBase";
 import { useContext } from "react";
-import AuthContext from "../Context/AuthContext";
+import {AuthContext} from "../Context/AuthContext";
 
 function ProgramRegisterButton(props) {
   const { register, registerDelete } = useDataBase_AddProgramRegister();

@@ -1,7 +1,7 @@
 import { Box, Typography, Button, DialogActions, DialogTitle, Dialog, DialogContent, Alert, Link, IconButton } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import { useContext, useState } from "react";
-import AuthContext from "../Context/AuthContext";
+import {AuthContext} from "../Context/AuthContext";
 import { useAuth_signInWithEmailAndPassword, useAuth_deleteAccount } from "../Hooks/useAuth";
 import { infoBarAction } from "../Reduce/InfoBarReducer";
 import InfoBarContext from "../Context/InfoBarContext";

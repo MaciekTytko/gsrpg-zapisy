@@ -1,12 +1,14 @@
 import { Alert, Box, Button, Container, Link, Paper, Typography } from "@mui/material";
 import ForwardToInboxTwoToneIcon from '@mui/icons-material/ForwardToInboxTwoTone';
 import { useAuth_SendEmailVerification, useAuth_signOut } from "../Hooks/useAuth";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router";
 import InfoBarContext from "../Context/InfoBarContext";
 import { infoBarAction } from "../Reduce/InfoBarReducer";
+import { AuthReloadContext } from "../Context/AuthContext";
 
 function UserVerifyEmail() {
+  const reloadUser = useContext(AuthReloadContext);
   const infoBar = useContext(InfoBarContext);
   const navigator = useNavigate();
   const [sendVerificationEmail, loading, error] = useAuth_SendEmailVerification();
@@ -22,6 +24,13 @@ function UserVerifyEmail() {
       ? infoBar.dispatch({ type: infoBarAction.ERROR, message: 'Nie można wysłać emaila, spróbuj później' })
       : infoBar.dispatch({ type: infoBarAction.SUCCESS, message: 'Wysłano email' });
   }
+
+  useEffect(()=>{
+    const intervalNo = setInterval(()=>{
+      reloadUser();
+    },3000)
+    return ()=>clearInterval(intervalNo);
+  },[])
 
   return (
     <Container sx={{ mt: 2, display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
