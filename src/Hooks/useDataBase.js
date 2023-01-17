@@ -25,11 +25,11 @@ function useDatabaseConectTemplate(callback, messageSuccess, messageFail) {
   return [writeData, loading, error];
 }
 const firebaseSet = (path, data) => set(ref(fbaseDatabase, path), { ...data });
-const firebasePush = (path, data) => push(ref(fbaseDatabase, path), { ...data });
+//const firebasePush = (path, data) => push(ref(fbaseDatabase, path), { ...data });
 
 function useDataBase_WriteUserData() {
   const [fun, loading, error] = useDatabaseConectTemplate(
-    (path, data) => set(ref(fbaseDatabase, path), { ...data }).then(
+    (path, data) => firebaseSet(path,data).then(
       () => updateProfile(fbaseAuth.currentUser, { displayName: data.displayName, photoURL: data.photoURL })
     ),
     'Write user data to DB',
