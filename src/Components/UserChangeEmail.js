@@ -52,8 +52,6 @@ function UserChangeEmail() {
         sendVerificationEmail();
     }
   }
-
-
   const validateEmail = async (value) => {
     const newEmail = { ...email };
     newEmail.value = value;

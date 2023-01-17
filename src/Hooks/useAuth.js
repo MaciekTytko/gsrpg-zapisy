@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, deleteUser, onAuthStateChanged, reauthenticateWithCredential, sendEmailVerification, signInWithEmailAndPassword, signOut, updateEmail, updatePassword, updateProfile } from "firebase/auth";
+import { createUserWithEmailAndPassword, deleteUser, onAuthStateChanged, reauthenticateWithCredential, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, updateEmail, updatePassword, updateProfile } from "firebase/auth";
 import { useDebugValue, useEffect, useState } from "react";
 import { fbaseAuth } from '../Firebase/Firebase'
 import { useDatabaseConectTemplate } from "./useDataBase";
@@ -115,8 +115,16 @@ function useAuth_writePassword() {
   }
   return [writeEmail, loading, error];
 }
-
-
+function useAuth_sendEmailResetPassword() {
+  const [fun, loading, error] = useDatabaseConectTemplate(
+    (path, data) => sendPasswordResetEmail(fbaseAuth, data),
+    'User changed password',
+    'Error in change password: ');
+  const writeEmail = async (email) => {
+    return await fun(null, email);
+  }
+  return [writeEmail, loading, error];
+}
 
 
 
@@ -210,4 +218,5 @@ export {
   useAuth_deleteAccount,
   useAuth_updateProfile,
   useAuth_writePassword,
+  useAuth_sendEmailResetPassword,
 }

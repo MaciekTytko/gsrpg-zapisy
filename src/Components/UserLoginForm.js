@@ -5,6 +5,7 @@ import { infoBarAction } from "../Reduce/InfoBarReducer";
 import { useAuth_signInWithEmailAndPassword } from '../Hooks/useAuth';
 import EmailPasswordForm from "./EmailPasswordForm";
 import { useNavigate } from "react-router";
+import EmailResetPasswordLink from "./EmailResetPasswordLink";
 
 
 function UserLoginForm(props) {
@@ -38,6 +39,7 @@ function UserLoginForm(props) {
           buttonText="Zaloguj"
         />
       </Box>
+      <EmailResetPasswordLink/>
       <Box sx={{ mt: 2, display: 'flex', justifyContent: 'right' }}>
         <Typography
           variant="body2"
