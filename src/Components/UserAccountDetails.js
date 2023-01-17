@@ -1,10 +1,9 @@
-import { Box,  Typography, Button,TextField, DialogActions, DialogTitle, Dialog, DialogContent, Alert, CircularProgress } from "@mui/material";
-import { useContext, useState } from "react";
-import {AuthContext} from "../Context/AuthContext";
-import * as yup from 'yup';
-import { useAuth_writeEmail } from "../Hooks/useAuth";
-import { infoBarAction } from "../Reduce/InfoBarReducer";
-import InfoBarContext from "../Context/InfoBarContext";
+import { Box, Typography, } from "@mui/material";
+import { useContext } from "react";
+import { AuthContext } from "../Context/AuthContext";
+import UserChangeEmail from "./UserChangeEmail";
+import UserChangePassword from "./UserChangePassword";
+import UserDeleteAccount from "./UserDeleteAccount";
 
 
 
@@ -19,7 +18,11 @@ function UserAccountDetails() {
           Twoje konto
         </Typography>
       </Box>
-      {user.providerId === "firebase" && <Firebase />}
+      {user.providerId === "firebase" && <>
+        <UserChangeEmail />
+        <UserChangePassword />
+        <UserDeleteAccount />
+      </>}
     </>
   )
 }
@@ -27,93 +30,9 @@ function UserAccountDetails() {
 export default UserAccountDetails;
 
 
-const emailValidationSchema = yup.object({
-  email: yup
-    .string('Wpisz adres email')
-    .email('Wpisz poprawny email')
-    .required('Email jest wymagany'),
-});
-
 function Firebase() {
-  const user = useContext(AuthContext);
-  const infoBar = useContext(InfoBarContext);
-  const [email, setEmail] = useState({
-    value: user.email,
-    openDialog: false,
-    validateErrors: [],
-    trigger: false,
-  })
-  const [writeEmail, loadingWritingEmail, errorWritingEmail] = useAuth_writeEmail();
-
-  const openEmailDialog = () => setEmail({ ...email, openDialog: true, trigger: false });
-  const closeEmailDialog = () => setEmail({ ...email, openDialog: false });
-  const changeEmail = async () => {
-    setEmail({ ...email, trigger: true });
-    if (email.validateErrors.length === 0) {
-      closeEmailDialog();
-      await writeEmail(email.value);
-      errorWritingEmail
-        ? infoBar.dispatch({ type: infoBarAction.ERROR, message: 'Błąd zmiany adresu email' })
-        : infoBar.dispatch({ type: infoBarAction.SUCCESS, message: 'Twój adres email został zmieniony' })
-    }
-  }
-  const validateEmail = async (value) => {
-    const newEmail = { ...email };
-    newEmail.value = value;
-    await emailValidationSchema.validate({ email: value })
-      .then(() => newEmail.validateErrors = [])
-      .catch(err => newEmail.validateErrors = err.errors);
-    setEmail(newEmail);
-  }
-
   return (
     <>
-      <Box sx={{ display: 'flex' }}>
-        {(errorWritingEmail) && <Alert severity="error">Nie można połączyć z bazą danych - sprawdź swoje połączenie</Alert>}
-        <TextField
-          disabled
-          fullWidth
-          sx={{ m: 1 }}
-          label="E-mail"
-          value={user.email}
-        />
-
-        <Button
-          sx={{ m: 1 }}
-          variant={loadingWritingEmail ? "outlined" : "contained"}
-          disabled={loadingWritingEmail ? true : false}
-          onClick={openEmailDialog}
-        >
-          {loadingWritingEmail ? <CircularProgress /> : 'Zmień'}
-        </Button>
-        <Dialog
-          maxWidth='xs'
-          fullWidth
-          open={email.openDialog}
-          onClose={closeEmailDialog}
-        >
-          <DialogTitle>Zmień email</DialogTitle>
-          <DialogContent>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="name"
-              label="Email"
-              type="email"
-              fullWidth
-              variant="standard"
-              value={email.value}
-              onChange={(event) => validateEmail(event.target.value)}
-              error={email.trigger && email.validateErrors?.length > 0}
-              helperText={email.trigger && email.validateErrors?.[0]}
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={closeEmailDialog}>Anuluj</Button>
-            <Button onClick={changeEmail}>Zmień</Button>
-          </DialogActions>
-        </Dialog>
-      </Box>
     </>
   )
 }

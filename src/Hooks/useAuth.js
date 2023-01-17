@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, deleteUser, onAuthStateChanged, reauthenticateWithCredential, sendEmailVerification, signInWithEmailAndPassword, signOut, updateEmail, updateProfile } from "firebase/auth";
+import { createUserWithEmailAndPassword, deleteUser, onAuthStateChanged, reauthenticateWithCredential, sendEmailVerification, signInWithEmailAndPassword, signOut, updateEmail, updatePassword, updateProfile } from "firebase/auth";
 import { useDebugValue, useEffect, useState } from "react";
 import { fbaseAuth } from '../Firebase/Firebase'
 import { useDatabaseConectTemplate } from "./useDataBase";
@@ -95,12 +95,6 @@ function useAuth_updateProfile() {
   return [updateProfile, loading, error];
 };
 
-
-
-
-
-
-
 function useAuth_writeEmail() {
   const [fun, loading, error] = useDatabaseConectTemplate(
     (path, data) => updateEmail(fbaseAuth.currentUser, data),
@@ -111,6 +105,29 @@ function useAuth_writeEmail() {
   }
   return [writeEmail, loading, error];
 }
+function useAuth_writePassword() {
+  const [fun, loading, error] = useDatabaseConectTemplate(
+    (path, data) => updatePassword(fbaseAuth.currentUser, data),
+    'User changed password',
+    'Error in change password: ');
+  const writeEmail = async (password) => {
+    return await fun(null, password);
+  }
+  return [writeEmail, loading, error];
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function useAuthSignOut() {
   return () => signOut(fbaseAuth).then(() => {
@@ -192,4 +209,5 @@ export {
   useAuth_reAuthenticate,
   useAuth_deleteAccount,
   useAuth_updateProfile,
+  useAuth_writePassword,
 }

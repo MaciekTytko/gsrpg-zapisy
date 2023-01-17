@@ -25,7 +25,7 @@ function MenuSiteUserAvatar(props) {
   return (
     <Box sx={{ flexGrow: 0 }}>
       <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-        <Avatar alt={user?.nickname || ""} src={user?.avatarURL || ""} />
+        <Avatar alt={user?.displayName || ""} src={user?.photoURL || ""} />
       </IconButton>
       <Menu
         sx={{ mt: '45px' }}

@@ -1,7 +1,6 @@
-import { Typography, Container, Paper, Box } from "@mui/material";
+import { Typography, Container, Paper } from "@mui/material";
 import UserDataForm from "../Components/UserDataForm";
 import UserAccountDetails from "../Components/UserAccountDetails";
-import UserDeleteAccount from "../Components/UserDeleteAccount";
 
 
 
@@ -16,7 +15,6 @@ function UserProfile() {
       </Typography>
       <Paper sx={{ width: { xs: 1, md: 600 }, p: 2, mb: 2 }}>
         <UserAccountDetails />
-        <UserDeleteAccount />
       </Paper>
       <Paper sx={{ width: { xs: 1, md: 600 }, p: 2 }}>
         <UserDataForm />
