@@ -22,17 +22,17 @@ function EmailResetPasswordLink() {
     validateErrors: [],
     trigger: false,
   })
-  const [sendEmail, loadingSendEmail, errorSendEmail] = useAuth_sendEmailResetPassword();
+  const [sendEmail, loadingSendEmail] = useAuth_sendEmailResetPassword();
 
   const openDialog = () => setEmail({ ...email, openDialog: true, trigger: false });
   const closeDialog = () => setEmail({ ...email, openDialog: false });
   const onClickConfirm = async (values) => {
     setEmail({ ...email, trigger: true });
     if (email.validateErrors.length === 0) {
-      const resultErrorWriteEmail = await sendEmail(email.value);
-      resultErrorWriteEmail
-        ? infoBar.dispatch({ type: infoBarAction.ERROR, message: 'Błąd Podczas wysyłania emaila' })
-        : infoBar.dispatch({ type: infoBarAction.SUCCESS, message: 'Email do zmiany hasła został wysłany' }) || closeDialog();
+      await sendEmail(email.value);
+      infoBar.dispatch({ type: infoBarAction.SUCCESS, message: 'Email do zmiany hasła został wysłany na podany adres email' }) || closeDialog();
+      // No info about bad auth because security.
+      //https://cheatsheetseries.owasp.org/cheatsheets/Forgot_Password_Cheat_Sheet.html
     }
   }
 
@@ -77,7 +77,6 @@ function EmailResetPasswordLink() {
         </DialogTitle>
         <DialogContent>
           <>
-            {errorSendEmail && <Alert severity="error">Nie można wysłać maila, sprawdź jego poprawność.</Alert>}
             <Typography
               variant="body">
               Wpisz swój adres e-mail

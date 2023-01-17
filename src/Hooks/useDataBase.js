@@ -10,12 +10,12 @@ function useDatabaseConectTemplate(callback, messageSuccess, messageFail) {
     setLoading(true);
     const result = await callback(path, data)
       .then(() => {
-        console.log(messageSuccess);
+        messageSuccess && console.log(messageSuccess);
         setLoading(false);
         setError('');
         return '';
       }).catch(error => {
-        console.error(messageFail, error.code);
+        messageFail && console.error(messageFail, error.code);
         setLoading(false);
         setError(error.code);
         return error.code;

@@ -119,7 +119,7 @@ function useAuth_sendEmailResetPassword() {
   const [fun, loading, error] = useDatabaseConectTemplate(
     (path, data) => sendPasswordResetEmail(fbaseAuth, data),
     'User changed password',
-    'Error in change password: ');
+    '');
   const writeEmail = async (email) => {
     return await fun(null, email);
   }
