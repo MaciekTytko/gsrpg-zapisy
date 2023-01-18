@@ -7,7 +7,7 @@ let theme = createTheme();
 theme = responsiveFontSizes(theme);
 
 function Events() {
-  const eventList = useContext(EventContext);
+  const [eventList, loading, error] = useContext(EventContext);
 
   const sorter = (a, b) => {
     return a[1].date < b[1].date

@@ -10,7 +10,7 @@ import EventContext from "../Context/EventContext"
 
 function EventList() {
   const [expanded, setExpanded] = useState(-1);
-  const eventList = useContext(EventContext);
+  const [eventList, loading, error] = useContext(EventContext);
   const navigator = useNavigate();
   const { id } = useParams();
 
