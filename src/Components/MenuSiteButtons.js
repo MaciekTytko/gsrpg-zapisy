@@ -40,6 +40,13 @@ function MenuSiteButtons(props) {
       >
         Profil
       </Button>
+      <Button
+        key="manage"
+        sx={{ my: 2, color: 'white', display: user ? 'block' : 'none' }}
+        onClick={() => linkTo('/manage')}
+      >
+        Manage
+      </Button>
     </Stack>
   )
 }
