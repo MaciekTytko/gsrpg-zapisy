@@ -45,6 +45,19 @@ function useDataBase_WriteUserData() {
   return [writeData, loading, error];
 }
 
+function useDataBase_RemoveEvent() {
+  const [fun, loading, error] = useDatabaseConectTemplate(
+    (path, data) => firebaseSet(path, data),
+    'Remove event from database',
+    'Error remove event: ');
+  const removeEvent = async (eventID) => {
+    const path = 'events/' + eventID;
+    const data = null;
+    return await fun(path, data);
+  }
+  return [removeEvent, loading, error];
+}
+
 
 
 
@@ -213,6 +226,7 @@ function useDataBase_ReadPermission(userID) {
 
 
 export {
+  useDatabaseConectTemplate,
   useDataBase_AddEvent,
   useDataBase_AddProgram,
   useDataBase_AddProgramRegister,
@@ -222,5 +236,5 @@ export {
   useDataBase_ReadEvents,
   useDataBase_ReadUserData,
   useDataBase_ReadPermission,
-  useDatabaseConectTemplate,
+  useDataBase_RemoveEvent,
 }
