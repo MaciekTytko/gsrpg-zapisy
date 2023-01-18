@@ -29,7 +29,7 @@ const firebaseSet = (path, data) => set(ref(fbaseDatabase, path), { ...data });
 
 function useDataBase_WriteUserData() {
   const [fun, loading, error] = useDatabaseConectTemplate(
-    (path, data) => firebaseSet(path,data).then(
+    (path, data) => firebaseSet(path, data).then(
       () => updateProfile(fbaseAuth.currentUser, { displayName: data.displayName, photoURL: data.photoURL })
     ),
     'Write user data to DB',
@@ -148,35 +148,61 @@ function useDataBase_ReadRegistrations(eventId) {
   return registerList;
 }
 
-const templateData = {
-  displayName: '-',
-  contact: '-',
-  photoURL: '',
-};
-function useDataBase_ReadUserData(userID) {
-  const [userData, setUserData] = useState({ ...templateData });
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+
+
+
+
+
+
+function useDatabaseReadTemplate(DBquery, dataTemplate, messageSuccess, messageFail) {
+  const [data, setData] = useState(dataTemplate);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    const DBquery = ref(fbaseDatabase, 'users/' + userID);
     return onValue(DBquery,
       (snapshot) => {
-        let data = snapshot.val();
-        console.log('###userData###', data);
-        if (snapshot.exists() === false) data = { ...templateData };
-        setUserData(data);
+        let readData = snapshot.val();
+        messageSuccess && console.log(messageSuccess, readData);
+        if (snapshot.exists() === false) readData = dataTemplate;
+        setData(readData);
         setLoading(false);
+        setError('');
       },
       (error) => {
-        console.error('Reading user data:', error);
+        messageFail && console.error(messageFail, error.code);
         setLoading(false);
-        setError(error);
+        setError(error.code);
       })
-  }, [userID]);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  return [data, loading, error];
+}
+
+function useDataBase_ReadUserData(userID) {
+  const [userData, loading, error] = useDatabaseReadTemplate(
+    ref(fbaseDatabase, 'users/' + userID),
+    {
+      displayName: '-', contact: '-', photoURL: '',
+    },
+    '###userData###',
+    'Error reading user data: ');
   return [userData, loading, error];
 }
+
+function useDataBase_ReadPermission(userID) {
+  const [userData, loading, error] = useDatabaseReadTemplate(
+    ref(fbaseDatabase, 'admins/' + userID),
+    null,
+    '###Permision###',
+    'Error reading user permission: ');
+  return [userData, loading, error];
+}
+
+
+
+
+
 
 
 export {
@@ -188,5 +214,6 @@ export {
   useDataBase_ReadRegistrations,
   useDataBase_ReadEvents,
   useDataBase_ReadUserData,
+  useDataBase_ReadPermission,
   useDatabaseConectTemplate,
 }
