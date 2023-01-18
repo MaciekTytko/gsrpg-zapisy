@@ -1,6 +1,6 @@
 import React from 'react'
 
-const EventContext = React.createContext(null);
+const EventContext = React.createContext([{}, false, false]);
 
 EventContext.displayName = "EventContext"
 
