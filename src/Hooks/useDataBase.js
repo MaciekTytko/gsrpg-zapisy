@@ -87,25 +87,6 @@ function useDataBase_AddProgramRegister() {
 
 
 
-function useDataBase_ReadEvents() {
-  const [eventList, setEventList] = useState('');
-
-  useEffect(() => {
-    const q = query(ref(fbaseDatabase, 'events'), orderByChild("date"), limitToLast(10));
-    return onValue(q,
-      (snapshot) => {
-        const data = snapshot.val();
-        console.log('###events###', data);
-        setEventList(data || {});
-      },
-      (error) => {
-        console.log('###' + JSON.stringify(error));
-        setEventList('');
-      })
-  }, []);
-
-  return eventList;
-}
 
 
 function useDataBase_ReadPrograms(eventId) {
@@ -156,7 +137,7 @@ function useDataBase_ReadRegistrations(eventId) {
 
 function useDatabaseReadTemplate(DBquery, dataTemplate, messageSuccess, messageFail) {
   const [data, setData] = useState(dataTemplate);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -190,13 +171,39 @@ function useDataBase_ReadUserData(userID) {
   return [userData, loading, error];
 }
 
+function useDataBase_ReadEvents() {
+  const [eventsList, loading, error] = useDatabaseReadTemplate(
+    query(ref(fbaseDatabase, 'events'), orderByChild("date"), limitToLast(10)),
+    {},
+    '###events###',
+    'Error reading events: ');
+  return [eventsList, loading, error];
+}
+
+
+
+
+
+/*
+ * Function return State with information if user is Admin. 
+ * @param {userID} current user UID
+ * @default false
+ */
 function useDataBase_ReadPermission(userID) {
-  const [userData, loading, error] = useDatabaseReadTemplate(
-    ref(fbaseDatabase, 'admins/' + userID),
-    null,
-    '###Permision###',
-    'Error reading user permission: ');
-  return [userData, loading, error];
+  const [admin, setAdmin] = useState(false);
+
+  useEffect(() => {
+    return onValue(ref(fbaseDatabase, 'admins/' + userID),
+      (snapshot) => {
+        setAdmin(snapshot.exists());
+        console.log('###Permision###',snapshot.exists() );
+      },
+      (error) => {
+        console.error('Error reading user permission: ', error.code);
+      })
+  }, [userID]);
+
+  return admin;
 }
 
 

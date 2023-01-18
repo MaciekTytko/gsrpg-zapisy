@@ -1,7 +1,7 @@
 import { Box, Typography, TextField, Button, DialogActions, DialogTitle, Dialog, DialogContent, Alert, IconButton, CircularProgress } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import { useContext, useState } from "react";
-import { AuthContext, AuthReloadContext } from "../Context/AuthContext";
+import AuthContext from "../Context/AuthContext";
 import { useAuth_signInWithEmailAndPassword, useAuth_writePassword } from "../Hooks/useAuth";
 import { infoBarAction } from "../Reduce/InfoBarReducer";
 import InfoBarContext from "../Context/InfoBarContext";
@@ -16,8 +16,7 @@ const passwordValidationSchema = yup.object({
 });
 
 function UserChangePassword() {
-  const reloadUser = useContext(AuthReloadContext);
-  const user = useContext(AuthContext);
+  const { reloadUser } = useContext(AuthContext);
   const infoBar = useContext(InfoBarContext);
   const [password, setPassword] = useState({
     value: '',

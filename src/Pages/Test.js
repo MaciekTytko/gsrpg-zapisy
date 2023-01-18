@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
 import { useContext } from "react";
-import {AuthContext} from '../Context/AuthContext';
+import AuthContext from '../Context/AuthContext';
 import { fbaseAuth } from "../Firebase/Firebase";
 
 

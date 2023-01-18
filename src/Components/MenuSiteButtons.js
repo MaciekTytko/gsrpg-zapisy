@@ -1,12 +1,12 @@
 import { Button, Stack } from "@mui/material";
 import { useContext } from "react";
 import { useNavigate } from "react-router";
-import {AuthContext} from "../Context/AuthContext";
+import AuthContext from "../Context/AuthContext";
 
 
 function MenuSiteButtons(props) {
   const navigator = useNavigate();
-  const user = useContext(AuthContext);
+  const {user, admin} = useContext(AuthContext);
 
   const linkTo = path => navigator(path);
 
@@ -42,7 +42,7 @@ function MenuSiteButtons(props) {
       </Button>
       <Button
         key="manage"
-        sx={{ my: 2, color: 'white', display: user ? 'block' : 'none' }}
+        sx={{ my: 2, color: 'white', display: admin ? 'block' : 'none' }}
         onClick={() => linkTo('/manage')}
       >
         Manage

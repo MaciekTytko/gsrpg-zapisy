@@ -1,6 +1,6 @@
 import { Box, Typography, } from "@mui/material";
 import { useContext } from "react";
-import { AuthContext } from "../Context/AuthContext";
+import AuthContext from "../Context/AuthContext";
 import UserChangeEmail from "./UserChangeEmail";
 import UserChangePassword from "./UserChangePassword";
 import UserDeleteAccount from "./UserDeleteAccount";
@@ -8,7 +8,7 @@ import UserDeleteAccount from "./UserDeleteAccount";
 
 
 function UserAccountDetails() {
-  const user = useContext(AuthContext);
+  const {user} = useContext(AuthContext);
   return (
     <>
       <Box sx={{ display: 'flex', justifyContent: 'left' }}>
@@ -28,11 +28,3 @@ function UserAccountDetails() {
 }
 
 export default UserAccountDetails;
-
-
-function Firebase() {
-  return (
-    <>
-    </>
-  )
-}

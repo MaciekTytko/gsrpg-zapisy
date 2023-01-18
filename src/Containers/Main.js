@@ -12,13 +12,13 @@ import Test from "../Pages/Test";
 import Header from "./Header";
 import MenuSite from "./MenuSite";
 import Footer from "./Footer";
-import {AuthContext} from '../Context/AuthContext';
+import AuthContext from '../Context/AuthContext';
 import UserRegister from "../Pages/UserRegister";
 import UserVerifyEmail from "../Pages/UserVerifyEmail";
 import ManageEvents from "../Pages/ManageEvents";
 
 function Main() {
-  const user = useContext(AuthContext);
+  const {user} = useContext(AuthContext);
 
   return (
     <>

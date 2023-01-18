@@ -1,13 +1,13 @@
 import { Avatar, Box, IconButton, Menu, MenuItem, Typography } from "@mui/material";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router";
-import {AuthContext} from "../Context/AuthContext";
+import AuthContext from "../Context/AuthContext";
 import { useAuth_signOut } from "../Hooks/useAuth";
 
 function MenuSiteUserAvatar(props) {
   const [anchorElUser, setAnchorElUser] = useState(null);
-  const user = useContext(AuthContext);
-  const [logout, loadingLogout, errorLogout] = useAuth_signOut();
+  const {user} = useContext(AuthContext);
+  const [logout] = useAuth_signOut();
   const navigator = useNavigate();
 
   const handleOpenUserMenu = (event) => {

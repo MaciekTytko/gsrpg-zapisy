@@ -1,11 +1,11 @@
 import { Box, Paper, Button, Typography, } from "@mui/material";
 import { useDataBase_AddProgramRegister } from "../Hooks/useDataBase";
 import { useContext } from "react";
-import {AuthContext} from "../Context/AuthContext";
+import AuthContext from "../Context/AuthContext";
 
 function ProgramRegisterButton(props) {
   const { register, registerDelete } = useDataBase_AddProgramRegister();
-  const user = useContext(AuthContext);
+  const {user} = useContext(AuthContext);
   const programId = props.program[0];
   const program = props.program[1];
   const usersCurrent = props.registerList ? Math.min(Object.keys(props.registerList?.[programId] || {}).length, program.usersCountMax) : 0;

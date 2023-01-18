@@ -11,12 +11,12 @@ import { useContext, useState } from 'react';
 import MenuSiteButtons from '../Components/MenuSiteButtons';
 import MenuSiteLogo from '../Components/MenuSiteLogo';
 import MenuSiteUserAvatar from '../Components/MenuSiteUserAvatar';
-import {AuthContext} from '../Context/AuthContext';
+import AuthContext from '../Context/AuthContext';
 
 const pages = ['lo',';lol']
 function MenuSite() {
   const [anchorElNav, setAnchorElNav] = useState(null);
-  const user = useContext(AuthContext);
+  const {user} = useContext(AuthContext);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);

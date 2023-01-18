@@ -5,10 +5,10 @@ import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router";
 import InfoBarContext from "../Context/InfoBarContext";
 import { infoBarAction } from "../Reduce/InfoBarReducer";
-import { AuthReloadContext } from "../Context/AuthContext";
+import AuthContext from "../Context/AuthContext";
 
 function UserVerifyEmail() {
-  const reloadUser = useContext(AuthReloadContext);
+  const { reloadUser } = useContext(AuthContext);
   const infoBar = useContext(InfoBarContext);
   const navigator = useNavigate();
   const [sendVerificationEmail, loading, error] = useAuth_SendEmailVerification();
@@ -18,19 +18,20 @@ function UserVerifyEmail() {
     await logout();
     navigator('/login');
   }
-  const sendEmail = async ()=>{
+  const sendEmail = async () => {
     const resultError = await sendVerificationEmail();
     resultError
       ? infoBar.dispatch({ type: infoBarAction.ERROR, message: 'Nie można wysłać emaila, spróbuj później' })
       : infoBar.dispatch({ type: infoBarAction.SUCCESS, message: 'Wysłano email' });
   }
 
-  useEffect(()=>{
-    const intervalNo = setInterval(()=>{
+  useEffect(() => {
+    const intervalNo = setInterval(() => {
       reloadUser();
-    },3000)
-    return ()=>clearInterval(intervalNo);
-  },[])
+    }, 3000)
+    return () => clearInterval(intervalNo);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <Container sx={{ mt: 2, display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
@@ -57,7 +58,7 @@ function UserVerifyEmail() {
         >
           Zaloguj się ponownie
         </Button>
-        <Box sx={{ mt: 2, width:'100%', display: 'flex', justifyContent: 'right' }}>
+        <Box sx={{ mt: 2, width: '100%', display: 'flex', justifyContent: 'right' }}>
           <Typography
             variant="body2"
             sx={{ mr: 1 }}

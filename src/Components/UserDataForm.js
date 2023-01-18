@@ -2,11 +2,10 @@ import { Box, Typography, Button, TextField, Skeleton, Alert } from "@mui/materi
 import { useContext } from "react";
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import {AuthContext, AuthReloadContext} from "../Context/AuthContext";
+import AuthContext from "../Context/AuthContext";
 import { useDataBase_WriteUserData, useDataBase_ReadUserData } from "../Hooks/useDataBase";
 import InfoBarContext from "../Context/InfoBarContext";
 import { infoBarAction } from "../Reduce/InfoBarReducer";
-import { fbaseAuth } from "../Firebase/Firebase";
 
 const validationSchema = yup.object({
   displayName: yup
@@ -21,8 +20,7 @@ const validationSchema = yup.object({
 });
 
 function UserDataForm() {
-  const user = useContext(AuthContext);
-  const reloadUser = useContext(AuthReloadContext);
+  const { user, reloadUser } = useContext(AuthContext);
   const infoBar = useContext(InfoBarContext);
   const [initialValues, loadingReadDB, errorReadDB] = useDataBase_ReadUserData(user.uid);
   const [writeUserDataToDB, loadingWriteDB, errorWriteDB] = useDataBase_WriteUserData();

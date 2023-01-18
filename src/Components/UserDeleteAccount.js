@@ -1,7 +1,6 @@
 import { Box, Typography, Button, DialogActions, DialogTitle, Dialog, DialogContent, Alert, Link, IconButton } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import { useContext, useState } from "react";
-import {AuthContext} from "../Context/AuthContext";
 import { useAuth_signInWithEmailAndPassword, useAuth_deleteAccount } from "../Hooks/useAuth";
 import { infoBarAction } from "../Reduce/InfoBarReducer";
 import InfoBarContext from "../Context/InfoBarContext";
@@ -9,12 +8,11 @@ import EmailPasswordForm from "./EmailPasswordForm";
 import { useNavigate } from "react-router";
 
 function UserDeleteAccount() {
-  const user = useContext(AuthContext);
   const navigator = useNavigate();
   const infoBar = useContext(InfoBarContext);
   const [open, setOpen] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
-  const [sendDeleteAccount, loadingDelete, errorDelete] = useAuth_deleteAccount();
+  const [sendDeleteAccount, , errorDelete] = useAuth_deleteAccount();
   const [login, loadingLogin, errorLogin] = useAuth_signInWithEmailAndPassword();
 
   const openDialog = () => setOpen(true);

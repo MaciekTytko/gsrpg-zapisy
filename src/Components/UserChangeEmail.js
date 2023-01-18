@@ -1,7 +1,7 @@
 import { Box, Typography, TextField, Button, DialogActions, DialogTitle, Dialog, DialogContent, Alert, IconButton, CircularProgress } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import { useContext, useState } from "react";
-import { AuthContext, AuthReloadContext } from "../Context/AuthContext";
+import AuthContext from "../Context/AuthContext";
 import { useAuth_SendEmailVerification, useAuth_signInWithEmailAndPassword } from "../Hooks/useAuth";
 import { infoBarAction } from "../Reduce/InfoBarReducer";
 import InfoBarContext from "../Context/InfoBarContext";
@@ -18,8 +18,7 @@ const emailValidationSchema = yup.object({
 });
 
 function UserChangeEmail() {
-  const reloadUser = useContext(AuthReloadContext);
-  const user = useContext(AuthContext);
+  const { user, reloadUser } = useContext(AuthContext);
   const infoBar = useContext(InfoBarContext);
   const [email, setEmail] = useState({
     value: user.email,
@@ -48,8 +47,8 @@ function UserChangeEmail() {
       resultErrorWriteEmail
         ? infoBar.dispatch({ type: infoBarAction.ERROR, message: 'Błąd zmiany adresu email' })
         : infoBar.dispatch({ type: infoBarAction.SUCCESS, message: 'Twój adres email został zmieniony' }) || closeDialog();
-        reloadUser();
-        sendVerificationEmail();
+      reloadUser();
+      sendVerificationEmail();
     }
   }
   const validateEmail = async (value) => {

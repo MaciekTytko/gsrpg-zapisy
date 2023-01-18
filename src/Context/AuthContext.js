@@ -1,9 +1,11 @@
 import React from 'react'
 
-const AuthContext = React.createContext(null);
-const AuthReloadContext = React.createContext(null);
+const AuthContext = React.createContext({
+  user: null,
+  reloadUser: ()=>{},
+  admin: false,
+});
 
 AuthContext.displayName = "AuthContext"
-AuthReloadContext.displayName = "AuthReloadContext"
 
-export { AuthContext, AuthReloadContext};
+export default AuthContext;
