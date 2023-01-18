@@ -15,6 +15,7 @@ import Footer from "./Footer";
 import {AuthContext} from '../Context/AuthContext';
 import UserRegister from "../Pages/UserRegister";
 import UserVerifyEmail from "../Pages/UserVerifyEmail";
+import ManageEvents from "../Pages/ManageEvents";
 
 function Main() {
   const user = useContext(AuthContext);
@@ -37,6 +38,8 @@ function Main() {
                 <Route path="addEvent" element={<EventsAdd />} />
                 <Route path="addProgram/:id" element={<EventsProgramAdd />} />
               </Route>
+              
+              <Route path="manage" element={<ManageEvents />} />
 
               <Route path="user" element={user != null ? <UserProfile /> : <UserNotLogin />} />
             </Route>
