@@ -18,7 +18,7 @@ import UserVerifyEmail from "../Pages/UserVerifyEmail";
 import ManageEvents from "../Pages/ManageEvents";
 
 function Main() {
-  const {user} = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   return (
     <>
@@ -32,14 +32,17 @@ function Main() {
               <Route path="login" element={<UserLogin />} />
               <Route path="register" element={<UserRegister />} />
               <Route path="test" element={<Test />} />
+
               <Route path="events" >
                 <Route index element={<EventList />} />
                 <Route path=":id" element={<EventList />} />
-                <Route path="addEvent" element={<EventsAdd />} />
                 <Route path="addProgram/:id" element={<EventsProgramAdd />} />
               </Route>
-              
-              <Route path="manage" element={<ManageEvents />} />
+
+              <Route path="manage" >
+                <Route index element={<ManageEvents />} />
+                <Route path="addEvent" element={<EventsAdd />} />
+              </Route>
 
               <Route path="user" element={user != null ? <UserProfile /> : <UserNotLogin />} />
             </Route>

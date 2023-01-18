@@ -25,7 +25,7 @@ function useDatabaseConectTemplate(callback, messageSuccess, messageFail) {
   return [writeData, loading, error];
 }
 const firebaseSet = (path, data) => set(ref(fbaseDatabase, path), { ...data });
-//const firebasePush = (path, data) => push(ref(fbaseDatabase, path), { ...data });
+const firebasePush = (path, data) => push(ref(fbaseDatabase, path), { ...data });
 
 function useDataBase_WriteUserData() {
   const [fun, loading, error] = useDatabaseConectTemplate(
@@ -58,21 +58,23 @@ function useDataBase_RemoveEvent() {
   return [removeEvent, loading, error];
 }
 
-
-
-
-
-
-
-
 function useDataBase_AddEvent() {
-  return (event) => {
-    let path = 'events';
-    push(ref(fbaseDatabase, path), {
-      ...event
-    });
+  const [fun, loading, error] = useDatabaseConectTemplate(
+    (path, data) => firebasePush(path, data),
+    'Remove event from database',
+    'Error remove event: ');
+  const addEvent = async (values) => {
+    const path = 'events';
+    const data = values;
+    return await fun(path, data);
   }
+  return [addEvent, loading, error];
 }
+
+
+
+
+
 
 function useDataBase_AddProgram() {
   return (eventID, program) => {
