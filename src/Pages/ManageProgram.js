@@ -33,7 +33,7 @@ function ManageProgram() {
 
       {loadingEvent
         ? <div className="spinner-border text-primary" role="status">  <span className="visually-hidden">Loading...</span></div>
-        : <div>
+        : <div style={{ textAlign: 'left' }}>
           <h3 style={{ color: 'blue' }}>{event.title}</h3>
 
           {event.picsURL && <img alt="obrazek wydarzenia" src={event.picsURL} style={{ maxHeight: '100px', maxWidth: '200px' }} />}
@@ -53,10 +53,11 @@ function ManageProgram() {
           </table>
         </div>
       }
+      <h3 >ListaSesji</h3>
       {loadingProgram
         ? <div className="spinner-border text-primary" role="status">  <span className="visually-hidden">Loading...</span></div>
         : <div style={{ textAlign: 'left' }}>
-          <h4 >ListaSesji</h4>
+          
           {errorEvent && <p style={{ color: 'red' }}> Błąd odczytu z bazy danych <br /> {errorEvent} </p>}
           {errorEvent && <p style={{ color: 'red' }}> Błąd odczytu z bazy danych <br /> {errorEvent} </p>}
           {loadingProgram || loadingRegister
@@ -87,7 +88,7 @@ function Program(props) {
   const program = props.program;
   const registrationList = props.registrationList;
 
-  const edit = () => navigator('../editProgram/' + props.programID);
+  const edit = () => navigator('/events/editProgram/' + props.eventID + '/' + props.programID);
   const approve = async () => {
     const resultError = await props.approve(props.eventID, props.programID, !program?.approved);
     resultError

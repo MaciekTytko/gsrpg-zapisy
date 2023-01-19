@@ -103,11 +103,10 @@ function useDataBase_EditProgram() {
     (path, data) => firebaseUpdate(path, data),
     'Edit Program from database',
     'Error edit Program: ');
-  const addProgram = async (eventID, ProgramID, program, approved) => {
-    const path = 'eventsProgram/' + eventID + ProgramID;
+  const addProgram = async (eventID, ProgramID, program) => {
+    const path = 'eventsProgram/' + eventID + '/' + ProgramID;
     const data = {
       ...program,
-      approved,
     };
     return await fun(path, data);
   }

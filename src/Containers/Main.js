@@ -7,6 +7,7 @@ import UserNotLogin from "../Pages/UserNotLogin";
 import EventList from "../Pages/EventList";
 import Events from "../Pages/Events";
 import ProgramAdd from "../Pages/ProgramAdd";
+import ProgramEdit from "../Pages/ProgramEdit";
 import EventAdd from "../Pages/EventAdd";
 import Test from "../Pages/Test";
 import Header from "./Header";
@@ -39,6 +40,7 @@ function Main() {
                 <Route index element={<EventList />} />
                 <Route path=":id" element={<EventList />} />
                 <Route path="addProgram/:eventID" element={<ProgramAdd />} />
+                <Route path="editProgram/:eventID/:programID" element={<ProgramEdit />} />
               </Route>
 
               <Route path="manage" >
