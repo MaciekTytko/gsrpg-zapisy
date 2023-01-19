@@ -21,7 +21,7 @@ function ManageEvents() {
       <button onClick={addEvent} className="btn btn-primary">
         Dodaj wydarzenie
       </button>
-      {error && <p style={{ color: 'red' }}> Błąd odczytu <br /> {error} </p>}
+      {error && <p style={{ color: 'red' }}> Błąd odczytu z bazy danych <br /> {error} </p>}
       {loading
         ? <p> trwa ładowanie ...</p>
         : <div style={{ textAlign: 'left' }}>
@@ -39,7 +39,7 @@ function Event(props) {
   const [confirmRemove, setConfirmRemove] = useState();
   const [removeEvent, loading, error] = props.removeEvent;
 
-  const details = () => navigator('details/' + props.id);
+  const details = () => navigator('evetnDetails/' + props.id);
   const edit = () => navigator('editEvent/' + props.id);
   const remove = () => {
     if(confirmRemove) removeEvent(props.id);
@@ -50,6 +50,9 @@ function Event(props) {
   return (
     <div style={{ marginBottom: '2rem' }}>
       <h3>{event.title}</h3>
+
+      {event.picsURL && <img alt="obrazek wydarzenia" src={event.picsURL} style={{maxHeight: '100px',maxWidth:'200px'}}/>}
+
       <table className="table table-striped table-bordered table-sm">
         <thead>
           <tr>
@@ -73,7 +76,7 @@ function Event(props) {
           Edytuj
         </button>
         <button onClick={details} className="btn btn-info" style={{ marginLeft: '1rem' }}>
-          Zobacz
+          Szczegóły
         </button>
       </div>
     </div>

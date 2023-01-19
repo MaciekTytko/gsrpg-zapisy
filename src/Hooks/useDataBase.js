@@ -1,4 +1,4 @@
-import { limitToLast, onValue, orderByChild, push, query, ref, remove, set } from "firebase/database";
+import { limitToLast, onValue, orderByChild, push, query, ref, remove, set, update } from "firebase/database";
 import { updateProfile } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { fbaseAuth, fbaseDatabase } from '../Firebase/Firebase';
@@ -26,6 +26,7 @@ function useDatabaseConectTemplate(callback, messageSuccess, messageFail) {
 }
 const firebaseSet = (path, data) => set(ref(fbaseDatabase, path), { ...data });
 const firebasePush = (path, data) => push(ref(fbaseDatabase, path), { ...data });
+const firebaseUpdate = (path, data) => update(ref(fbaseDatabase, path), { ...data });
 
 function useDataBase_WriteUserData() {
   const [fun, loading, error] = useDatabaseConectTemplate(
@@ -45,19 +46,6 @@ function useDataBase_WriteUserData() {
   return [writeData, loading, error];
 }
 
-function useDataBase_RemoveEvent() {
-  const [fun, loading, error] = useDatabaseConectTemplate(
-    (path, data) => firebaseSet(path, data),
-    'Remove event from database',
-    'Error remove event: ');
-  const removeEvent = async (eventID) => {
-    const path = 'events/' + eventID;
-    const data = null;
-    return await fun(path, data);
-  }
-  return [removeEvent, loading, error];
-}
-
 function useDataBase_AddEvent() {
   const [fun, loading, error] = useDatabaseConectTemplate(
     (path, data) => firebasePush(path, data),
@@ -72,31 +60,87 @@ function useDataBase_AddEvent() {
 }
 function useDataBase_EditEvent() {
   const [fun, loading, error] = useDatabaseConectTemplate(
-    (path, data) => firebaseSet(path, data),
+    (path, data) => firebaseUpdate(path, data),
     'Edit event from database',
     'Error edit event: ');
   const addEvent = async (eventID, values) => {
-    const path = 'events/'+eventID;
+    const path = 'events/' + eventID;
     const data = values;
     return await fun(path, data);
   }
   return [addEvent, loading, error];
 }
-
-
-
-
-
+function useDataBase_RemoveEvent() {
+  const [fun, loading, error] = useDatabaseConectTemplate(
+    (path, data) => firebaseSet(path, data),
+    'Remove event from database',
+    'Error remove event: ');
+  const removeEvent = async (eventID) => {
+    const path = 'events/' + eventID;
+    const data = null;
+    return await fun(path, data);
+  }
+  return [removeEvent, loading, error];
+}
 
 function useDataBase_AddProgram() {
-  return (eventID, program) => {
-    let path = 'eventsProgram/' + eventID;
-    push(ref(fbaseDatabase, path), {
+  const [fun, loading, error] = useDatabaseConectTemplate(
+    (path, data) => firebasePush(path, data),
+    'Add Program to database',
+    'Error add Program: ');
+  const addProgram = async (eventID, program) => {
+    const path = 'eventsProgram/' + eventID;
+    const data = {
       ...program,
-      approved: true,
-    });
+      approved: false,
+    };
+    return await fun(path, data);
   }
+  return [addProgram, loading, error];
 }
+function useDataBase_EditProgram() {
+  const [fun, loading, error] = useDatabaseConectTemplate(
+    (path, data) => firebaseUpdate(path, data),
+    'Edit Program from database',
+    'Error edit Program: ');
+  const addProgram = async (eventID, ProgramID, program, approved) => {
+    const path = 'eventsProgram/' + eventID + ProgramID;
+    const data = {
+      ...program,
+      approved,
+    };
+    return await fun(path, data);
+  }
+  return [addProgram, loading, error];
+}
+function useDataBase_RemoveProgram() {
+  const [fun, loading, error] = useDatabaseConectTemplate(
+    (path, data) => firebaseSet(path, data),
+    'Remove Program from database',
+    'Error remove Program: ');
+  const removeProgram = async (eventID, ProgramID) => {
+    const path = 'eventsProgram/' + eventID + '/' + ProgramID;
+    const data = null;
+    return await fun(path, data);
+  }
+  return [removeProgram, loading, error];
+}
+function useDataBase_ApproveProgram() {
+  const [fun, loading, error] = useDatabaseConectTemplate(
+    (path, data) => firebaseUpdate(path, data),
+    'Approve Program from database',
+    'Error approve Program: ');
+  const removeProgram = async (eventID, ProgramID, approved = true) => {
+    const path = 'eventsProgram/' + eventID + '/' + ProgramID ;
+    const data = {approved};
+    return await fun(path, data);
+  }
+  return [removeProgram, loading, error];
+}
+
+
+
+
 
 function useDataBase_AddProgramRegister() {
   const register = (eventId, programId, clientId) => {
@@ -116,45 +160,7 @@ function useDataBase_AddProgramRegister() {
 
 
 
-function useDataBase_ReadPrograms(eventId) {
-  const [programList, setProgramList] = useState('');
 
-  useEffect(() => {
-    const q = ref(fbaseDatabase, 'eventsProgram/' + eventId);
-    return onValue(q,
-      (snapshot) => {
-        const data = snapshot.val();
-        console.log('###eventsProgram###', data);
-        setProgramList(data);
-      },
-      (error) => {
-        console.log('###' + JSON.stringify(error));
-        setProgramList('');
-      })
-  }, [eventId]);
-
-  return programList;
-}
-
-function useDataBase_ReadRegistrations(eventId) {
-  const [registerList, setRegisterList] = useState('');
-
-  useEffect(() => {
-    const q = ref(fbaseDatabase, 'eventsRegister/' + eventId);
-    return onValue(q,
-      (snapshot) => {
-        const data = snapshot.val();
-        console.log('###eventsRegister###', data);
-        setRegisterList(data);
-      },
-      (error) => {
-        console.log('###' + JSON.stringify(error));
-        setRegisterList('');
-      })
-  }, [eventId]);
-
-  return registerList;
-}
 
 
 
@@ -206,6 +212,22 @@ function useDataBase_ReadEvents() {
     'Error reading events: ');
   return [eventsList, loading, error];
 }
+function useDataBase_ReadPrograms(eventId) {
+  const [programList, loading, error] = useDatabaseReadTemplate(
+    ref(fbaseDatabase, 'eventsProgram/' + eventId),
+    {},
+    '###eventsProgram###',
+    'Error reading events program: ');
+  return [programList, loading, error];
+}
+function useDataBase_ReadRegistrations(eventId) {
+  const [registerList, loading, error] = useDatabaseReadTemplate(
+    ref(fbaseDatabase, 'eventsRegister/' + eventId),
+    {},
+    '###eventsRegister###',
+    'Error reading events register: ');
+  return [registerList, loading, error];
+}
 
 
 
@@ -223,7 +245,7 @@ function useDataBase_ReadPermission(userID) {
     return onValue(ref(fbaseDatabase, 'admins/' + userID),
       (snapshot) => {
         setAdmin(snapshot.exists());
-        console.log('###Permision###',snapshot.exists() );
+        console.log('###Permision###', snapshot.exists());
       },
       (error) => {
         console.error('Error reading user permission: ', error.code);
@@ -241,15 +263,18 @@ function useDataBase_ReadPermission(userID) {
 
 export {
   useDatabaseConectTemplate,
-  useDataBase_AddEvent,
-  useDataBase_AddProgram,
-  useDataBase_AddProgramRegister,
   useDataBase_WriteUserData,
+  useDataBase_AddEvent,
+  useDataBase_EditEvent,
+  useDataBase_RemoveEvent,
+  useDataBase_AddProgram,
+  useDataBase_EditProgram,
+  useDataBase_RemoveProgram,
+  useDataBase_ApproveProgram,
+  useDataBase_AddProgramRegister,
   useDataBase_ReadPrograms,
   useDataBase_ReadRegistrations,
   useDataBase_ReadEvents,
   useDataBase_ReadUserData,
   useDataBase_ReadPermission,
-  useDataBase_RemoveEvent,
-  useDataBase_EditEvent
 }
