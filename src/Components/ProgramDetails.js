@@ -32,6 +32,9 @@ function ProgramDetails(props) {
         program={props.program}
         registerList={props.registerList}
         eventId={props.eventId}
+        funcAddRegistration={props.funcAddRegistration}
+        funcRemoveRegistration={props.funcRemoveRegistration}
+        loadingButton={props.loadingButton}
       />
 
     </Box>

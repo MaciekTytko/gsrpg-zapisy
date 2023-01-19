@@ -1,11 +1,12 @@
-import { Box, Paper, Button, Typography, } from "@mui/material";
-import { useDataBase_AddProgramRegister } from "../Hooks/useDataBase";
+import { Box, Paper, Button, Typography } from "@mui/material";
 import { useContext } from "react";
 import AuthContext from "../Context/AuthContext";
+import InfoBarContext from "../Context/InfoBarContext";
+import { infoBarAction } from "../Reduce/InfoBarReducer";
 
 function ProgramRegisterButton(props) {
-  const { register, registerDelete } = useDataBase_AddProgramRegister();
-  const {user} = useContext(AuthContext);
+  const infoBar = useContext(InfoBarContext);
+  const { user } = useContext(AuthContext);
   const programId = props.programID;
   const program = props.program;
   const usersCurrent = props.registerList ? Math.min(Object.keys(props.registerList?.[programId] || {}).length, program.usersCountMax) : 0;
@@ -17,13 +18,19 @@ function ProgramRegisterButton(props) {
       .reduce((userExist, reg) => { return userExist || reg === user?.uid }, false)
   )
 
-  // Registration user to program.
-  const programRegistration = () => {
-    register(props.eventId, programId, user?.uid)
+  const programRegistration = async () => {
+    const resultError = await props.funcAddRegistration(props.eventId, programId, user?.uid)
+    resultError
+      ? infoBar.dispatch({ type: infoBarAction.ERROR, message: 'Nie można zapisać na sesję, spróbuj później' })
+      : infoBar.dispatch({ type: infoBarAction.SUCCESS, message: 'Zapisany :)' });
   }
-  const programRegistrationDelete = () => {
-    registerDelete(props.eventId, programId, user?.uid)
+  const programRegistrationRemove = async () => {
+    const resultError = await props.funcRemoveRegistration(props.eventId, programId, user?.uid)
+    resultError
+      ? infoBar.dispatch({ type: infoBarAction.ERROR, message: 'Ups.. Coś się posypało w bazie, spróbuj później' })
+      : infoBar.dispatch({ type: infoBarAction.WARNING, message: 'Zrezygnowałeś z udziału :(' });
   }
+
   return (
     <Box sx={{ height: 50, display: 'flex', flexDirection: 'row' }}>
       <Paper sx={{ width: 50, p: 1, textAlign: 'center' }}>
@@ -35,8 +42,8 @@ function ProgramRegisterButton(props) {
         sx={{ width: 150 }}
         color={userRegisterOnProgram ? 'error' : 'primary'}
         variant={userRegisterOnProgram || !user ? 'outlined' : 'contained'}
-        onClick={userRegisterOnProgram ? programRegistrationDelete : programRegistration}
-        disabled={!user || fullUsers || (userRegisterOnEvent && !userRegisterOnProgram)}
+        onClick={userRegisterOnProgram ? programRegistrationRemove : programRegistration}
+        disabled={!user || fullUsers || (userRegisterOnEvent && !userRegisterOnProgram) || props.loadingButton}
       >
         {userRegisterOnProgram ? 'zrezygnuj' : 'zapisz się'}
       </Button>

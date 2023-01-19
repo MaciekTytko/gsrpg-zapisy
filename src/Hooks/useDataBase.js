@@ -27,6 +27,7 @@ function useDatabaseConectTemplate(callback, messageSuccess, messageFail) {
 const firebaseSet = (path, data) => set(ref(fbaseDatabase, path), { ...data });
 const firebasePush = (path, data) => push(ref(fbaseDatabase, path), { ...data });
 const firebaseUpdate = (path, data) => update(ref(fbaseDatabase, path), { ...data });
+const firebaseRemove = (path, data) => remove(ref(fbaseDatabase, path));
 
 function useDataBase_WriteUserData() {
   const [fun, loading, error] = useDatabaseConectTemplate(
@@ -103,8 +104,8 @@ function useDataBase_EditProgram() {
     (path, data) => firebaseUpdate(path, data),
     'Edit Program from database',
     'Error edit Program: ');
-  const addProgram = async (eventID, ProgramID, program) => {
-    const path = 'eventsProgram/' + eventID + '/' + ProgramID;
+  const addProgram = async (eventID, programID, program) => {
+    const path = 'eventsProgram/' + eventID + '/' + programID;
     const data = {
       ...program,
     };
@@ -117,8 +118,8 @@ function useDataBase_RemoveProgram() {
     (path, data) => firebaseSet(path, data),
     'Remove Program from database',
     'Error remove Program: ');
-  const removeProgram = async (eventID, ProgramID) => {
-    const path = 'eventsProgram/' + eventID + '/' + ProgramID;
+  const removeProgram = async (eventID, programID) => {
+    const path = 'eventsProgram/' + eventID + '/' + programID;
     const data = null;
     return await fun(path, data);
   }
@@ -129,43 +130,42 @@ function useDataBase_ApproveProgram() {
     (path, data) => firebaseUpdate(path, data),
     'Approve Program from database',
     'Error approve Program: ');
-  const removeProgram = async (eventID, ProgramID, approved = true) => {
-    const path = 'eventsProgram/' + eventID + '/' + ProgramID ;
+  const removeProgram = async (eventID, programID, approved = true) => {
+    const path = 'eventsProgram/' + eventID + '/' + programID ;
     const data = {approved};
     return await fun(path, data);
   }
   return [removeProgram, loading, error];
 }
-
-
-
-
-
-function useDataBase_AddProgramRegister() {
-  const register = (eventId, programId, clientId) => {
-    let path = 'eventsRegister/' + eventId + '/' + programId + '/' + clientId;
-    set(ref(fbaseDatabase, path), {
+function useDataBase_AddProgramRegistration() {
+  const [fun, loading, error] = useDatabaseConectTemplate(
+    (path, data) => firebaseSet(path, data),
+    'Register user to program',
+    'Error register Program: ');
+  const addProgramRegistration = async (eventID, programID, clientID) => {
+    const path = 'eventsRegister/' + eventID + '/' + programID + '/' + clientID ;
+    const data = {
       "timestamp": { ".sv": "timestamp" },
-    });
+    };
+    return await fun(path, data);
   }
-  const registerDelete = (eventId, programId, clientId) => {
-    let path = 'eventsRegister/' + eventId + '/' + programId + '/' + clientId;
-    remove(ref(fbaseDatabase, path));
+  return [addProgramRegistration, loading, error];
+}
+function useDataBase_RemoveProgramRegistration() {
+  const [fun, loading, error] = useDatabaseConectTemplate(
+    (path, data) => firebaseSet(path, data),
+    'Remove register user to program',
+    'Error remove register Program: ');
+  const removeProgramRegistration = async (eventID, programID, clientID) => {
+    const path = 'eventsRegister/' + eventID + '/' + programID + '/' + clientID ;
+    const data = null;
+    return await fun(path, data);
   }
-  return { register, registerDelete }
+  return [removeProgramRegistration, loading, error];
 }
 
 
-
-
-
-
-
-
-
-
-
-
+//############# READ #############
 
 function useDatabaseReadTemplate(DBquery, dataTemplate, messageSuccess, messageFail) {
   const [data, setData] = useState(dataTemplate);
@@ -270,7 +270,8 @@ export {
   useDataBase_EditProgram,
   useDataBase_RemoveProgram,
   useDataBase_ApproveProgram,
-  useDataBase_AddProgramRegister,
+  useDataBase_AddProgramRegistration,
+  useDataBase_RemoveProgramRegistration,
   useDataBase_ReadPrograms,
   useDataBase_ReadRegistrations,
   useDataBase_ReadEvents,
