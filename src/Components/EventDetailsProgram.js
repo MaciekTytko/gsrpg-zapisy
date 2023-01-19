@@ -26,10 +26,11 @@ function EventsDetailsProgram(props) {
       <Stack spacing={2}>
         {loadingProgram || loadingRegistration
           ? <><Skeleton /><Skeleton /><Skeleton /></>
-          : programList && Object.entries(programList).map((program, i) => (
+          : programList && Object.entries(programList).map(([programID,program], index) => (
             <ProgramDetails
-              key={i}
+              key={index}
               eventId={props.eventId}
+              programID={programID}
               program={program}
               registerList={registerList}
             />

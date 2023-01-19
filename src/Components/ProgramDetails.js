@@ -4,7 +4,7 @@ import ProgramRegisterButton from "./ProgramRegisterButton";
 
 
 function ProgramDetails(props) {
-  const program = props.program[1];
+  const program = props.program;
 
   return (
     <Box sx={{ display: (program.approved ? 'flex' : 'none'), flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -16,18 +16,19 @@ function ProgramDetails(props) {
         >
           <Typography variant="body1">{program.title + ' - [' + program.system + ']'}</Typography>
         </AccordionSummary>
-        <AccordionDetails>
+        <AccordionDetails sx={{ textAlign: 'left' }}>
           {program.picsURL && <img src={program.picsURL} className="rounded" style={{ maxHeight: '30vh' }} alt="obrazek" />}
-          <Typography variant="h6" sx={{ textAlign: 'left' }}>Opis sesji</Typography>
-          <Typography variant="body2" sx={{ mb: 3, textAlign: 'left' }}>{program.desc} </Typography>
-          {program.type && <Typography variant="body2" sx={{ textAlign: 'left' }}><b>Typ sesji:</b> {program.type.join(', ')}</Typography>}
-          <Typography variant="body2" sx={{ textAlign: 'left' }}><b>Klimat sesji:</b> {program.vibe}</Typography>
-          {program.triggers && <Typography variant="body2" sx={{ textAlign: 'left' }}><b>Triggery:</b> {program.triggers.join(', ')}</Typography>}
-          <Typography variant="body2" sx={{ textAlign: 'left' }}><b>Minimalny wiek gracza:</b> {program.userAgeMin}+</Typography>
-          {program.otherInfo && <Typography variant="body2" sx={{ mt: 3, textAlign: 'left' }}>{program.otherInfo}</Typography>}
+          <Typography variant="subtitle">Opis sesji</Typography>
+          <Typography variant="body2" sx={{ mb: 3 }}>{program.desc} </Typography>
+          {program.type && <Typography variant="body2" ><b>Typ sesji:</b> {program.type.join(', ')}</Typography>}
+          <Typography variant="body2" ><b>Klimat sesji:</b> {program.vibe}</Typography>
+          {program.triggers && <Typography variant="body2"><b>Triggery:</b> {program.triggers.join(', ')}</Typography>}
+          <Typography variant="body2"><b>Minimalny wiek gracza:</b> {program.userAgeMin}+</Typography>
+          {program.otherInfo && <Typography variant="body2" sx={{ mt: 3 }}>{program.otherInfo}</Typography>}
         </AccordionDetails>
       </Accordion>
       <ProgramRegisterButton
+        programID={props.programID}
         program={props.program}
         registerList={props.registerList}
         eventId={props.eventId}

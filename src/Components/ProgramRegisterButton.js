@@ -6,8 +6,8 @@ import AuthContext from "../Context/AuthContext";
 function ProgramRegisterButton(props) {
   const { register, registerDelete } = useDataBase_AddProgramRegister();
   const {user} = useContext(AuthContext);
-  const programId = props.program[0];
-  const program = props.program[1];
+  const programId = props.programID;
+  const program = props.program;
   const usersCurrent = props.registerList ? Math.min(Object.keys(props.registerList?.[programId] || {}).length, program.usersCountMax) : 0;
 
   const fullUsers = usersCurrent >= program.usersCountMax;
