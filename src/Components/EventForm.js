@@ -30,13 +30,8 @@ const validationSchema = yup.object({
 
 function EventForm(props) {
   const formik = useFormik({
-    initialValues: {
-      title: '',
-      date: null,
-      picsURL: '',
-      desc: '',
-      allowRegister: true,
-    },
+    enableReinitialize: true,
+    initialValues: props.initialValues,
     validationSchema: validationSchema,
     onSubmit: (values) => {
       props.submit(values);

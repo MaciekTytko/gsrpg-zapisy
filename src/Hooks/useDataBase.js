@@ -61,10 +61,22 @@ function useDataBase_RemoveEvent() {
 function useDataBase_AddEvent() {
   const [fun, loading, error] = useDatabaseConectTemplate(
     (path, data) => firebasePush(path, data),
-    'Remove event from database',
-    'Error remove event: ');
+    'Add event to database',
+    'Error add event: ');
   const addEvent = async (values) => {
     const path = 'events';
+    const data = values;
+    return await fun(path, data);
+  }
+  return [addEvent, loading, error];
+}
+function useDataBase_EditEvent() {
+  const [fun, loading, error] = useDatabaseConectTemplate(
+    (path, data) => firebaseSet(path, data),
+    'Edit event from database',
+    'Error edit event: ');
+  const addEvent = async (eventID, values) => {
+    const path = 'events/'+eventID;
     const data = values;
     return await fun(path, data);
   }
@@ -239,4 +251,5 @@ export {
   useDataBase_ReadUserData,
   useDataBase_ReadPermission,
   useDataBase_RemoveEvent,
+  useDataBase_EditEvent
 }

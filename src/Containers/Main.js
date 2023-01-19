@@ -7,7 +7,7 @@ import UserNotLogin from "../Pages/UserNotLogin";
 import EventList from "../Pages/EventList";
 import Events from "../Pages/Events";
 import EventsProgramAdd from "../Pages/EventsProgramAdd";
-import EventsAdd from "../Pages/EventAdd";
+import EventAdd from "../Pages/EventAdd";
 import Test from "../Pages/Test";
 import Header from "./Header";
 import MenuSite from "./MenuSite";
@@ -16,6 +16,7 @@ import AuthContext from '../Context/AuthContext';
 import UserRegister from "../Pages/UserRegister";
 import UserVerifyEmail from "../Pages/UserVerifyEmail";
 import ManageEvents from "../Pages/ManageEvents";
+import EventEdit from "../Pages/EventEdit";
 
 function Main() {
   const { user } = useContext(AuthContext);
@@ -41,7 +42,8 @@ function Main() {
 
               <Route path="manage" >
                 <Route index element={<ManageEvents />} />
-                <Route path="addEvent" element={<EventsAdd />} />
+                <Route path="addEvent" element={<EventAdd />} />
+                <Route path="editEvent/:eventID" element={<EventEdit />} />
               </Route>
 
               <Route path="user" element={user != null ? <UserProfile /> : <UserNotLogin />} />
