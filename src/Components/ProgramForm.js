@@ -3,8 +3,7 @@ import { useFormik } from 'formik';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import * as yup from 'yup';
-import { useDataBase_AddProgram } from '../Hooks/useDataBase';
-import { useNavigate, useParams } from 'react-router';
+import PropTypes from 'prop-types'
 
 const validationSchema = yup.object({
   title: yup
@@ -58,29 +57,13 @@ const validationSchema = yup.object({
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
-function EventsProgramAdd() {
-  const addSession = useDataBase_AddProgram();
-  const { id } = useParams();
-  const navigator = useNavigate();
-
+function ProgramForm(props) {
   const formik = useFormik({
-    initialValues: {
-      title: '',
-      desc: '',
-      picsURL: '',
-      system: '',
-      type: ['typ sesji', 'akcja'],
-      vibe: '',
-      triggers: [],
-      otherInfo: '',
-      usersCountMax: 4,
-      userAgeMin: 16,
-    },
+    enableReinitialize: true,
+    initialValues: props.initialValues,
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      console.log(values);
-      addSession(id, values);
-      navigator('/events/' + id)
+      props.submit(values);
     },
   });
 
@@ -263,32 +246,25 @@ function EventsProgramAdd() {
   );
 }
 
-export default EventsProgramAdd;
-
-
-// import * as React from "react";
-// import TextField from "@mui/material/TextField";
-// import Autocomplete from "@mui/material/Autocomplete";
-// import Stack from "@mui/material/Stack";
-
-// export default function Playground() {
-//   const [value, setValue] = React.useState(['rtu']);
-
-//   return (
-//     <Stack spacing={1} sx={{ width: 300 }}>
-//       <Autocomplete
-//         freeSolo
-//         multiple
-//         options={["raz", "dwa", "trzy", "cztery"]}
-//         id="controlled-demo"
-//         value={value}
-//         onChange={(event, newValue) => {
-//           setValue(newValue);
-//         }}
-//         renderInput={(params) => (
-//           <TextField {...params} label="controlled" variant="outlined" />
-//         )}
-//       />
-//       <p>{value ? JSON.stringify(value) : "*"}</p>
-//     </Stack>
-//   );
+const propTypes = {
+  submit: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+  initialValues: PropTypes.object,
+}
+const defaultProps = {
+  initialValues: {
+    title: '',
+    desc: '',
+    picsURL: '',
+    system: '',
+    type: ['typ sesji', 'akcja'],
+    vibe: '',
+    triggers: [],
+    otherInfo: '',
+    usersCountMax: 4,
+    userAgeMin: 16,
+  }
+}
+ProgramForm.propTypes = propTypes;
+ProgramForm.defaultProps = defaultProps;
+export default ProgramForm;

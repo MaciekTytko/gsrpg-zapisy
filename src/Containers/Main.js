@@ -6,7 +6,7 @@ import UserProfile from "../Pages/UserProfile";
 import UserNotLogin from "../Pages/UserNotLogin";
 import EventList from "../Pages/EventList";
 import Events from "../Pages/Events";
-import EventsProgramAdd from "../Pages/EventsProgramAdd";
+import ProgramAdd from "../Pages/ProgramAdd";
 import EventAdd from "../Pages/EventAdd";
 import Test from "../Pages/Test";
 import Header from "./Header";
@@ -38,7 +38,7 @@ function Main() {
               <Route path="events" >
                 <Route index element={<EventList />} />
                 <Route path=":id" element={<EventList />} />
-                <Route path="addProgram/:id" element={<EventsProgramAdd />} />
+                <Route path="addProgram/:eventID" element={<ProgramAdd />} />
               </Route>
 
               <Route path="manage" >
