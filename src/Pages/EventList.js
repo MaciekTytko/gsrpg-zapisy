@@ -1,17 +1,14 @@
-import { Accordion, AccordionDetails, AccordionSummary, Box, Typography, Button } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Typography, Skeleton, Alert } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useContext, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import dayjs from "dayjs";
 import EventsDetails from "../Components/EventDetails";
 import EventContext from "../Context/EventContext"
 
-//const monthsList = ['', 'Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień']
-
 function EventList() {
   const [expanded, setExpanded] = useState(-1);
   const [eventList, loading, error] = useContext(EventContext);
-  const navigator = useNavigate();
   const { id } = useParams();
 
   const handleChange = (panel) => (event, newExpanded) => {
@@ -28,42 +25,37 @@ function EventList() {
 
   return (
     <>
-      <Box sx={{ mb: 2, textAlign: 'right' }}>
-        <Button
-          variant='contained'
-          color="secondary"
-          onClick={() => navigator('/events/addEvent')}
-        >
-          Dodaj wydarzenie
-        </Button>
-      </Box>
-      {Object.entries(eventList).sort(sorter).map((event, index) => (
-        //<p key={i}>{JSON.stringify(eTime) + '  - ' + JSON.stringify(eventList[eKey])}</p>
-        <Accordion
-          key={event[0]}
-          expanded={expanded === event[0]}
-          onChange={handleChange(event[0])}
-          TransitionProps={{ unmountOnExit: true }}
-        >
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
+      <Typography variant="h2" >Gliwickie wydarzenia RPG</Typography>
+      <Typography variant="body1" gutterBottom>Sprawdź co RPGowego czeka Cię w tym miesiącu!</Typography>
+      {error && <Alert severity="error">Nie można połączyć z bazą danych by wczytać wydarzenia <br /> sprawdź swoje połączenie</Alert>}
+      {loading
+        ? <> <Skeleton/><Skeleton/><Skeleton/></>
+        : Object.entries(eventList).sort(sorter).map(([eventID, event], index) => (
+          <Accordion
+            key={eventID}
+            expanded={expanded === eventID}
+            onChange={handleChange(eventID)}
+            TransitionProps={{ unmountOnExit: true }}
           >
-            <Typography variant="h6">{`${event[1].title} [${dayjs(event[1].date).format('DD-MM-YYYY')}]`}</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <EventsDetails
-              eventId={event[0]}
-              title={event[1].title}
-              desc={event[1].desc}
-              picsURL={event[1].picsURL}
-              date={event[1].date}
-              allowRegister={event[1].allowRegister}
-            />
-          </AccordionDetails>
-        </Accordion>
-      ))}
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls={"content-"+eventID}
+              id={"header-"+eventID}
+            >
+              <Typography variant="h6">{`${event.title} [${dayjs(event.date).format('DD-MM-YYYY')}]`}</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <EventsDetails
+                eventId={eventID}
+                title={event.title}
+                desc={event.desc}
+                picsURL={event.picsURL}
+                date={event.date}
+                allowRegister={event.allowRegister}
+              />
+            </AccordionDetails>
+          </Accordion>
+        ))}
     </>
   )
 }
