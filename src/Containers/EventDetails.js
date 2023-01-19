@@ -1,5 +1,5 @@
-import EventsDetailsHeader from "./EventDetailsHeader";
-import EventsDetailsProgram from "./EventDetailsProgram";
+import EventsDetailsHeader from "../Components/EventDetailsHeader";
+import EventsDetailsProgram from "../Components/EventDetailsProgram";
 
 
 function EventsDetails(props) {

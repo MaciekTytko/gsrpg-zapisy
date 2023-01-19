@@ -7,7 +7,7 @@ function EventsDetailsHeader(props) {
   const eventDesc = props.desc.split('\n');
 
   return (
-    <Box sx={{ mb: 2, display: 'flex', flexDirection: 'row' }}>
+    <Box sx={{ mb: 2, display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
       {props.picsURL && <Box sx={{ mr: 3, maxWidth: 300 }}>
         <Card >
           <CardMedia

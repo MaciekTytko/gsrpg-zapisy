@@ -3,7 +3,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import dayjs from "dayjs";
-import EventsDetails from "../Components/EventDetails";
+import EventsDetails from "../Containers/EventDetails";
 import EventContext from "../Context/EventContext"
 
 function EventList() {
@@ -29,7 +29,7 @@ function EventList() {
       <Typography variant="body1" gutterBottom>Sprawdź co RPGowego czeka Cię w tym miesiącu!</Typography>
       {error && <Alert severity="error">Nie można połączyć z bazą danych by wczytać wydarzenia <br /> sprawdź swoje połączenie</Alert>}
       {loading
-        ? <> <Skeleton/><Skeleton/><Skeleton/></>
+        ? <><Skeleton /><Skeleton /><Skeleton /></>
         : Object.entries(eventList).sort(sorter).map(([eventID, event], index) => (
           <Accordion
             key={eventID}
@@ -39,8 +39,8 @@ function EventList() {
           >
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
-              aria-controls={"content-"+eventID}
-              id={"header-"+eventID}
+              aria-controls={"content-" + eventID}
+              id={"header-" + eventID}
             >
               <Typography variant="h6">{`${event.title} [${dayjs(event.date).format('DD-MM-YYYY')}]`}</Typography>
             </AccordionSummary>
