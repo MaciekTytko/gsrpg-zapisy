@@ -1,4 +1,4 @@
-import { Alert, Box, CircularProgress, createTheme, responsiveFontSizes, ThemeProvider, Typography } from "@mui/material";
+import { Alert, Box, createTheme, responsiveFontSizes, ThemeProvider, Typography } from "@mui/material";
 import { useContext } from "react";
 import EventCard from "../Components/EventCard";
 import EventCardSkeleton from "../Components/EventCardSkeleton";
