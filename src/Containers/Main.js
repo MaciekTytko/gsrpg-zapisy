@@ -17,7 +17,7 @@ import UserRegister from "../Pages/UserRegister";
 import UserVerifyEmail from "../Pages/UserVerifyEmail";
 import ManageEvents from "../Pages/ManageEvents";
 import EventEdit from "../Pages/EventEdit";
-import EventDetails from "../Pages/EventDetails";
+import ManageProgram from "../Pages/ManageProgram";
 
 function Main() {
   const { user } = useContext(AuthContext);
@@ -45,7 +45,7 @@ function Main() {
                 <Route index element={<ManageEvents />} />
                 <Route path="addEvent" element={<EventAdd />} />
                 <Route path="editEvent/:eventID" element={<EventEdit />} />
-                <Route path="evetnDetails/:eventID" element={<EventDetails />} />
+                <Route path="eventDetails/:eventID" element={<ManageProgram />} />
               </Route>
 
               <Route path="user" element={user != null ? <UserProfile /> : <UserNotLogin />} />

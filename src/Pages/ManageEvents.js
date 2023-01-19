@@ -39,7 +39,7 @@ function Event(props) {
   const [confirmRemove, setConfirmRemove] = useState();
   const [removeEvent, loading, error] = props.removeEvent;
 
-  const details = () => navigator('evetnDetails/' + props.id);
+  const details = () => navigator('eventDetails/' + props.id);
   const edit = () => navigator('editEvent/' + props.id);
   const remove = () => {
     if(confirmRemove) removeEvent(props.id);
