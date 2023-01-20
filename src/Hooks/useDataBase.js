@@ -73,7 +73,7 @@ function useDataBase_EditEvent() {
 }
 function useDataBase_RemoveEvent() {
   const [fun, loading, error] = useDatabaseConectTemplate(
-    (path, data) => firebaseSet(path, data),
+    (path, data) => firebaseRemove(path, data),
     'Remove event from database',
     'Error remove event: ');
   const removeEvent = async (eventID) => {
@@ -115,7 +115,7 @@ function useDataBase_EditProgram() {
 }
 function useDataBase_RemoveProgram() {
   const [fun, loading, error] = useDatabaseConectTemplate(
-    (path, data) => firebaseSet(path, data),
+    (path, data) => firebaseRemove(path, data),
     'Remove Program from database',
     'Error remove Program: ');
   const removeProgram = async (eventID, programID) => {
@@ -153,7 +153,7 @@ function useDataBase_AddProgramRegistration() {
 }
 function useDataBase_RemoveProgramRegistration() {
   const [fun, loading, error] = useDatabaseConectTemplate(
-    (path, data) => firebaseSet(path, data),
+    (path, data) => firebaseRemove(path, data),
     'Remove register user to program',
     'Error remove register Program: ');
   const removeProgramRegistration = async (eventID, programID, clientID) => {
