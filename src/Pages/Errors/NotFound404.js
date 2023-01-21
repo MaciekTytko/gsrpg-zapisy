@@ -15,7 +15,7 @@ function NotFound404() {
         <CrisisAlertIcon color="error" sx={{ fontSize: 80, m: 2 }} />
         <Typography
           variant="body">
-          Zabrnąłeś zbyt daleko w krainę wyobraźni. <br/>Wróć do strony głównej i zacznij swój quest jeszcze raz.
+          To nie jest strona której szukałeś. <br/>Wróć do strony głównej i zacznij swój quest jeszcze raz.
         </Typography>
         <Button
           sx={{ mt: 2 }}

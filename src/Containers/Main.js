@@ -3,7 +3,6 @@ import { Route, Routes, } from "react-router-dom";
 import { useContext } from "react";
 import UserLogin from "../Pages/UserLogin";
 import UserProfile from "../Pages/UserProfile";
-import UserNotLogin from "../Pages/UserNotLogin";
 import EventList from "../Pages/EventList";
 import Events from "../Pages/Events";
 import ProgramAdd from "../Pages/ProgramAdd";
@@ -20,6 +19,7 @@ import ManageEvents from "../Pages/ManageEvents";
 import EventEdit from "../Pages/EventEdit";
 import ManageProgram from "../Pages/ManageProgram";
 import NotFound404 from "../Pages/Errors/NotFound404";
+import AuthCheck from "../Components/Route/AuthCheck";
 
 function Main() {
   const { user } = useContext(AuthContext);
@@ -35,28 +35,27 @@ function Main() {
               <Route index element={<Events />} />
               <Route path="login" element={<UserLogin />} />
               <Route path="register" element={<UserRegister />} />
-              <Route path="test" element={<Test />} />
+              <Route path="user" element={<AuthCheck><UserProfile /></AuthCheck>} />
 
               <Route path="events" >
                 <Route index element={<EventList />} />
                 <Route path=":id" element={<EventList />} />
-                <Route path="addProgram/:eventID" element={<ProgramAdd />} />
-                <Route path="editProgram/:eventID/:programID" element={<ProgramEdit />} />
+                <Route path="addProgram/:eventID" element={<AuthCheck><ProgramAdd /></AuthCheck>} />
+                <Route path="editProgram/:eventID/:programID" element={<AuthCheck><ProgramEdit /></AuthCheck>} />
               </Route>
 
-              <Route path="manage" >
+              {user && <Route path="manage" >
                 <Route index element={<ManageEvents />} />
                 <Route path="addEvent" element={<EventAdd />} />
                 <Route path="editEvent/:eventID" element={<EventEdit />} />
                 <Route path="eventDetails/:eventID" element={<ManageProgram />} />
-              </Route>
+              </Route>}
 
-              <Route path="user" element={user != null ? <UserProfile /> : <UserNotLogin />} />
+              <Route path="test" element={<Test />} />
               <Route path="*" element={<NotFound404 />} />
             </Route>
           </Routes>
         }
-
       </Container>
       <Footer />
       <Header />
@@ -65,21 +64,3 @@ function Main() {
 }
 
 export default Main;
-
-
-
-
-// const router = createBrowserRouter([
-//   {
-//     path: "/",
-//     element: <EventList />,
-//     loader: <SkeletonLikeSpinner />,
-//     children: [
-//       {
-//         path: "login",
-//         element: <UserLogin />,
-//         loader: <SkeletonLikeSpinner />,
-//       },
-//     ],
-//   },
-// ]);
