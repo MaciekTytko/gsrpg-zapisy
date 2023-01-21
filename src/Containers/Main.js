@@ -19,6 +19,7 @@ import UserVerifyEmail from "../Pages/UserVerifyEmail";
 import ManageEvents from "../Pages/ManageEvents";
 import EventEdit from "../Pages/EventEdit";
 import ManageProgram from "../Pages/ManageProgram";
+import NotFound404 from "../Pages/Errors/NotFound404";
 
 function Main() {
   const { user } = useContext(AuthContext);
@@ -51,6 +52,7 @@ function Main() {
               </Route>
 
               <Route path="user" element={user != null ? <UserProfile /> : <UserNotLogin />} />
+              <Route path="*" element={<NotFound404 />} />
             </Route>
           </Routes>
         }
