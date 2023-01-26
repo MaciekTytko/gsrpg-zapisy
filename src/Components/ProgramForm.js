@@ -208,7 +208,6 @@ function ProgramForm(props) {
       />
       <TextField
         fullWidth
-        type="number"
         margin="dense"
         id="usersCountMax"
         name="usersCountMax"
@@ -220,7 +219,6 @@ function ProgramForm(props) {
       />
       <TextField
         fullWidth
-        type="number"
         margin="dense"
         id="userAgeMin"
         name="userAgeMin"

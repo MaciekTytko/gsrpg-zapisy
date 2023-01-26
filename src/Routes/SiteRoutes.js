@@ -18,7 +18,7 @@ export default function SiteRoutes() {
   const { user } = useContext(AuthContext);
 
   return (
-    <Suspense fallback={<p>Ładowanie</p>}>
+    <Suspense fallback={<p>Ładowanie ...</p>}>
       <Routes>
         <Route path="/">
           <Route index element={<Events />} />
