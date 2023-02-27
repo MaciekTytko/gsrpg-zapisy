@@ -11,11 +11,15 @@ function Events() {
   const [eventList, loading, error] = useContext(EventContext);
 
   const sorter = (a, b) => {
-    return a.date < b.date
+    return a[1].date < b[1].date
   }
 
   return (
     <>
+<Box sx={{bgcolor: '#ff0', height: '100VH', width: '100%'}}>
+  
+</Box>
+
       {/* TODO make this in global THEME */}
       <ThemeProvider theme={theme}>
         <Typography variant="h2" >Gliwickie wydarzenia RPG</Typography>
