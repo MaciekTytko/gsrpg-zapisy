@@ -20,25 +20,15 @@ export default function MainPage() {
     <>
       <Box
         sx={{
-          backgroundColor: "#201f25",
           height: "100VH",
-          // height: 'calc(100VH - 450px)',
-          // minHeight: '300px',
+          backgroundImage: diceImage,
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
           width: "100%",
           display: "flex",
-        }}
+        }} 
       >
-        <Box
-          sx={{
-            height: "100%",
-          }}>
-          <img
-            style={{ height: "100%" }}
-            src={wyvernImage}
-            alt={"Wyvern"}
-            loading="lazy"
-          />
-        </Box>
         <Box
           sx={{
             flex: 1,
