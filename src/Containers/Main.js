@@ -8,24 +8,38 @@ import UserVerifyEmail from "../Pages/UserVerifyEmail";
 import SiteRoutes from "../Routes/SiteRoutes";
 import { Container } from "@mui/material";
 import ErrorBoundary from "../HOC/ErrorBoundary";
+import { Route, Routes } from "react-router";
+import MainPage from "../Pages/MainPage";
 
 function Main() {
   const { user } = useContext(AuthContext);
 
   return (
-    <>
-      <MenuSite />
-      <Container>
-        <ErrorBoundary >
-        {(!user?.emailVerified && user?.providerId === "firebase")
-          ? <UserVerifyEmail />
-          : <SiteRoutes/>
-        }
-        </ErrorBoundary>
-      </Container>
-      <Footer />
-      <Header />
-    </>
+
+    <Routes>
+      <Route path="/">
+        <Route index element={
+          <MainPage />
+        } />
+        <Route path="*" element={
+          <>
+            <MenuSite />
+            <Container>
+              <ErrorBoundary >
+                {(!user?.emailVerified && user?.providerId === "firebase")
+                  ? <UserVerifyEmail />
+                  : <SiteRoutes />
+                }
+              </ErrorBoundary>
+            </Container>
+            <Footer />
+            <Header />
+          </>
+        } />
+      </Route>
+    </Routes>
+
+
   )
 }
 

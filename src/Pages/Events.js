@@ -15,10 +15,7 @@ function Events() {
   }
 
   return (
-    <>
-<Box sx={{bgcolor: '#ff0', height: '100VH', width: '100%'}}>
-  
-</Box>
+    <>  
 
       {/* TODO make this in global THEME */}
       <ThemeProvider theme={theme}>
