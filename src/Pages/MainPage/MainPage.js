@@ -1,4 +1,6 @@
-import { Box,} from "@mui/material";
+import { Box, Container, } from "@mui/material";
+import Footer from "../../Containers/Footer";
+import Header from "../../Containers/Header";
 import DicePage from "./DicePage";
 import Events from "./Events";
 
@@ -9,13 +11,14 @@ export default function MainPage() {
 
   return (
     <>
-      
-<DicePage/>
 
-      <Box>
+      <DicePage />
+
+      <Container>
         <Events />
-      </Box>
-
+      </Container>
+      <Footer />
+      <Header />
     </>
   )
 }

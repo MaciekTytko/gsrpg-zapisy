@@ -16,12 +16,6 @@ function Events() {
 
   return (
     <>  
-
-      {/* TODO make this in global THEME */}
-      <ThemeProvider theme={theme}>
-        <Typography variant="h2" >Gliwickie wydarzenia RPG</Typography>
-        <Typography variant="body1" gutterBottom>Sprawdź co RPGowego czeka Cię w tym miesiącu!</Typography>
-      </ThemeProvider>
       <Box sx={{
         //bgcolor: '#cfe8fc',
         padding: '20px 20px',

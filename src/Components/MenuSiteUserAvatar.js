@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 import AuthContext from "../Context/AuthContext";
 import { useAuth_signOut } from "../Hooks/useAuth";
 
-function MenuSiteUserAvatar(props) {
+function MenuSiteUserAvatar() {
   const [anchorElUser, setAnchorElUser] = useState(null);
   const {user} = useContext(AuthContext);
   const [logout] = useAuth_signOut();
