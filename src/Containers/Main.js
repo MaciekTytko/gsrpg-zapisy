@@ -9,7 +9,7 @@ import SiteRoutes from "../Routes/SiteRoutes";
 import { Container } from "@mui/material";
 import ErrorBoundary from "../HOC/ErrorBoundary";
 import { Route, Routes } from "react-router";
-import MainPage from "../Pages/MainPage";
+import MainPage from "../Pages/MainPage/MainPage";
 
 function Main() {
   const { user } = useContext(AuthContext);

@@ -3,7 +3,7 @@ import { lazy, Suspense, useContext } from "react";
 import UserLogin from "../Pages/UserLogin";
 import UserProfile from "../Pages/UserProfile";
 import EventList from "../Pages/EventList";
-import Events from "../Pages/Events";
+import Events from "../Pages/MainPage/Events";
 import ProgramAdd from "../Pages/ProgramAdd";
 import ProgramEdit from "../Pages/ProgramEdit";
 import Test from "../Pages/Test";

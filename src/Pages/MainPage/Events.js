@@ -1,8 +1,8 @@
 import { Alert, Box, createTheme, responsiveFontSizes, ThemeProvider, Typography } from "@mui/material";
 import { useContext } from "react";
-import EventCard from "../Components/EventCard";
-import EventCardSkeleton from "../Components/EventCardSkeleton";
-import EventContext from "../Context/EventContext";
+import EventCard from "../../Components/EventCard";
+import EventCardSkeleton from "../../Components/EventCardSkeleton";
+import EventContext from "../../Context/EventContext";
 
 let theme = createTheme();
 theme = responsiveFontSizes(theme);
