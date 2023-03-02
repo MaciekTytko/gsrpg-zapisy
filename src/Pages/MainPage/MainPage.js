@@ -1,4 +1,4 @@
-import { Box, Container, } from "@mui/material";
+import { Container, } from "@mui/material";
 import Footer from "../../Containers/Footer";
 import Header from "../../Containers/Header";
 import DicePage from "./DicePage";

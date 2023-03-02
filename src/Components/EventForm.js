@@ -119,7 +119,7 @@ function EventForm(props) {
           color="primary"
           fullWidth
           type="submit">
-          {props.loading ? <CircularProgress /> : "Zapisz wydarzenie"}
+          {props.loading ? <CircularProgress color='secondary' /> : "Zapisz wydarzenie"}
         </Button>
       </form>
     </LocalizationProvider>

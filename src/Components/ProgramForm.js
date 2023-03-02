@@ -1,4 +1,4 @@
-import { Autocomplete, Box, Button, Card, CardMedia, Checkbox,  TextField } from '@mui/material';
+import { Autocomplete, Box, Button, Card, CardMedia, Checkbox,  CircularProgress,  TextField } from '@mui/material';
 import { useFormik } from 'formik';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
@@ -234,7 +234,7 @@ function ProgramForm(props) {
         color="primary"
         variant="contained"
         fullWidth type="submit">
-        Wyślij sesję
+        {props.loading ? <CircularProgress color='secondary' /> : 'Wyślij sesję'}
       </Button>
     </form>
   );
