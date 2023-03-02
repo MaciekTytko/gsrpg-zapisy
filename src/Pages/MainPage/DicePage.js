@@ -5,6 +5,7 @@ import backgroundImage from "../../Assets/Backgrounds/DiceBackground.jpg"
 import MenuSiteUserAvatar from "../../Components/MenuSiteUserAvatar";
 import AuthContext from "../../Context/AuthContext";
 import { useNavigate } from "react-router";
+import logoImage from "../../Assets/Logo/LigaZMG_Logo_03_kwadrat2.png"
 
 const AppBarHeight = 80;
 
@@ -39,6 +40,7 @@ export default function DicePage() {
 
 
       <Box sx={{ height: "100VH", display: "flex", flexDirection: "column" }}>
+        {/* Background */}
         <Box
           sx={{
             position: 'absolute',
@@ -53,6 +55,18 @@ export default function DicePage() {
             backgroundColor: 'black',
           }}
         />
+
+        {/* Logo */}
+        <Box position="absolute" top={AppBarHeight + 10}>
+          <img
+            src={logoImage}
+            alt="logo LigiZMG"
+            height={120}
+            width={120}
+          />
+        </Box>
+        
+        {/* Texts and buttons */}
         <Box
           sx={{
             flex: 1,
