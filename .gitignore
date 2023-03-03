@@ -27,3 +27,6 @@ yarn-error.log*
 firebase.json
 *.cache
 *.jpg
+
+# graphics 
+/src/Assets
