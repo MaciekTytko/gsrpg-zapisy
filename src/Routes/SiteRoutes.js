@@ -11,6 +11,7 @@ import AuthContext from '../Context/AuthContext';
 import UserRegister from "../Pages/UserRegister";
 import NotFound404 from "../Pages/Errors/NotFound404";
 import AuthCheck from "../Components/Route/AuthCheck";
+import Contact from "../Pages/Bureaucracy/Contact";
 
 const ManageRoutes = lazy(() => import("./ManageRoutes"));
 
@@ -34,6 +35,8 @@ export default function SiteRoutes() {
           </Route>
 
           {user && <Route path="manage/*" element={<ManageRoutes/>} />}
+
+          <Route path="contact" element={<Contact />} />
 
           <Route path="test" element={<Test />} />
           <Route path="*" element={<NotFound404 />} />
