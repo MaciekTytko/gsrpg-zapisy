@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router";
-import EventContext from "../Context/EventContext"
-import { useDataBase_RemoveEvent } from "../Hooks/useDataBase";
+import EventContext from "../../Context/EventContext"
+import { useDataBase_RemoveEvent } from "../../Hooks/useDataBase";
 
 
 function ManageEvents() {

@@ -227,6 +227,14 @@ function useDataBase_ReadRegistrations(eventId) {
     'Error reading events register: ');
   return [registerList, loading, error];
 }
+function useDataBase_ReadUsers(eventId) {
+  const [userList, loading, error] = useDatabaseReadTemplate(
+    ref(fbaseDatabase, 'users'),
+    {},
+    '###read Users###',
+    'Error reading users: ');
+  return [userList, loading, error];
+}
 
 
 
@@ -277,4 +285,5 @@ export {
   useDataBase_ReadEvents,
   useDataBase_ReadUserData,
   useDataBase_ReadPermission,
+  useDataBase_ReadUsers,
 }

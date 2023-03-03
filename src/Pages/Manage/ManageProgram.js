@@ -1,9 +1,9 @@
 import { useContext, useState } from "react";
 import { useNavigate, useParams } from "react-router";
-import { useDataBase_ApproveProgram, useDataBase_ReadPrograms, useDataBase_ReadRegistrations, useDataBase_RemoveProgram } from '../Hooks/useDataBase';
-import InfoBarContext from "../Context/InfoBarContext";
-import { infoBarAction } from "../Reduce/InfoBarReducer";
-import EventContext from "../Context/EventContext";
+import { useDataBase_ApproveProgram, useDataBase_ReadPrograms, useDataBase_ReadRegistrations, useDataBase_RemoveProgram } from '../../Hooks/useDataBase';
+import InfoBarContext from "../../Context/InfoBarContext";
+import { infoBarAction } from "../../Reduce/InfoBarReducer";
+import EventContext from "../../Context/EventContext";
 import dayjs from "dayjs";
 
 function ManageProgram() {

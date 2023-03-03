@@ -13,10 +13,10 @@ import MenuSiteLogo from '../Components/MenuSiteLogo';
 import MenuSiteUserAvatar from '../Components/MenuSiteUserAvatar';
 import AuthContext from '../Context/AuthContext';
 
-const pages = ['lo',';lol']
+const pages = ['lo', ';lol']
 function MenuSite() {
   const [anchorElNav, setAnchorElNav] = useState(null);
-  const {user} = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -30,7 +30,7 @@ function MenuSite() {
 
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{ displayPrint: 'none' }}>
       <Container sx={{ p: 0 }} maxWidth="xl">
         <Toolbar>
 
@@ -75,7 +75,7 @@ function MenuSite() {
             <MenuSiteButtons />
           </Box>
 
-          {user && <MenuSiteUserAvatar/>}
+          {user && <MenuSiteUserAvatar />}
 
         </Toolbar>
       </Container>

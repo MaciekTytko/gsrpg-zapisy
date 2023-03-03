@@ -2,7 +2,7 @@ import "./Header.scss"
 
 function Header() {
   return (
-    <header className="head">
+    <header className="head d-print-none">
     
     </header>
   )
