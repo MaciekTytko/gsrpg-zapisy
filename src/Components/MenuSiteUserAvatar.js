@@ -22,6 +22,11 @@ function MenuSiteUserAvatar() {
     handleCloseUserMenu();
   }
 
+  const logoutClick = () => {
+    logout();
+    navigator('/');
+  }
+
   return (
     <Box sx={{ flexGrow: 0 }}>
       <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -46,7 +51,7 @@ function MenuSiteUserAvatar() {
         <MenuItem key="profile" onClick={goToProfile}>
           <Typography textAlign="center">Profil</Typography>
         </MenuItem>
-        <MenuItem key="logout" onClick={logout}>
+        <MenuItem key="logout" onClick={logoutClick}>
           <Typography textAlign="center">Wyloguj</Typography>
         </MenuItem>
       </Menu>
