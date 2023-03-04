@@ -1,4 +1,5 @@
 import { Container, Link, Paper, Typography } from "@mui/material";
+import { discordLink } from "../../Assets/Links/importantLinks";
 
 export default function Contact() {
 
@@ -41,7 +42,7 @@ export default function Contact() {
           </tbody>
         </table>
         <Typography variant="body2" >
-          Najszybciej porozmawiasz z nami na <Link href="https://discord.gg/dT99qFz3z7" color="inherit">
+          Najszybciej porozmawiasz z nami na <Link href={discordLink} color="inherit">
             Discordzie Ligi ZMG
           </Link>
         </Typography>

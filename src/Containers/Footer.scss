@@ -9,3 +9,11 @@
   align-items: center;
   justify-content: center;
 }
+
+.Link{
+  text-decoration: none;
+  color: black;
+  &:hover {
+    text-decoration: underline;
+  }
+}
