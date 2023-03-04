@@ -18,6 +18,9 @@ function Footer() {
         <Box sx={{ pt: '30px', display: 'flex', justifyContent: 'space-around' }}>
           <Box>
             <p>O serwisie</p>
+            <RouterLink to="/termsAndConditions" className="Link">
+              Regulamin
+            </RouterLink>
             <RouterLink to="/privacyPolicy" className="Link">
               Polityka prywatności
             </RouterLink>

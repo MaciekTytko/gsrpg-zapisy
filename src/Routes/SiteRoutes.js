@@ -13,6 +13,7 @@ import NotFound404 from "../Pages/Errors/NotFound404";
 import AuthCheck from "../Components/Route/AuthCheck";
 import Contact from "../Pages/Bureaucracy/Contact";
 import PrivacyPolicy from "../Pages/Bureaucracy/PrivacyPolicy";
+import TermsAndConditions from "../Pages/Bureaucracy/TermsAndConditions.js";
 
 const ManageRoutes = lazy(() => import("./ManageRoutes"));
 
@@ -39,7 +40,8 @@ export default function SiteRoutes() {
 
           <Route path="contact" element={<Contact />} />
           <Route path="privacyPolicy" element={<PrivacyPolicy />} />
-
+          <Route path="termsAndConditions" element={<TermsAndConditions />} />
+          
           <Route path="test" element={<Test />} />
           <Route path="*" element={<NotFound404 />} />
         </Route>
