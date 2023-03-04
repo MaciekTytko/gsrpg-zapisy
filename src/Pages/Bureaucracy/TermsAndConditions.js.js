@@ -1,13 +1,11 @@
 import { Box } from "@mui/material";
 import { useLayoutEffect } from "react";
 
-
-
 export default function TermsAndConditions() {
   useLayoutEffect(() => {
     window.scrollTo(0, 0)
   });
-  
+
   return (
     <Box textAlign="left">
       <h2> Regulamin strony </h2>
