@@ -18,7 +18,9 @@ function Footer() {
         <Box sx={{ pt: '30px', display: 'flex', justifyContent: 'space-around' }}>
           <Box>
             <p>O serwisie</p>
-            <p>Polityka prywatności</p>
+            <RouterLink to="/privacyPolicy" className="Link">
+              Polityka prywatności
+            </RouterLink>
             <p>Materiały promocyjne</p>
           </Box>
           <Box sx={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }}>
@@ -38,7 +40,7 @@ function Footer() {
             </Box>
           </Box>
         </Box>
-        <p>Made by Maciek for Liga ZMG</p>
+        <p>© 2023 by  Maciek for Liga ZMG</p>
       </Container>
     </div>
   )

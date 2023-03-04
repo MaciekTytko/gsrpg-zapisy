@@ -12,6 +12,7 @@ import UserRegister from "../Pages/UserRegister";
 import NotFound404 from "../Pages/Errors/NotFound404";
 import AuthCheck from "../Components/Route/AuthCheck";
 import Contact from "../Pages/Bureaucracy/Contact";
+import PrivacyPolicy from "../Pages/Bureaucracy/PrivacyPolicy";
 
 const ManageRoutes = lazy(() => import("./ManageRoutes"));
 
@@ -37,6 +38,7 @@ export default function SiteRoutes() {
           {user && <Route path="manage/*" element={<ManageRoutes/>} />}
 
           <Route path="contact" element={<Contact />} />
+          <Route path="privacyPolicy" element={<PrivacyPolicy />} />
 
           <Route path="test" element={<Test />} />
           <Route path="*" element={<NotFound404 />} />
