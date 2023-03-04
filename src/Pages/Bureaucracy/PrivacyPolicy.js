@@ -31,6 +31,7 @@ export default function PrivacyPolicy() {
         <li>Najlepsza Strona Wszechświata może gromadzić także Twoje dane na potrzeby analityki (jak komuś będzie się chciało tą analitykę włączyć) – w szczególności adres IP, rodzaj przeglądarki, system operacyjny. Dane są gromadzone, ale nie poddawane ocenie –&nbsp;Najlepsza Strona Wszechświata ma w nosie, czy używasz Windows, Maca czy Linuksa a może wchodzisz z steamdecka. </li>
         <li>Jeśli zarejestrujesz się na stronie – ale tylko wtedy –&nbsp;oddajesz mi do dyspozycji także ksywę i adres e-mail. Możesz podać link do ulubionego obrazka, ale będzie się wyświetlał jedynie w twoim profilu.</li>
         <li>Czasem zrobimy ankietę. Jeśli wypełnisz taką ankietę to…&nbsp;no, zgadnij. Tak, udostępniasz nam dane, które będą przechowywane. </li>
+        <li>Wprowadzone przez Ciebie dane potrzebujemy jedynie w celu prowadzenia Najlepszej strony we Wszechświecie oraz organizacji wydarzeń</li>
       </ul>
       <h3>Jak długo przechowuję Twoje dane?</h3>
       <ul>
