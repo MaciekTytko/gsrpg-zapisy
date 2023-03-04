@@ -33,7 +33,6 @@ function Main() {
               </ErrorBoundary>
             </Container>
             <Footer />
-            <Header />
           </>
         } />
       </Route>

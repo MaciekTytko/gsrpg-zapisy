@@ -1,18 +1,24 @@
+$bgColor: #3f4241;
+
 .Foot {
-  bottom: 0;
   width: 100%;
   margin-top: 2rem;
 
-  background-color: rgb(161, 191, 181);
+  background-color: $bgColor;
 
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
+
+  @media screen and (max-width: 650px) {
+    flex-direction: column-reverse;
+  }
 }
 
-.Link{
+.Link {
   text-decoration: none;
-  color: black;
+  color: #fff;
+
   &:hover {
     text-decoration: underline;
   }
