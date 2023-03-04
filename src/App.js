@@ -1,5 +1,4 @@
 import './App.css';
-import Main from "./Containers/Main"
 import { BrowserRouter } from 'react-router-dom';
 import AuthContext from './Context/AuthContext';
 import { useAuthUser } from './Hooks/useAuth';
@@ -9,6 +8,7 @@ import InfoBar from './Components/InfoBar'
 import { useReducer } from 'react';
 import { infoBarInitialState, infoBarReducer } from './Reduce/InfoBarReducer';
 import InfoBarContext from './Context/InfoBarContext'
+import MainPageRoutes from './Routes/MainPageRoutes';
 
 function App() {
   const [user, reloadUser] = useAuthUser();
@@ -26,7 +26,7 @@ function App() {
         <EventContext.Provider value={events}>
           <InfoBarContext.Provider value={{ state: state, dispatch: dispatch, }}>
             <div className="App">
-              <Main />
+              <MainPageRoutes />
             </div>
             <InfoBar />
           </InfoBarContext.Provider>
