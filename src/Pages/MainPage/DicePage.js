@@ -25,21 +25,22 @@ export default function DicePage() {
         <Toolbar sx={{ justifyContent: 'space-between' }}>
           <Box sx={{ flex: 1 }} />
           <Typography
-            variant="h1"
+            variant="h3"
             color="white"
             fontWeight="800"
             sx={{ fontSize: 36 }}
           >
             GLIWICKIE RPG
           </Typography>
-          <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
+          <Box sx={{ flex: 1, display: {xs:'flex', md: 'none'}}} />
+          <Box sx={{ flex: 1, display: {xs:'none', md: 'flex'}, justifyContent: 'flex-end' }}>
             {user && <MenuSiteUserAvatar />}
           </Box>
         </Toolbar>
       </AppBar>
 
 
-      <Box sx={{ height: "100VH", display: "flex", flexDirection: "column" }}>
+      <Box sx={{ height: '100VH', display: 'flex', flexDirection: 'column', width: '100%', overflow: 'hidden' }}>
         {/* Background */}
         <Box
           sx={{
@@ -57,7 +58,7 @@ export default function DicePage() {
         />
 
         {/* Logo */}
-        <Box position="absolute" top={AppBarHeight + 10}>
+        <Box position="absolute" top={AppBarHeight + 10} sx={{display: {xs:'none', md: 'block'}}}>
           <img
             src={logoImage}
             alt="logo LigiZMG"
@@ -83,18 +84,18 @@ export default function DicePage() {
             <Box sx={{ height: AppBarHeight }} />
             <Box>
               <Typography
-                variant="h2"
+                variant="h1"
                 color="white"
                 fontWeight="800"
-                sx={{ fontSize: 90, mt: 2, mb: 5 }}>
+                sx={{  mt: 2, mb: 5 }}>
                 Wydarzenia RPG
               </Typography>
 
               <Typography
-                variant="h2"
+                variant="h4"
                 color="white"
                 fontWeight="400"
-                sx={{ fontSize: 32, mt: 2, mb: 4 }}>
+                sx={{  mt: 2, mb: 4 }}>
                 Zobacz co RPGowego dzieje się w twojej okolicy
               </Typography>
 
@@ -103,10 +104,10 @@ export default function DicePage() {
               </Button>
 
               <Typography
-                variant="h2"
+                variant="body1"
                 color="white"
                 fontWeight="400"
-                sx={{ fontSize: "1rem", mt: 1.5 }}>
+                sx={{  mt: 1.5 }}>
                 Zagraj w coś fajnego
               </Typography>
             </Box>
