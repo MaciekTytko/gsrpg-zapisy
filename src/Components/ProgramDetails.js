@@ -7,7 +7,7 @@ function ProgramDetails(props) {
   const program = props.program;
 
   return (
-    <Box sx={{ display: (program.approved ? 'flex' : 'none'), flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+    <Box sx={{ display: (program.approved ? 'flex' : 'none'), flexDirection: {xs: 'column', md: 'row'}, justifyContent: 'space-between', alignItems: 'center' }}>
       <Accordion sx={{ minHeight: 50, width: '100%' }}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}

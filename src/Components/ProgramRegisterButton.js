@@ -32,8 +32,8 @@ function ProgramRegisterButton(props) {
   }
 
   return (
-    <Box sx={{ height: 50, display: 'flex', flexDirection: 'row' }}>
-      <Paper sx={{ width: 50, p: 1, textAlign: 'center' }}>
+    <Box sx={{ height: 50, display: 'flex', flexDirection: {xs:'column', md: 'row'} }}>
+      <Paper sx={{ width: {xs: '100%', md: 50}, p: 1, textAlign: 'center', }}>
         <Typography variant="body2" >
           {usersCurrent + '/' + program.usersCountMax}
         </Typography>

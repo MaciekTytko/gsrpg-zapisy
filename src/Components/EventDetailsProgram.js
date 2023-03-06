@@ -26,7 +26,7 @@ function EventsDetailsProgram(props) {
       </Box>
       {(errorProgram || errorRegistration) && <Alert severity="error">Nie wczytać listy sesji<br />sprawdź swoje połączenie</Alert>}
       {(error1 || error2) && <Alert severity="error">Nie można zmienić zapisów na sesję<br />sprawdź później</Alert>}
-      <Stack spacing={2}>
+      <Stack direction="column" spacing={{ xs: 5,  md: 2 }} mb={3}>
         {loadingProgram || loadingRegistration
           ? <><Skeleton /><Skeleton /><Skeleton /></>
           : programList && Object.entries(programList).map(([programID,program], index) => (
