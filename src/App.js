@@ -9,6 +9,7 @@ import { useReducer } from 'react';
 import { infoBarInitialState, infoBarReducer } from './Reduce/InfoBarReducer';
 import InfoBarContext from './Context/InfoBarContext'
 import MainPageRoutes from './Routes/MainPageRoutes';
+import MainTheme from './Layouts/MainTheme';
 
 function App() {
   const [user, reloadUser] = useAuthUser();
@@ -26,7 +27,9 @@ function App() {
         <EventContext.Provider value={events}>
           <InfoBarContext.Provider value={{ state: state, dispatch: dispatch, }}>
             <div className="App">
-              <MainPageRoutes />
+              <MainTheme>
+                <MainPageRoutes />
+              </MainTheme>
             </div>
             <InfoBar />
           </InfoBarContext.Provider>
